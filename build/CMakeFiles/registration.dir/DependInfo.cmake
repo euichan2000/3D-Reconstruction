@@ -4,7 +4,7 @@ set(CMAKE_DEPENDS_LANGUAGES
   )
 # The set of files for implicit dependencies of each language:
 set(CMAKE_DEPENDS_CHECK_CXX
-  "/home/pipeo/3dscan/registration.cpp" "/home/pipeo/3dscan/build/CMakeFiles/registration.dir/registration.cpp.o"
+  "/home/pipeo/3dscan/src/registration.cpp" "/home/pipeo/3dscan/build/CMakeFiles/registration.dir/src/registration.cpp.o"
   )
 set(CMAKE_CXX_COMPILER_ID "GNU")
 

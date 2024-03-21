@@ -123,72 +123,113 @@ test/fast:
 	$(MAKE) -f CMakeFiles/test.dir/build.make CMakeFiles/test.dir/build
 .PHONY : test/fast
 
-#=============================================================================
-# Target rules for targets named registration
+dependencies/mathLib/src/mathLib.o: dependencies/mathLib/src/mathLib.cpp.o
 
-# Build rule for target.
-registration: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 registration
-.PHONY : registration
-
-# fast build rule for target.
-registration/fast:
-	$(MAKE) -f CMakeFiles/registration.dir/build.make CMakeFiles/registration.dir/build
-.PHONY : registration/fast
-
-registration.o: registration.cpp.o
-
-.PHONY : registration.o
+.PHONY : dependencies/mathLib/src/mathLib.o
 
 # target to build an object file
-registration.cpp.o:
-	$(MAKE) -f CMakeFiles/registration.dir/build.make CMakeFiles/registration.dir/registration.cpp.o
-.PHONY : registration.cpp.o
+dependencies/mathLib/src/mathLib.cpp.o:
+	$(MAKE) -f CMakeFiles/test.dir/build.make CMakeFiles/test.dir/dependencies/mathLib/src/mathLib.cpp.o
+.PHONY : dependencies/mathLib/src/mathLib.cpp.o
 
-registration.i: registration.cpp.i
+dependencies/mathLib/src/mathLib.i: dependencies/mathLib/src/mathLib.cpp.i
 
-.PHONY : registration.i
+.PHONY : dependencies/mathLib/src/mathLib.i
 
 # target to preprocess a source file
-registration.cpp.i:
-	$(MAKE) -f CMakeFiles/registration.dir/build.make CMakeFiles/registration.dir/registration.cpp.i
-.PHONY : registration.cpp.i
+dependencies/mathLib/src/mathLib.cpp.i:
+	$(MAKE) -f CMakeFiles/test.dir/build.make CMakeFiles/test.dir/dependencies/mathLib/src/mathLib.cpp.i
+.PHONY : dependencies/mathLib/src/mathLib.cpp.i
 
-registration.s: registration.cpp.s
+dependencies/mathLib/src/mathLib.s: dependencies/mathLib/src/mathLib.cpp.s
 
-.PHONY : registration.s
+.PHONY : dependencies/mathLib/src/mathLib.s
 
 # target to generate assembly for a file
-registration.cpp.s:
-	$(MAKE) -f CMakeFiles/registration.dir/build.make CMakeFiles/registration.dir/registration.cpp.s
-.PHONY : registration.cpp.s
+dependencies/mathLib/src/mathLib.cpp.s:
+	$(MAKE) -f CMakeFiles/test.dir/build.make CMakeFiles/test.dir/dependencies/mathLib/src/mathLib.cpp.s
+.PHONY : dependencies/mathLib/src/mathLib.cpp.s
 
-test.o: test.cpp.o
+dependencies/pointcloud/preprocess.o: dependencies/pointcloud/preprocess.cpp.o
 
-.PHONY : test.o
+.PHONY : dependencies/pointcloud/preprocess.o
 
 # target to build an object file
-test.cpp.o:
-	$(MAKE) -f CMakeFiles/test.dir/build.make CMakeFiles/test.dir/test.cpp.o
-.PHONY : test.cpp.o
+dependencies/pointcloud/preprocess.cpp.o:
+	$(MAKE) -f CMakeFiles/test.dir/build.make CMakeFiles/test.dir/dependencies/pointcloud/preprocess.cpp.o
+.PHONY : dependencies/pointcloud/preprocess.cpp.o
 
-test.i: test.cpp.i
+dependencies/pointcloud/preprocess.i: dependencies/pointcloud/preprocess.cpp.i
 
-.PHONY : test.i
+.PHONY : dependencies/pointcloud/preprocess.i
 
 # target to preprocess a source file
-test.cpp.i:
-	$(MAKE) -f CMakeFiles/test.dir/build.make CMakeFiles/test.dir/test.cpp.i
-.PHONY : test.cpp.i
+dependencies/pointcloud/preprocess.cpp.i:
+	$(MAKE) -f CMakeFiles/test.dir/build.make CMakeFiles/test.dir/dependencies/pointcloud/preprocess.cpp.i
+.PHONY : dependencies/pointcloud/preprocess.cpp.i
 
-test.s: test.cpp.s
+dependencies/pointcloud/preprocess.s: dependencies/pointcloud/preprocess.cpp.s
 
-.PHONY : test.s
+.PHONY : dependencies/pointcloud/preprocess.s
 
 # target to generate assembly for a file
-test.cpp.s:
-	$(MAKE) -f CMakeFiles/test.dir/build.make CMakeFiles/test.dir/test.cpp.s
-.PHONY : test.cpp.s
+dependencies/pointcloud/preprocess.cpp.s:
+	$(MAKE) -f CMakeFiles/test.dir/build.make CMakeFiles/test.dir/dependencies/pointcloud/preprocess.cpp.s
+.PHONY : dependencies/pointcloud/preprocess.cpp.s
+
+dependencies/universalRobotsKinematics/src/universalRobotsKinematics.o: dependencies/universalRobotsKinematics/src/universalRobotsKinematics.cpp.o
+
+.PHONY : dependencies/universalRobotsKinematics/src/universalRobotsKinematics.o
+
+# target to build an object file
+dependencies/universalRobotsKinematics/src/universalRobotsKinematics.cpp.o:
+	$(MAKE) -f CMakeFiles/test.dir/build.make CMakeFiles/test.dir/dependencies/universalRobotsKinematics/src/universalRobotsKinematics.cpp.o
+.PHONY : dependencies/universalRobotsKinematics/src/universalRobotsKinematics.cpp.o
+
+dependencies/universalRobotsKinematics/src/universalRobotsKinematics.i: dependencies/universalRobotsKinematics/src/universalRobotsKinematics.cpp.i
+
+.PHONY : dependencies/universalRobotsKinematics/src/universalRobotsKinematics.i
+
+# target to preprocess a source file
+dependencies/universalRobotsKinematics/src/universalRobotsKinematics.cpp.i:
+	$(MAKE) -f CMakeFiles/test.dir/build.make CMakeFiles/test.dir/dependencies/universalRobotsKinematics/src/universalRobotsKinematics.cpp.i
+.PHONY : dependencies/universalRobotsKinematics/src/universalRobotsKinematics.cpp.i
+
+dependencies/universalRobotsKinematics/src/universalRobotsKinematics.s: dependencies/universalRobotsKinematics/src/universalRobotsKinematics.cpp.s
+
+.PHONY : dependencies/universalRobotsKinematics/src/universalRobotsKinematics.s
+
+# target to generate assembly for a file
+dependencies/universalRobotsKinematics/src/universalRobotsKinematics.cpp.s:
+	$(MAKE) -f CMakeFiles/test.dir/build.make CMakeFiles/test.dir/dependencies/universalRobotsKinematics/src/universalRobotsKinematics.cpp.s
+.PHONY : dependencies/universalRobotsKinematics/src/universalRobotsKinematics.cpp.s
+
+src/test.o: src/test.cpp.o
+
+.PHONY : src/test.o
+
+# target to build an object file
+src/test.cpp.o:
+	$(MAKE) -f CMakeFiles/test.dir/build.make CMakeFiles/test.dir/src/test.cpp.o
+.PHONY : src/test.cpp.o
+
+src/test.i: src/test.cpp.i
+
+.PHONY : src/test.i
+
+# target to preprocess a source file
+src/test.cpp.i:
+	$(MAKE) -f CMakeFiles/test.dir/build.make CMakeFiles/test.dir/src/test.cpp.i
+.PHONY : src/test.cpp.i
+
+src/test.s: src/test.cpp.s
+
+.PHONY : src/test.s
+
+# target to generate assembly for a file
+src/test.cpp.s:
+	$(MAKE) -f CMakeFiles/test.dir/build.make CMakeFiles/test.dir/src/test.cpp.s
+.PHONY : src/test.cpp.s
 
 # Help Target
 help:
@@ -199,13 +240,18 @@ help:
 	@echo "... rebuild_cache"
 	@echo "... edit_cache"
 	@echo "... test"
-	@echo "... registration"
-	@echo "... registration.o"
-	@echo "... registration.i"
-	@echo "... registration.s"
-	@echo "... test.o"
-	@echo "... test.i"
-	@echo "... test.s"
+	@echo "... dependencies/mathLib/src/mathLib.o"
+	@echo "... dependencies/mathLib/src/mathLib.i"
+	@echo "... dependencies/mathLib/src/mathLib.s"
+	@echo "... dependencies/pointcloud/preprocess.o"
+	@echo "... dependencies/pointcloud/preprocess.i"
+	@echo "... dependencies/pointcloud/preprocess.s"
+	@echo "... dependencies/universalRobotsKinematics/src/universalRobotsKinematics.o"
+	@echo "... dependencies/universalRobotsKinematics/src/universalRobotsKinematics.i"
+	@echo "... dependencies/universalRobotsKinematics/src/universalRobotsKinematics.s"
+	@echo "... src/test.o"
+	@echo "... src/test.i"
+	@echo "... src/test.s"
 .PHONY : help
 
 

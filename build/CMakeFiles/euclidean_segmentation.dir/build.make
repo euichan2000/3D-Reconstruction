@@ -57,27 +57,27 @@ include CMakeFiles/euclidean_segmentation.dir/progress.make
 # Include the compile flags for this target's objects.
 include CMakeFiles/euclidean_segmentation.dir/flags.make
 
-CMakeFiles/euclidean_segmentation.dir/euclidean_segmentation.cpp.o: CMakeFiles/euclidean_segmentation.dir/flags.make
-CMakeFiles/euclidean_segmentation.dir/euclidean_segmentation.cpp.o: ../euclidean_segmentation.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/pipeo/3dscan/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/euclidean_segmentation.dir/euclidean_segmentation.cpp.o"
-	/usr/bin/g++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/euclidean_segmentation.dir/euclidean_segmentation.cpp.o -c /home/pipeo/3dscan/euclidean_segmentation.cpp
+CMakeFiles/euclidean_segmentation.dir/src/euclidean_segmentation.cpp.o: CMakeFiles/euclidean_segmentation.dir/flags.make
+CMakeFiles/euclidean_segmentation.dir/src/euclidean_segmentation.cpp.o: ../src/euclidean_segmentation.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/pipeo/3dscan/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/euclidean_segmentation.dir/src/euclidean_segmentation.cpp.o"
+	/usr/bin/g++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/euclidean_segmentation.dir/src/euclidean_segmentation.cpp.o -c /home/pipeo/3dscan/src/euclidean_segmentation.cpp
 
-CMakeFiles/euclidean_segmentation.dir/euclidean_segmentation.cpp.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/euclidean_segmentation.dir/euclidean_segmentation.cpp.i"
-	/usr/bin/g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/pipeo/3dscan/euclidean_segmentation.cpp > CMakeFiles/euclidean_segmentation.dir/euclidean_segmentation.cpp.i
+CMakeFiles/euclidean_segmentation.dir/src/euclidean_segmentation.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/euclidean_segmentation.dir/src/euclidean_segmentation.cpp.i"
+	/usr/bin/g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/pipeo/3dscan/src/euclidean_segmentation.cpp > CMakeFiles/euclidean_segmentation.dir/src/euclidean_segmentation.cpp.i
 
-CMakeFiles/euclidean_segmentation.dir/euclidean_segmentation.cpp.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/euclidean_segmentation.dir/euclidean_segmentation.cpp.s"
-	/usr/bin/g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/pipeo/3dscan/euclidean_segmentation.cpp -o CMakeFiles/euclidean_segmentation.dir/euclidean_segmentation.cpp.s
+CMakeFiles/euclidean_segmentation.dir/src/euclidean_segmentation.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/euclidean_segmentation.dir/src/euclidean_segmentation.cpp.s"
+	/usr/bin/g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/pipeo/3dscan/src/euclidean_segmentation.cpp -o CMakeFiles/euclidean_segmentation.dir/src/euclidean_segmentation.cpp.s
 
 # Object files for target euclidean_segmentation
 euclidean_segmentation_OBJECTS = \
-"CMakeFiles/euclidean_segmentation.dir/euclidean_segmentation.cpp.o"
+"CMakeFiles/euclidean_segmentation.dir/src/euclidean_segmentation.cpp.o"
 
 # External object files for target euclidean_segmentation
 euclidean_segmentation_EXTERNAL_OBJECTS =
 
-euclidean_segmentation: CMakeFiles/euclidean_segmentation.dir/euclidean_segmentation.cpp.o
+euclidean_segmentation: CMakeFiles/euclidean_segmentation.dir/src/euclidean_segmentation.cpp.o
 euclidean_segmentation: CMakeFiles/euclidean_segmentation.dir/build.make
 euclidean_segmentation: /usr/local/lib/libpcl_surface.so
 euclidean_segmentation: /usr/local/lib/libpcl_keypoints.so

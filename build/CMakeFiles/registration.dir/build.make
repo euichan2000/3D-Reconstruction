@@ -57,27 +57,27 @@ include CMakeFiles/registration.dir/progress.make
 # Include the compile flags for this target's objects.
 include CMakeFiles/registration.dir/flags.make
 
-CMakeFiles/registration.dir/registration.cpp.o: CMakeFiles/registration.dir/flags.make
-CMakeFiles/registration.dir/registration.cpp.o: ../registration.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/pipeo/3dscan/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/registration.dir/registration.cpp.o"
-	/usr/bin/g++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/registration.dir/registration.cpp.o -c /home/pipeo/3dscan/registration.cpp
+CMakeFiles/registration.dir/src/registration.cpp.o: CMakeFiles/registration.dir/flags.make
+CMakeFiles/registration.dir/src/registration.cpp.o: ../src/registration.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/pipeo/3dscan/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/registration.dir/src/registration.cpp.o"
+	/usr/bin/g++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/registration.dir/src/registration.cpp.o -c /home/pipeo/3dscan/src/registration.cpp
 
-CMakeFiles/registration.dir/registration.cpp.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/registration.dir/registration.cpp.i"
-	/usr/bin/g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/pipeo/3dscan/registration.cpp > CMakeFiles/registration.dir/registration.cpp.i
+CMakeFiles/registration.dir/src/registration.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/registration.dir/src/registration.cpp.i"
+	/usr/bin/g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/pipeo/3dscan/src/registration.cpp > CMakeFiles/registration.dir/src/registration.cpp.i
 
-CMakeFiles/registration.dir/registration.cpp.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/registration.dir/registration.cpp.s"
-	/usr/bin/g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/pipeo/3dscan/registration.cpp -o CMakeFiles/registration.dir/registration.cpp.s
+CMakeFiles/registration.dir/src/registration.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/registration.dir/src/registration.cpp.s"
+	/usr/bin/g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/pipeo/3dscan/src/registration.cpp -o CMakeFiles/registration.dir/src/registration.cpp.s
 
 # Object files for target registration
 registration_OBJECTS = \
-"CMakeFiles/registration.dir/registration.cpp.o"
+"CMakeFiles/registration.dir/src/registration.cpp.o"
 
 # External object files for target registration
 registration_EXTERNAL_OBJECTS =
 
-registration: CMakeFiles/registration.dir/registration.cpp.o
+registration: CMakeFiles/registration.dir/src/registration.cpp.o
 registration: CMakeFiles/registration.dir/build.make
 registration: /usr/local/lib/libpcl_surface.so
 registration: /usr/local/lib/libpcl_keypoints.so

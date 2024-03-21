@@ -1,0 +1,70 @@
+/*Triangulation*/
+#include <pcl/point_types.h>
+#include <pcl/io/pcd_io.h>
+#include <pcl/search/kdtree.h> // for KdTree
+#include <pcl/features/normal_3d.h>
+#include <pcl/surface/gp3.h>
+#include <pcl/io/vtk_io.h>
+int
+main ()
+{
+  // Load input file into a PointCloud<T> with an appropriate type
+  pcl::PointCloud<pcl::PointXYZ>::Ptr cloud (new pcl::PointCloud<pcl::PointXYZ>);
+  pcl::PCLPointCloud2 cloud_blob;
+  pcl::io::loadPCDFile ("./registrated_pcd/result_test_.pcd", cloud_blob);
+  pcl::fromPCLPointCloud2 (cloud_blob, *cloud);
+  //* the data should be available in cloud
+
+  // Normal estimation*
+  pcl::NormalEstimation<pcl::PointXYZ, pcl::Normal> n;
+  pcl::PointCloud<pcl::Normal>::Ptr normals (new pcl::PointCloud<pcl::Normal>);
+  pcl::search::KdTree<pcl::PointXYZ>::Ptr tree (new pcl::search::KdTree<pcl::PointXYZ>);
+  tree->setInputCloud (cloud);
+  n.setInputCloud (cloud);
+  n.setSearchMethod (tree);
+  n.setKSearch (20);
+  n.compute (*normals);
+  //* normals should not contain the point normals + surface curvatures
+
+  // Concatenate the XYZ and normal fields*
+  pcl::PointCloud<pcl::PointNormal>::Ptr cloud_with_normals (new pcl::PointCloud<pcl::PointNormal>);
+  pcl::concatenateFields (*cloud, *normals, *cloud_with_normals);
+  //* cloud_with_normals = cloud + normals
+
+  // Create search tree*
+  pcl::search::KdTree<pcl::PointNormal>::Ptr tree2 (new pcl::search::KdTree<pcl::PointNormal>);
+  tree2->setInputCloud (cloud_with_normals);
+
+  // Initialize objects
+  pcl::GreedyProjectionTriangulation<pcl::PointNormal> gp3;
+  pcl::PolygonMesh triangles;
+
+  // Set the maximum distance between connected points (maximum edge length)경험기반
+  gp3.setSearchRadius (0.02);
+
+  // Set typical values for the parameters
+  //(2.5~3)maximum acceptable distance for a point to be considered relative to the distance of the nearest point
+  gp3.setMu (2.5);
+  //(50~100)how many neighbors are searched for
+  gp3.setMaximumNearestNeighbors (100);
+
+  
+  gp3.setMinimumAngle(M_PI/36); // 10 degrees
+  gp3.setMaximumAngle(2*M_PI/3); //(10~120) 120 degrees
+  
+  gp3.setMaximumSurfaceAngle(M_PI/4); // 45 degrees
+  gp3.setNormalConsistency(false);
+
+  // Get result
+  gp3.setInputCloud (cloud_with_normals);
+  gp3.setSearchMethod (tree2);
+  gp3.reconstruct (triangles);
+
+  // Additional vertex information
+  std::vector<int> parts = gp3.getPartIDs();
+  std::vector<int> states = gp3.getPointStates();
+  pcl::io::saveVTKFile ("banana_mesh.vtk", triangles);
+
+  // Finish
+  return (0);
+}

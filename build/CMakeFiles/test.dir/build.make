@@ -57,27 +57,72 @@ include CMakeFiles/test.dir/progress.make
 # Include the compile flags for this target's objects.
 include CMakeFiles/test.dir/flags.make
 
-CMakeFiles/test.dir/test.cpp.o: CMakeFiles/test.dir/flags.make
-CMakeFiles/test.dir/test.cpp.o: ../test.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/pipeo/3dscan/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/test.dir/test.cpp.o"
-	/usr/bin/g++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/test.dir/test.cpp.o -c /home/pipeo/3dscan/test.cpp
+CMakeFiles/test.dir/src/test.cpp.o: CMakeFiles/test.dir/flags.make
+CMakeFiles/test.dir/src/test.cpp.o: ../src/test.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/pipeo/3dscan/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/test.dir/src/test.cpp.o"
+	/usr/bin/g++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/test.dir/src/test.cpp.o -c /home/pipeo/3dscan/src/test.cpp
 
-CMakeFiles/test.dir/test.cpp.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/test.dir/test.cpp.i"
-	/usr/bin/g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/pipeo/3dscan/test.cpp > CMakeFiles/test.dir/test.cpp.i
+CMakeFiles/test.dir/src/test.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/test.dir/src/test.cpp.i"
+	/usr/bin/g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/pipeo/3dscan/src/test.cpp > CMakeFiles/test.dir/src/test.cpp.i
 
-CMakeFiles/test.dir/test.cpp.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/test.dir/test.cpp.s"
-	/usr/bin/g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/pipeo/3dscan/test.cpp -o CMakeFiles/test.dir/test.cpp.s
+CMakeFiles/test.dir/src/test.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/test.dir/src/test.cpp.s"
+	/usr/bin/g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/pipeo/3dscan/src/test.cpp -o CMakeFiles/test.dir/src/test.cpp.s
+
+CMakeFiles/test.dir/dependencies/universalRobotsKinematics/src/universalRobotsKinematics.cpp.o: CMakeFiles/test.dir/flags.make
+CMakeFiles/test.dir/dependencies/universalRobotsKinematics/src/universalRobotsKinematics.cpp.o: ../dependencies/universalRobotsKinematics/src/universalRobotsKinematics.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/pipeo/3dscan/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object CMakeFiles/test.dir/dependencies/universalRobotsKinematics/src/universalRobotsKinematics.cpp.o"
+	/usr/bin/g++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/test.dir/dependencies/universalRobotsKinematics/src/universalRobotsKinematics.cpp.o -c /home/pipeo/3dscan/dependencies/universalRobotsKinematics/src/universalRobotsKinematics.cpp
+
+CMakeFiles/test.dir/dependencies/universalRobotsKinematics/src/universalRobotsKinematics.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/test.dir/dependencies/universalRobotsKinematics/src/universalRobotsKinematics.cpp.i"
+	/usr/bin/g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/pipeo/3dscan/dependencies/universalRobotsKinematics/src/universalRobotsKinematics.cpp > CMakeFiles/test.dir/dependencies/universalRobotsKinematics/src/universalRobotsKinematics.cpp.i
+
+CMakeFiles/test.dir/dependencies/universalRobotsKinematics/src/universalRobotsKinematics.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/test.dir/dependencies/universalRobotsKinematics/src/universalRobotsKinematics.cpp.s"
+	/usr/bin/g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/pipeo/3dscan/dependencies/universalRobotsKinematics/src/universalRobotsKinematics.cpp -o CMakeFiles/test.dir/dependencies/universalRobotsKinematics/src/universalRobotsKinematics.cpp.s
+
+CMakeFiles/test.dir/dependencies/mathLib/src/mathLib.cpp.o: CMakeFiles/test.dir/flags.make
+CMakeFiles/test.dir/dependencies/mathLib/src/mathLib.cpp.o: ../dependencies/mathLib/src/mathLib.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/pipeo/3dscan/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object CMakeFiles/test.dir/dependencies/mathLib/src/mathLib.cpp.o"
+	/usr/bin/g++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/test.dir/dependencies/mathLib/src/mathLib.cpp.o -c /home/pipeo/3dscan/dependencies/mathLib/src/mathLib.cpp
+
+CMakeFiles/test.dir/dependencies/mathLib/src/mathLib.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/test.dir/dependencies/mathLib/src/mathLib.cpp.i"
+	/usr/bin/g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/pipeo/3dscan/dependencies/mathLib/src/mathLib.cpp > CMakeFiles/test.dir/dependencies/mathLib/src/mathLib.cpp.i
+
+CMakeFiles/test.dir/dependencies/mathLib/src/mathLib.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/test.dir/dependencies/mathLib/src/mathLib.cpp.s"
+	/usr/bin/g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/pipeo/3dscan/dependencies/mathLib/src/mathLib.cpp -o CMakeFiles/test.dir/dependencies/mathLib/src/mathLib.cpp.s
+
+CMakeFiles/test.dir/dependencies/pointcloud/preprocess.cpp.o: CMakeFiles/test.dir/flags.make
+CMakeFiles/test.dir/dependencies/pointcloud/preprocess.cpp.o: ../dependencies/pointcloud/preprocess.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/pipeo/3dscan/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object CMakeFiles/test.dir/dependencies/pointcloud/preprocess.cpp.o"
+	/usr/bin/g++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/test.dir/dependencies/pointcloud/preprocess.cpp.o -c /home/pipeo/3dscan/dependencies/pointcloud/preprocess.cpp
+
+CMakeFiles/test.dir/dependencies/pointcloud/preprocess.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/test.dir/dependencies/pointcloud/preprocess.cpp.i"
+	/usr/bin/g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/pipeo/3dscan/dependencies/pointcloud/preprocess.cpp > CMakeFiles/test.dir/dependencies/pointcloud/preprocess.cpp.i
+
+CMakeFiles/test.dir/dependencies/pointcloud/preprocess.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/test.dir/dependencies/pointcloud/preprocess.cpp.s"
+	/usr/bin/g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/pipeo/3dscan/dependencies/pointcloud/preprocess.cpp -o CMakeFiles/test.dir/dependencies/pointcloud/preprocess.cpp.s
 
 # Object files for target test
 test_OBJECTS = \
-"CMakeFiles/test.dir/test.cpp.o"
+"CMakeFiles/test.dir/src/test.cpp.o" \
+"CMakeFiles/test.dir/dependencies/universalRobotsKinematics/src/universalRobotsKinematics.cpp.o" \
+"CMakeFiles/test.dir/dependencies/mathLib/src/mathLib.cpp.o" \
+"CMakeFiles/test.dir/dependencies/pointcloud/preprocess.cpp.o"
 
 # External object files for target test
 test_EXTERNAL_OBJECTS =
 
-test: CMakeFiles/test.dir/test.cpp.o
+test: CMakeFiles/test.dir/src/test.cpp.o
+test: CMakeFiles/test.dir/dependencies/universalRobotsKinematics/src/universalRobotsKinematics.cpp.o
+test: CMakeFiles/test.dir/dependencies/mathLib/src/mathLib.cpp.o
+test: CMakeFiles/test.dir/dependencies/pointcloud/preprocess.cpp.o
 test: CMakeFiles/test.dir/build.make
 test: /usr/local/lib/libpcl_surface.so
 test: /usr/local/lib/libpcl_keypoints.so
@@ -102,6 +147,14 @@ test: /usr/lib/x86_64-linux-gnu/libtiff.so
 test: /usr/lib/x86_64-linux-gnu/libexpat.so
 test: /usr/lib/x86_64-linux-gnu/libflann_cpp.so
 test: /usr/lib/x86_64-linux-gnu/libqhull_r.so
+test: /usr/local/lib/libopencv_gapi.so.4.9.0
+test: /usr/local/lib/libopencv_highgui.so.4.9.0
+test: /usr/local/lib/libopencv_ml.so.4.9.0
+test: /usr/local/lib/libopencv_objdetect.so.4.9.0
+test: /usr/local/lib/libopencv_photo.so.4.9.0
+test: /usr/local/lib/libopencv_stitching.so.4.9.0
+test: /usr/local/lib/libopencv_video.so.4.9.0
+test: /usr/local/lib/libopencv_videoio.so.4.9.0
 test: /usr/local/lib/libpcl_registration.so
 test: /usr/local/lib/libpcl_segmentation.so
 test: /usr/local/lib/libpcl_features.so
@@ -188,8 +241,15 @@ test: /usr/lib/x86_64-linux-gnu/libboost_system.so.1.71.0
 test: /usr/lib/x86_64-linux-gnu/libboost_filesystem.so.1.71.0
 test: /usr/lib/x86_64-linux-gnu/libboost_iostreams.so.1.71.0
 test: /usr/lib/x86_64-linux-gnu/libboost_serialization.so.1.71.0
+test: /usr/local/lib/libopencv_imgcodecs.so.4.9.0
+test: /usr/local/lib/libopencv_dnn.so.4.9.0
+test: /usr/local/lib/libopencv_calib3d.so.4.9.0
+test: /usr/local/lib/libopencv_features2d.so.4.9.0
+test: /usr/local/lib/libopencv_flann.so.4.9.0
+test: /usr/local/lib/libopencv_imgproc.so.4.9.0
+test: /usr/local/lib/libopencv_core.so.4.9.0
 test: CMakeFiles/test.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/pipeo/3dscan/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Linking CXX executable test"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/pipeo/3dscan/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Linking CXX executable test"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/test.dir/link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.

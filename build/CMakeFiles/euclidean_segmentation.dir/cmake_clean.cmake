@@ -1,5 +1,5 @@
 file(REMOVE_RECURSE
-  "CMakeFiles/euclidean_segmentation.dir/euclidean_segmentation.cpp.o"
+  "CMakeFiles/euclidean_segmentation.dir/src/euclidean_segmentation.cpp.o"
   "euclidean_segmentation"
   "euclidean_segmentation.pdb"
 )

@@ -3,22 +3,29 @@ cmake_minimum_required(VERSION 3.5 FATAL_ERROR)
 project(PCL_Registration)
 
 
-set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 
 find_package(PCL 1.4 REQUIRED)
+find_package (OpenCV REQUIRED)
+
 
 include_directories(${PCL_INCLUDE_DIRS})
 link_directories(${PCL_LIBRARY_DIRS})
 add_definitions(${PCL_DEFINITIONS})
 
+include_directories(${OpenCV_INCLUDE_DIRS})
+link_directories(${OpenCV_LIBRARY_DIRS})
+add_definitions(${OpenCV_DEFINITIONS})
+include_directories(/usr/include/opencv4/)
+
 #Segmentation
-# add_executable (euclidean_segmentation euclidean_segmentation.cpp)
+# add_executable (euclidean_segmentation src/euclidean_segmentation.cpp)
 # target_link_libraries (euclidean_segmentation ${PCL_LIBRARIES})
 #Reconstruction
-add_executable (registration registration.cpp)
-target_link_libraries (registration ${PCL_LIBRARIES})
+# add_executable (registration src/registration.cpp)
+# target_link_libraries (registration ${PCL_LIBRARIES})
 
 # add_executable(normal_distributions_transform normal_distributions_transform.cpp)
 # target_link_libraries (normal_distributions_transform ${PCL_LIBRARIES})
@@ -41,8 +48,14 @@ target_link_libraries (registration ${PCL_LIBRARIES})
 # add_executable (transformation_gicp transformation_gicp.cpp)
 # target_link_libraries (transformation_gicp ${PCL_LIBRARIES})
 
-add_executable (test test.cpp)
-target_link_libraries (test ${PCL_LIBRARIES})
+add_executable (test src/test.cpp dependencies/universalRobotsKinematics/src/universalRobotsKinematics.cpp dependencies/mathLib/src/mathLib.cpp dependencies/pointcloud/preprocess.cpp)
+target_link_libraries(test ${PCL_LIBRARIES} ${OpenCV_LIBS})
+target_include_directories(test PRIVATE
+    dependencies/universalRobotsKinematics/src
+    dependencies/mathLib/src
+    dependencies/pointcloud/
+)
+
 
 # add_executable(SAC_IA_registration SAC_IA_registration.cpp)
 # target_link_libraries(SAC_IA_registration ${PCL_LIBRARIES})

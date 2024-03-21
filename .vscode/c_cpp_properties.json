@@ -4,7 +4,9 @@
             "name": "Linux",
             "includePath": [
                 "${workspaceFolder}/**",
-                "/usr/local/include/pcl-1.14"
+                "/usr/local/include/pcl-1.14",
+                "/usr/include/eigen3",
+                "${workspaceFolder}/dependencies/mathLib/src"
             ],
             "defines": [],
             "compilerPath": "/usr/bin/gcc",

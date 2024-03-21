@@ -6,7 +6,7 @@
 
 #IncludeRegexTransform: 
 
-/home/pipeo/3dscan/euclidean_segmentation.cpp
+/home/pipeo/3dscan/src/euclidean_segmentation.cpp
 pcl/ModelCoefficients.h
 -
 pcl/point_types.h
@@ -31,11 +31,11 @@ pcl/segmentation/sac_segmentation.h
 -
 pcl/segmentation/extract_clusters.h
 -
-pcl/common/centroid.h
--
 iomanip
 -
 filesystem
+-
+iostream
 -
 
 /usr/include/eigen3/Eigen/Cholesky
