@@ -91,6 +91,9 @@
         "nonlinearoptimization": "cpp",
         "polynomials": "cpp",
         "dense": "cpp",
-        "*.ipp": "cpp"
+        "*.ipp": "cpp",
+        "charconv": "cpp",
+        "source_location": "cpp",
+        "shared_mutex": "cpp"
     }
 }

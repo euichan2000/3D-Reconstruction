@@ -56,17 +56,6 @@ CMAKE_BINARY_DIR = /home/pipeo/3dscan/build
 #=============================================================================
 # Targets provided globally by CMake.
 
-# Special rule for the target rebuild_cache
-rebuild_cache:
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Running CMake to regenerate build system..."
-	/usr/bin/cmake -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR)
-.PHONY : rebuild_cache
-
-# Special rule for the target rebuild_cache
-rebuild_cache/fast: rebuild_cache
-
-.PHONY : rebuild_cache/fast
-
 # Special rule for the target edit_cache
 edit_cache:
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "No interactive CMake dialog available..."
@@ -77,6 +66,17 @@ edit_cache:
 edit_cache/fast: edit_cache
 
 .PHONY : edit_cache/fast
+
+# Special rule for the target rebuild_cache
+rebuild_cache:
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Running CMake to regenerate build system..."
+	/usr/bin/cmake -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR)
+.PHONY : rebuild_cache
+
+# Special rule for the target rebuild_cache
+rebuild_cache/fast: rebuild_cache
+
+.PHONY : rebuild_cache/fast
 
 # The main all target
 all: cmake_check_build_system
@@ -111,17 +111,30 @@ depend:
 .PHONY : depend
 
 #=============================================================================
-# Target rules for targets named test
+# Target rules for targets named registration_calibration
 
 # Build rule for target.
-test: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 test
-.PHONY : test
+registration_calibration: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 registration_calibration
+.PHONY : registration_calibration
 
 # fast build rule for target.
-test/fast:
-	$(MAKE) -f CMakeFiles/test.dir/build.make CMakeFiles/test.dir/build
-.PHONY : test/fast
+registration_calibration/fast:
+	$(MAKE) -f CMakeFiles/registration_calibration.dir/build.make CMakeFiles/registration_calibration.dir/build
+.PHONY : registration_calibration/fast
+
+#=============================================================================
+# Target rules for targets named min_cut_segmentation
+
+# Build rule for target.
+min_cut_segmentation: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 min_cut_segmentation
+.PHONY : min_cut_segmentation
+
+# fast build rule for target.
+min_cut_segmentation/fast:
+	$(MAKE) -f CMakeFiles/min_cut_segmentation.dir/build.make CMakeFiles/min_cut_segmentation.dir/build
+.PHONY : min_cut_segmentation/fast
 
 dependencies/mathLib/src/mathLib.o: dependencies/mathLib/src/mathLib.cpp.o
 
@@ -129,7 +142,7 @@ dependencies/mathLib/src/mathLib.o: dependencies/mathLib/src/mathLib.cpp.o
 
 # target to build an object file
 dependencies/mathLib/src/mathLib.cpp.o:
-	$(MAKE) -f CMakeFiles/test.dir/build.make CMakeFiles/test.dir/dependencies/mathLib/src/mathLib.cpp.o
+	$(MAKE) -f CMakeFiles/registration_calibration.dir/build.make CMakeFiles/registration_calibration.dir/dependencies/mathLib/src/mathLib.cpp.o
 .PHONY : dependencies/mathLib/src/mathLib.cpp.o
 
 dependencies/mathLib/src/mathLib.i: dependencies/mathLib/src/mathLib.cpp.i
@@ -138,7 +151,7 @@ dependencies/mathLib/src/mathLib.i: dependencies/mathLib/src/mathLib.cpp.i
 
 # target to preprocess a source file
 dependencies/mathLib/src/mathLib.cpp.i:
-	$(MAKE) -f CMakeFiles/test.dir/build.make CMakeFiles/test.dir/dependencies/mathLib/src/mathLib.cpp.i
+	$(MAKE) -f CMakeFiles/registration_calibration.dir/build.make CMakeFiles/registration_calibration.dir/dependencies/mathLib/src/mathLib.cpp.i
 .PHONY : dependencies/mathLib/src/mathLib.cpp.i
 
 dependencies/mathLib/src/mathLib.s: dependencies/mathLib/src/mathLib.cpp.s
@@ -147,7 +160,7 @@ dependencies/mathLib/src/mathLib.s: dependencies/mathLib/src/mathLib.cpp.s
 
 # target to generate assembly for a file
 dependencies/mathLib/src/mathLib.cpp.s:
-	$(MAKE) -f CMakeFiles/test.dir/build.make CMakeFiles/test.dir/dependencies/mathLib/src/mathLib.cpp.s
+	$(MAKE) -f CMakeFiles/registration_calibration.dir/build.make CMakeFiles/registration_calibration.dir/dependencies/mathLib/src/mathLib.cpp.s
 .PHONY : dependencies/mathLib/src/mathLib.cpp.s
 
 dependencies/pointcloud/preprocess.o: dependencies/pointcloud/preprocess.cpp.o
@@ -156,7 +169,8 @@ dependencies/pointcloud/preprocess.o: dependencies/pointcloud/preprocess.cpp.o
 
 # target to build an object file
 dependencies/pointcloud/preprocess.cpp.o:
-	$(MAKE) -f CMakeFiles/test.dir/build.make CMakeFiles/test.dir/dependencies/pointcloud/preprocess.cpp.o
+	$(MAKE) -f CMakeFiles/registration_calibration.dir/build.make CMakeFiles/registration_calibration.dir/dependencies/pointcloud/preprocess.cpp.o
+	$(MAKE) -f CMakeFiles/min_cut_segmentation.dir/build.make CMakeFiles/min_cut_segmentation.dir/dependencies/pointcloud/preprocess.cpp.o
 .PHONY : dependencies/pointcloud/preprocess.cpp.o
 
 dependencies/pointcloud/preprocess.i: dependencies/pointcloud/preprocess.cpp.i
@@ -165,7 +179,8 @@ dependencies/pointcloud/preprocess.i: dependencies/pointcloud/preprocess.cpp.i
 
 # target to preprocess a source file
 dependencies/pointcloud/preprocess.cpp.i:
-	$(MAKE) -f CMakeFiles/test.dir/build.make CMakeFiles/test.dir/dependencies/pointcloud/preprocess.cpp.i
+	$(MAKE) -f CMakeFiles/registration_calibration.dir/build.make CMakeFiles/registration_calibration.dir/dependencies/pointcloud/preprocess.cpp.i
+	$(MAKE) -f CMakeFiles/min_cut_segmentation.dir/build.make CMakeFiles/min_cut_segmentation.dir/dependencies/pointcloud/preprocess.cpp.i
 .PHONY : dependencies/pointcloud/preprocess.cpp.i
 
 dependencies/pointcloud/preprocess.s: dependencies/pointcloud/preprocess.cpp.s
@@ -174,7 +189,8 @@ dependencies/pointcloud/preprocess.s: dependencies/pointcloud/preprocess.cpp.s
 
 # target to generate assembly for a file
 dependencies/pointcloud/preprocess.cpp.s:
-	$(MAKE) -f CMakeFiles/test.dir/build.make CMakeFiles/test.dir/dependencies/pointcloud/preprocess.cpp.s
+	$(MAKE) -f CMakeFiles/registration_calibration.dir/build.make CMakeFiles/registration_calibration.dir/dependencies/pointcloud/preprocess.cpp.s
+	$(MAKE) -f CMakeFiles/min_cut_segmentation.dir/build.make CMakeFiles/min_cut_segmentation.dir/dependencies/pointcloud/preprocess.cpp.s
 .PHONY : dependencies/pointcloud/preprocess.cpp.s
 
 dependencies/universalRobotsKinematics/src/universalRobotsKinematics.o: dependencies/universalRobotsKinematics/src/universalRobotsKinematics.cpp.o
@@ -183,7 +199,7 @@ dependencies/universalRobotsKinematics/src/universalRobotsKinematics.o: dependen
 
 # target to build an object file
 dependencies/universalRobotsKinematics/src/universalRobotsKinematics.cpp.o:
-	$(MAKE) -f CMakeFiles/test.dir/build.make CMakeFiles/test.dir/dependencies/universalRobotsKinematics/src/universalRobotsKinematics.cpp.o
+	$(MAKE) -f CMakeFiles/registration_calibration.dir/build.make CMakeFiles/registration_calibration.dir/dependencies/universalRobotsKinematics/src/universalRobotsKinematics.cpp.o
 .PHONY : dependencies/universalRobotsKinematics/src/universalRobotsKinematics.cpp.o
 
 dependencies/universalRobotsKinematics/src/universalRobotsKinematics.i: dependencies/universalRobotsKinematics/src/universalRobotsKinematics.cpp.i
@@ -192,7 +208,7 @@ dependencies/universalRobotsKinematics/src/universalRobotsKinematics.i: dependen
 
 # target to preprocess a source file
 dependencies/universalRobotsKinematics/src/universalRobotsKinematics.cpp.i:
-	$(MAKE) -f CMakeFiles/test.dir/build.make CMakeFiles/test.dir/dependencies/universalRobotsKinematics/src/universalRobotsKinematics.cpp.i
+	$(MAKE) -f CMakeFiles/registration_calibration.dir/build.make CMakeFiles/registration_calibration.dir/dependencies/universalRobotsKinematics/src/universalRobotsKinematics.cpp.i
 .PHONY : dependencies/universalRobotsKinematics/src/universalRobotsKinematics.cpp.i
 
 dependencies/universalRobotsKinematics/src/universalRobotsKinematics.s: dependencies/universalRobotsKinematics/src/universalRobotsKinematics.cpp.s
@@ -201,35 +217,62 @@ dependencies/universalRobotsKinematics/src/universalRobotsKinematics.s: dependen
 
 # target to generate assembly for a file
 dependencies/universalRobotsKinematics/src/universalRobotsKinematics.cpp.s:
-	$(MAKE) -f CMakeFiles/test.dir/build.make CMakeFiles/test.dir/dependencies/universalRobotsKinematics/src/universalRobotsKinematics.cpp.s
+	$(MAKE) -f CMakeFiles/registration_calibration.dir/build.make CMakeFiles/registration_calibration.dir/dependencies/universalRobotsKinematics/src/universalRobotsKinematics.cpp.s
 .PHONY : dependencies/universalRobotsKinematics/src/universalRobotsKinematics.cpp.s
 
-src/test.o: src/test.cpp.o
+src/min_cut_segmentation.o: src/min_cut_segmentation.cpp.o
 
-.PHONY : src/test.o
+.PHONY : src/min_cut_segmentation.o
 
 # target to build an object file
-src/test.cpp.o:
-	$(MAKE) -f CMakeFiles/test.dir/build.make CMakeFiles/test.dir/src/test.cpp.o
-.PHONY : src/test.cpp.o
+src/min_cut_segmentation.cpp.o:
+	$(MAKE) -f CMakeFiles/min_cut_segmentation.dir/build.make CMakeFiles/min_cut_segmentation.dir/src/min_cut_segmentation.cpp.o
+.PHONY : src/min_cut_segmentation.cpp.o
 
-src/test.i: src/test.cpp.i
+src/min_cut_segmentation.i: src/min_cut_segmentation.cpp.i
 
-.PHONY : src/test.i
+.PHONY : src/min_cut_segmentation.i
 
 # target to preprocess a source file
-src/test.cpp.i:
-	$(MAKE) -f CMakeFiles/test.dir/build.make CMakeFiles/test.dir/src/test.cpp.i
-.PHONY : src/test.cpp.i
+src/min_cut_segmentation.cpp.i:
+	$(MAKE) -f CMakeFiles/min_cut_segmentation.dir/build.make CMakeFiles/min_cut_segmentation.dir/src/min_cut_segmentation.cpp.i
+.PHONY : src/min_cut_segmentation.cpp.i
 
-src/test.s: src/test.cpp.s
+src/min_cut_segmentation.s: src/min_cut_segmentation.cpp.s
 
-.PHONY : src/test.s
+.PHONY : src/min_cut_segmentation.s
 
 # target to generate assembly for a file
-src/test.cpp.s:
-	$(MAKE) -f CMakeFiles/test.dir/build.make CMakeFiles/test.dir/src/test.cpp.s
-.PHONY : src/test.cpp.s
+src/min_cut_segmentation.cpp.s:
+	$(MAKE) -f CMakeFiles/min_cut_segmentation.dir/build.make CMakeFiles/min_cut_segmentation.dir/src/min_cut_segmentation.cpp.s
+.PHONY : src/min_cut_segmentation.cpp.s
+
+src/registration_calibration.o: src/registration_calibration.cpp.o
+
+.PHONY : src/registration_calibration.o
+
+# target to build an object file
+src/registration_calibration.cpp.o:
+	$(MAKE) -f CMakeFiles/registration_calibration.dir/build.make CMakeFiles/registration_calibration.dir/src/registration_calibration.cpp.o
+.PHONY : src/registration_calibration.cpp.o
+
+src/registration_calibration.i: src/registration_calibration.cpp.i
+
+.PHONY : src/registration_calibration.i
+
+# target to preprocess a source file
+src/registration_calibration.cpp.i:
+	$(MAKE) -f CMakeFiles/registration_calibration.dir/build.make CMakeFiles/registration_calibration.dir/src/registration_calibration.cpp.i
+.PHONY : src/registration_calibration.cpp.i
+
+src/registration_calibration.s: src/registration_calibration.cpp.s
+
+.PHONY : src/registration_calibration.s
+
+# target to generate assembly for a file
+src/registration_calibration.cpp.s:
+	$(MAKE) -f CMakeFiles/registration_calibration.dir/build.make CMakeFiles/registration_calibration.dir/src/registration_calibration.cpp.s
+.PHONY : src/registration_calibration.cpp.s
 
 # Help Target
 help:
@@ -237,9 +280,10 @@ help:
 	@echo "... all (the default if no target is provided)"
 	@echo "... clean"
 	@echo "... depend"
-	@echo "... rebuild_cache"
 	@echo "... edit_cache"
-	@echo "... test"
+	@echo "... registration_calibration"
+	@echo "... rebuild_cache"
+	@echo "... min_cut_segmentation"
 	@echo "... dependencies/mathLib/src/mathLib.o"
 	@echo "... dependencies/mathLib/src/mathLib.i"
 	@echo "... dependencies/mathLib/src/mathLib.s"
@@ -249,9 +293,12 @@ help:
 	@echo "... dependencies/universalRobotsKinematics/src/universalRobotsKinematics.o"
 	@echo "... dependencies/universalRobotsKinematics/src/universalRobotsKinematics.i"
 	@echo "... dependencies/universalRobotsKinematics/src/universalRobotsKinematics.s"
-	@echo "... src/test.o"
-	@echo "... src/test.i"
-	@echo "... src/test.s"
+	@echo "... src/min_cut_segmentation.o"
+	@echo "... src/min_cut_segmentation.i"
+	@echo "... src/min_cut_segmentation.s"
+	@echo "... src/registration_calibration.o"
+	@echo "... src/registration_calibration.i"
+	@echo "... src/registration_calibration.s"
 .PHONY : help
 
 

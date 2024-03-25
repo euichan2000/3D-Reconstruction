@@ -57,27 +57,42 @@ include CMakeFiles/min_cut_segmentation.dir/progress.make
 # Include the compile flags for this target's objects.
 include CMakeFiles/min_cut_segmentation.dir/flags.make
 
-CMakeFiles/min_cut_segmentation.dir/min_cut_segmentation.cpp.o: CMakeFiles/min_cut_segmentation.dir/flags.make
-CMakeFiles/min_cut_segmentation.dir/min_cut_segmentation.cpp.o: ../min_cut_segmentation.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/pipeo/3dscan/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/min_cut_segmentation.dir/min_cut_segmentation.cpp.o"
-	/usr/bin/g++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/min_cut_segmentation.dir/min_cut_segmentation.cpp.o -c /home/pipeo/3dscan/min_cut_segmentation.cpp
+CMakeFiles/min_cut_segmentation.dir/src/min_cut_segmentation.cpp.o: CMakeFiles/min_cut_segmentation.dir/flags.make
+CMakeFiles/min_cut_segmentation.dir/src/min_cut_segmentation.cpp.o: ../src/min_cut_segmentation.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/pipeo/3dscan/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/min_cut_segmentation.dir/src/min_cut_segmentation.cpp.o"
+	/usr/bin/g++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/min_cut_segmentation.dir/src/min_cut_segmentation.cpp.o -c /home/pipeo/3dscan/src/min_cut_segmentation.cpp
 
-CMakeFiles/min_cut_segmentation.dir/min_cut_segmentation.cpp.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/min_cut_segmentation.dir/min_cut_segmentation.cpp.i"
-	/usr/bin/g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/pipeo/3dscan/min_cut_segmentation.cpp > CMakeFiles/min_cut_segmentation.dir/min_cut_segmentation.cpp.i
+CMakeFiles/min_cut_segmentation.dir/src/min_cut_segmentation.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/min_cut_segmentation.dir/src/min_cut_segmentation.cpp.i"
+	/usr/bin/g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/pipeo/3dscan/src/min_cut_segmentation.cpp > CMakeFiles/min_cut_segmentation.dir/src/min_cut_segmentation.cpp.i
 
-CMakeFiles/min_cut_segmentation.dir/min_cut_segmentation.cpp.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/min_cut_segmentation.dir/min_cut_segmentation.cpp.s"
-	/usr/bin/g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/pipeo/3dscan/min_cut_segmentation.cpp -o CMakeFiles/min_cut_segmentation.dir/min_cut_segmentation.cpp.s
+CMakeFiles/min_cut_segmentation.dir/src/min_cut_segmentation.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/min_cut_segmentation.dir/src/min_cut_segmentation.cpp.s"
+	/usr/bin/g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/pipeo/3dscan/src/min_cut_segmentation.cpp -o CMakeFiles/min_cut_segmentation.dir/src/min_cut_segmentation.cpp.s
+
+CMakeFiles/min_cut_segmentation.dir/dependencies/pointcloud/preprocess.cpp.o: CMakeFiles/min_cut_segmentation.dir/flags.make
+CMakeFiles/min_cut_segmentation.dir/dependencies/pointcloud/preprocess.cpp.o: ../dependencies/pointcloud/preprocess.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/pipeo/3dscan/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object CMakeFiles/min_cut_segmentation.dir/dependencies/pointcloud/preprocess.cpp.o"
+	/usr/bin/g++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/min_cut_segmentation.dir/dependencies/pointcloud/preprocess.cpp.o -c /home/pipeo/3dscan/dependencies/pointcloud/preprocess.cpp
+
+CMakeFiles/min_cut_segmentation.dir/dependencies/pointcloud/preprocess.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/min_cut_segmentation.dir/dependencies/pointcloud/preprocess.cpp.i"
+	/usr/bin/g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/pipeo/3dscan/dependencies/pointcloud/preprocess.cpp > CMakeFiles/min_cut_segmentation.dir/dependencies/pointcloud/preprocess.cpp.i
+
+CMakeFiles/min_cut_segmentation.dir/dependencies/pointcloud/preprocess.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/min_cut_segmentation.dir/dependencies/pointcloud/preprocess.cpp.s"
+	/usr/bin/g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/pipeo/3dscan/dependencies/pointcloud/preprocess.cpp -o CMakeFiles/min_cut_segmentation.dir/dependencies/pointcloud/preprocess.cpp.s
 
 # Object files for target min_cut_segmentation
 min_cut_segmentation_OBJECTS = \
-"CMakeFiles/min_cut_segmentation.dir/min_cut_segmentation.cpp.o"
+"CMakeFiles/min_cut_segmentation.dir/src/min_cut_segmentation.cpp.o" \
+"CMakeFiles/min_cut_segmentation.dir/dependencies/pointcloud/preprocess.cpp.o"
 
 # External object files for target min_cut_segmentation
 min_cut_segmentation_EXTERNAL_OBJECTS =
 
-min_cut_segmentation: CMakeFiles/min_cut_segmentation.dir/min_cut_segmentation.cpp.o
+min_cut_segmentation: CMakeFiles/min_cut_segmentation.dir/src/min_cut_segmentation.cpp.o
+min_cut_segmentation: CMakeFiles/min_cut_segmentation.dir/dependencies/pointcloud/preprocess.cpp.o
 min_cut_segmentation: CMakeFiles/min_cut_segmentation.dir/build.make
 min_cut_segmentation: /usr/local/lib/libpcl_surface.so
 min_cut_segmentation: /usr/local/lib/libpcl_keypoints.so
@@ -189,7 +204,7 @@ min_cut_segmentation: /usr/lib/x86_64-linux-gnu/libboost_filesystem.so.1.71.0
 min_cut_segmentation: /usr/lib/x86_64-linux-gnu/libboost_iostreams.so.1.71.0
 min_cut_segmentation: /usr/lib/x86_64-linux-gnu/libboost_serialization.so.1.71.0
 min_cut_segmentation: CMakeFiles/min_cut_segmentation.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/pipeo/3dscan/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Linking CXX executable min_cut_segmentation"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/pipeo/3dscan/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Linking CXX executable min_cut_segmentation"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/min_cut_segmentation.dir/link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.

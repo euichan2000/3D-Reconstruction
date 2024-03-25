@@ -1,5 +1,6 @@
 file(REMOVE_RECURSE
-  "CMakeFiles/min_cut_segmentation.dir/min_cut_segmentation.cpp.o"
+  "CMakeFiles/min_cut_segmentation.dir/dependencies/pointcloud/preprocess.cpp.o"
+  "CMakeFiles/min_cut_segmentation.dir/src/min_cut_segmentation.cpp.o"
   "min_cut_segmentation"
   "min_cut_segmentation.pdb"
 )

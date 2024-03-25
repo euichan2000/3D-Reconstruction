@@ -1,52 +1,78 @@
-/*Min Cut Segmentation*/
-#include <iostream>
-#include <vector>
-#include <pcl/io/pcd_io.h>
-#include <pcl/point_types.h>
-#include <pcl/visualization/cloud_viewer.h>
-#include <pcl/filters/filter_indices.h> // for pcl::removeNaNFromPointCloud
-#include <pcl/segmentation/min_cut_segmentation.h>
+#include "preprocess.h"
 
-int main ()
+struct PCD
 {
-  pcl::PointCloud <pcl::PointXYZ>::Ptr cloud (new pcl::PointCloud <pcl::PointXYZ>);
-  if ( pcl::io::loadPCDFile <pcl::PointXYZ> ("./temp_pcd/banana_1.pcd", *cloud) == -1 )
+  PointCloud::Ptr cloud; // Ptr type 변수: cloud
+  std::string f_name;    // string type 변수:  f_name
+
+  PCD() : cloud(new PointCloud){}; // PCD 함수 생성
+};
+
+void loadData(int argc, char **argv, std::vector<PCD, Eigen::aligned_allocator<PCD>> &models)
+{
+  std::string extension(".pcd");
+  // Suppose the first argument is the actual test model
+  for (int i = 1; i < argc; i++)
   {
-    std::cout << "Cloud reading failed." << std::endl;
+    std::string fname = std::string(argv[i]);
+    // Needs to be at least 5: .plot
+    if (fname.size() <= extension.size())
+      continue;
+
+    std::transform(fname.begin(), fname.end(), fname.begin(), (int (*)(int))tolower);
+
+    // check that the argument is a pcd file
+    if (fname.compare(fname.size() - extension.size(), extension.size(), extension) == 0)
+    {
+      // Load the cloud and saves it into the global list of models
+      PCD m;
+      m.f_name = argv[i];
+      pcl::io::loadPCDFile(argv[i], *m.cloud);
+      // remove NAN points from the cloud
+      std::vector<int> indices;
+      pcl::removeNaNFromPointCloud(*m.cloud, *m.cloud, indices);
+
+      models.push_back(m);
+    }
+  }
+}
+
+int main(int argc, char **argv)
+{
+  std::vector<PCD, Eigen::aligned_allocator<PCD>> data;
+
+  loadData(argc, argv, data);
+  if (data.empty())
+  {
+    PCL_ERROR("Syntax is: %s <source.pcd> <target.pcd> [*]\n", argv[0]);
+    PCL_ERROR("[*] - multiple files can be added. The registration results of (i, i+1) will be registered against (i+2), etc\n");
+    return (-1);
+  }
+  pcl::PointCloud<pcl::PointXYZ>::Ptr cloud(new pcl::PointCloud<pcl::PointXYZ>), cloud_filtered(new pcl::PointCloud<pcl::PointXYZ>);
+  *cloud = *data[0].cloud;
+  if (cloud->empty())
+  {
+    PCL_ERROR("PointCloud is empty.\n");
     return (-1);
   }
 
-  pcl::IndicesPtr indices (new std::vector <int>);
-  pcl::removeNaNFromPointCloud(*cloud, *indices);
+  pointcloudpreprocess::pre seg;
+  cloud_filtered = seg.segmentation(cloud,0,0,0.2);
 
-  pcl::MinCutSegmentation<pcl::PointXYZ> seg;
-  seg.setInputCloud (cloud);
-  seg.setIndices (indices);
+  //std::cout << "Maximum flow is " << Minseg.getMaxFlow() << std::endl;
 
-  pcl::PointCloud<pcl::PointXYZ>::Ptr foreground_points(new pcl::PointCloud<pcl::PointXYZ> ());
-  pcl::PointXYZ point;
-  point.x = 0.028;
-  point.y = -0.008;
-  point.z = 0.816;
-  foreground_points->points.push_back(point);
-  seg.setForegroundPoints (foreground_points);
+  // pcl::PointCloud<pcl::PointXYZRGB>::Ptr colored_cloud = Minseg.getColoredCloud();
+  pcl::visualization::CloudViewer viewer("Cluster viewer");
 
-  seg.setSigma (0.01);
-  seg.setRadius (0.005);
-  seg.setNumberOfNeighbours (5);
-  seg.setSourceWeight (0.5);
+  viewer.showCloud(cloud_filtered);
 
-  std::vector <pcl::PointIndices> clusters;
-  seg.extract (clusters);
-
-  std::cout << "Maximum flow is " << seg.getMaxFlow () << std::endl;
-
-  pcl::PointCloud <pcl::PointXYZRGB>::Ptr colored_cloud = seg.getColoredCloud ();
-  pcl::visualization::CloudViewer viewer ("Cluster viewer");
-  viewer.showCloud(colored_cloud);
-  while (!viewer.wasStopped ())
+  while (!viewer.wasStopped())
   {
   }
+  std::stringstream ss;
+  ss << "../pcd/segmented_pcd/bunny/segmented_bunny"
+     << ".pcd";
+  pcl::io::savePCDFile(ss.str(), *cloud_filtered, true);
 
   return (0);
 }

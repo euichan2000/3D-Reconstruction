@@ -21,8 +21,10 @@ add_definitions(${OpenCV_DEFINITIONS})
 include_directories(/usr/include/opencv4/)
 
 #Segmentation
-# add_executable (euclidean_segmentation src/euclidean_segmentation.cpp)
-# target_link_libraries (euclidean_segmentation ${PCL_LIBRARIES})
+add_executable (min_cut_segmentation src/min_cut_segmentation.cpp dependencies/pointcloud/preprocess.cpp)
+target_link_libraries (min_cut_segmentation ${PCL_LIBRARIES})
+target_include_directories(min_cut_segmentation PRIVATE
+    dependencies/pointcloud/)
 #Reconstruction
 # add_executable (registration src/registration.cpp)
 # target_link_libraries (registration ${PCL_LIBRARIES})
@@ -48,9 +50,9 @@ include_directories(/usr/include/opencv4/)
 # add_executable (transformation_gicp transformation_gicp.cpp)
 # target_link_libraries (transformation_gicp ${PCL_LIBRARIES})
 
-add_executable (test src/test.cpp dependencies/universalRobotsKinematics/src/universalRobotsKinematics.cpp dependencies/mathLib/src/mathLib.cpp dependencies/pointcloud/preprocess.cpp)
-target_link_libraries(test ${PCL_LIBRARIES} ${OpenCV_LIBS})
-target_include_directories(test PRIVATE
+add_executable (registration_calibration src/registration_calibration.cpp dependencies/universalRobotsKinematics/src/universalRobotsKinematics.cpp dependencies/mathLib/src/mathLib.cpp dependencies/pointcloud/preprocess.cpp)
+target_link_libraries(registration_calibration ${PCL_LIBRARIES} ${OpenCV_LIBS})
+target_include_directories(registration_calibration PRIVATE
     dependencies/universalRobotsKinematics/src
     dependencies/mathLib/src
     dependencies/pointcloud/

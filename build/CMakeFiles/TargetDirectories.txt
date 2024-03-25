@@ -1,3 +1,4 @@
-/home/pipeo/3dscan/build/CMakeFiles/rebuild_cache.dir
 /home/pipeo/3dscan/build/CMakeFiles/edit_cache.dir
-/home/pipeo/3dscan/build/CMakeFiles/test.dir
+/home/pipeo/3dscan/build/CMakeFiles/registration_calibration.dir
+/home/pipeo/3dscan/build/CMakeFiles/rebuild_cache.dir
+/home/pipeo/3dscan/build/CMakeFiles/min_cut_segmentation.dir
