@@ -32,59 +32,6 @@ typedef pcl::PointNormal PointNormalT;
 typedef pcl::PointCloud<PointNormalT> PointCloudWithNormals;
 typedef pcl::PointCloud<pcl::PointXYZ> PointCloud;
 
-// Define a new point representation for < x, y, z, curvature >
-class MyPointRepresentation : public pcl::PointRepresentation<PointNormalT>
-{
-    using pcl::PointRepresentation<PointNormalT>::nr_dimensions_;
-
-public:
-    MyPointRepresentation()
-    {
-        // Define the number of dimensions
-        nr_dimensions_ = 4;
-    }
-
-    // Override the copyToFloatArray method to define our feature vector
-    virtual void copyToFloatArray(const PointNormalT &p, float *out) const
-    {
-        // < x, y, z, curvature >
-        out[0] = p.x;
-        out[1] = p.y;
-        out[2] = p.z;
-        out[3] = p.curvature;
-    }
-};
-/*
-void pointcloudpreprocess::pre::loadData(int argc, char **argv, std::vector<PCD, Eigen::aligned_allocator<PCD>> &models)
-{
-    std::string extension(".pcd");
-    // Suppose the first argument is the actual test model
-    for (int i = 1; i < argc; i++)
-    {
-        std::string fname = std::string(argv[i]);
-        // Needs to be at least 5: .plot
-        if (fname.size() <= extension.size())
-            continue;
-
-        std::transform(fname.begin(), fname.end(), fname.begin(), (int (*)(int))tolower);
-
-        // check that the argument is a pcd file
-        if (fname.compare(fname.size() - extension.size(), extension.size(), extension) == 0)
-        {
-            // Load the cloud and saves it into the global list of models
-            PCD m;
-            m.f_name = argv[i];
-            pcl::io::loadPCDFile(argv[i], *m.cloud);
-            // remove NAN points from the cloud
-            std::vector<int> indices;
-            pcl::removeNaNFromPointCloud(*m.cloud, *m.cloud, indices);
-
-            models.push_back(m);
-        }
-    }
-}
-*/
-
 PointCloud::Ptr pointcloudpreprocess::pre::downsampling(const PointCloud::Ptr cloud_src, int number)
 {
     PointCloud::Ptr cloud_tgt(new PointCloud);
@@ -129,8 +76,8 @@ PointCloud::Ptr pointcloudpreprocess::pre::calibrate(PointCloud::Ptr cloud_src, 
     pcl::transformPointCloud(*cloud_tcp2cam, *cloud_base2cam, base2tcp);
     return cloud_base2cam;
 }
-
-PointCloud::Ptr pointcloudpreprocess::pre::segmentation(const PointCloud::Ptr cloud_src, float x = 0, float y = 0, float z = 0.2)
+// plane segmentation + min-cut segmentation
+PointCloud::Ptr pointcloudpreprocess::pre::mincutsegmentation(const PointCloud::Ptr cloud_src, float radius, float x = 0, float y = 0, float z = 0.2)
 {
     pcl::PointCloud<pcl::PointXYZ>::Ptr cloud(new pcl::PointCloud<pcl::PointXYZ>), cloud_f(new pcl::PointCloud<pcl::PointXYZ>);
     *cloud = *cloud_src;
@@ -185,7 +132,7 @@ PointCloud::Ptr pointcloudpreprocess::pre::segmentation(const PointCloud::Ptr cl
     Minseg.setForegroundPoints(foreground_points);
 
     Minseg.setSigma(0.25);
-    Minseg.setRadius(0.2);
+    Minseg.setRadius(radius);
     Minseg.setNumberOfNeighbours(14);
     Minseg.setSourceWeight(0.8);
 
@@ -209,6 +156,49 @@ PointCloud::Ptr pointcloudpreprocess::pre::segmentation(const PointCloud::Ptr cl
 
     // pcl::PointCloud<pcl::PointXYZRGB>::Ptr colored_cloud = Minseg.getColoredCloud();
     // pcl::visualization::CloudViewer viewer("Cluster viewer");
-    //viewer.showCloud(cloud_filtered);
+    // viewer.showCloud(cloud_filtered);
     return cloud_filtered;
 }
+
+void pointcloudpreprocess::pre::visualizePointClouds(const std::vector<pcl::PointCloud<pcl::PointXYZ>::Ptr> &clouds)
+{
+    pcl::visualization::PCLVisualizer viewer("Point Cloud Viewer");
+    viewer.setBackgroundColor(0.05, 0.05, 0.05, 0); // Dark grey background
+
+    // Add each point cloud to the viewer with custom color
+    for (size_t i = 0; i < clouds.size(); ++i)
+    {
+        pcl::visualization::PointCloudColorHandlerCustom<pcl::PointXYZ> cloud_color_handler(clouds[i], 255, 255, 255); // White color
+        std::string cloud_name = "cloud_" + std::to_string(i);
+        viewer.addPointCloud(clouds[i], cloud_color_handler, cloud_name);
+        viewer.setPointCloudRenderingProperties(pcl::visualization::PCL_VISUALIZER_POINT_SIZE, 2, cloud_name);
+    }
+
+    viewer.addCoordinateSystem(1.0, "coordinate_system", 0); // Add coordinate system
+    viewer.setPosition(800, 400);                            // Set viewer position
+
+    while (!viewer.wasStopped())
+    {
+        viewer.spinOnce();
+    }
+}
+
+std::vector<pcl::PointCloud<pcl::PointXYZ>::Ptr> pointcloudpreprocess::pre::loadData(const std::vector<std::string> &file_paths)
+{
+    std::vector<pcl::PointCloud<pcl::PointXYZ>::Ptr> clouds;
+
+    for (const auto &file_path : file_paths)
+    {
+        pcl::PointCloud<pcl::PointXYZ>::Ptr temp_cloud(new pcl::PointCloud<pcl::PointXYZ>);
+        if (pcl::io::loadPCDFile<pcl::PointXYZ>(file_path, *temp_cloud) == -1)
+        {
+            std::cerr << "Couldn't read file " << file_path << std::endl;
+            continue;
+        }
+        std::cout << "Loaded " << temp_cloud->width * temp_cloud->height << " data points from " << file_path << std::endl;
+        clouds.push_back(temp_cloud);
+    }
+
+    return clouds;
+}
+

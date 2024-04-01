@@ -197,6 +197,5 @@ set(CMAKE_MAKEFILE_PRODUCTS
 
 # Dependency information for all targets:
 set(CMAKE_DEPEND_INFO_FILES
-  "CMakeFiles/registration_calibration.dir/DependInfo.cmake"
-  "CMakeFiles/min_cut_segmentation.dir/DependInfo.cmake"
+  "CMakeFiles/robotic_multiview_registration.dir/DependInfo.cmake"
   )

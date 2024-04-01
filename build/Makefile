@@ -111,30 +111,17 @@ depend:
 .PHONY : depend
 
 #=============================================================================
-# Target rules for targets named registration_calibration
+# Target rules for targets named robotic_multiview_registration
 
 # Build rule for target.
-registration_calibration: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 registration_calibration
-.PHONY : registration_calibration
+robotic_multiview_registration: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 robotic_multiview_registration
+.PHONY : robotic_multiview_registration
 
 # fast build rule for target.
-registration_calibration/fast:
-	$(MAKE) -f CMakeFiles/registration_calibration.dir/build.make CMakeFiles/registration_calibration.dir/build
-.PHONY : registration_calibration/fast
-
-#=============================================================================
-# Target rules for targets named min_cut_segmentation
-
-# Build rule for target.
-min_cut_segmentation: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 min_cut_segmentation
-.PHONY : min_cut_segmentation
-
-# fast build rule for target.
-min_cut_segmentation/fast:
-	$(MAKE) -f CMakeFiles/min_cut_segmentation.dir/build.make CMakeFiles/min_cut_segmentation.dir/build
-.PHONY : min_cut_segmentation/fast
+robotic_multiview_registration/fast:
+	$(MAKE) -f CMakeFiles/robotic_multiview_registration.dir/build.make CMakeFiles/robotic_multiview_registration.dir/build
+.PHONY : robotic_multiview_registration/fast
 
 dependencies/mathLib/src/mathLib.o: dependencies/mathLib/src/mathLib.cpp.o
 
@@ -142,7 +129,7 @@ dependencies/mathLib/src/mathLib.o: dependencies/mathLib/src/mathLib.cpp.o
 
 # target to build an object file
 dependencies/mathLib/src/mathLib.cpp.o:
-	$(MAKE) -f CMakeFiles/registration_calibration.dir/build.make CMakeFiles/registration_calibration.dir/dependencies/mathLib/src/mathLib.cpp.o
+	$(MAKE) -f CMakeFiles/robotic_multiview_registration.dir/build.make CMakeFiles/robotic_multiview_registration.dir/dependencies/mathLib/src/mathLib.cpp.o
 .PHONY : dependencies/mathLib/src/mathLib.cpp.o
 
 dependencies/mathLib/src/mathLib.i: dependencies/mathLib/src/mathLib.cpp.i
@@ -151,7 +138,7 @@ dependencies/mathLib/src/mathLib.i: dependencies/mathLib/src/mathLib.cpp.i
 
 # target to preprocess a source file
 dependencies/mathLib/src/mathLib.cpp.i:
-	$(MAKE) -f CMakeFiles/registration_calibration.dir/build.make CMakeFiles/registration_calibration.dir/dependencies/mathLib/src/mathLib.cpp.i
+	$(MAKE) -f CMakeFiles/robotic_multiview_registration.dir/build.make CMakeFiles/robotic_multiview_registration.dir/dependencies/mathLib/src/mathLib.cpp.i
 .PHONY : dependencies/mathLib/src/mathLib.cpp.i
 
 dependencies/mathLib/src/mathLib.s: dependencies/mathLib/src/mathLib.cpp.s
@@ -160,7 +147,7 @@ dependencies/mathLib/src/mathLib.s: dependencies/mathLib/src/mathLib.cpp.s
 
 # target to generate assembly for a file
 dependencies/mathLib/src/mathLib.cpp.s:
-	$(MAKE) -f CMakeFiles/registration_calibration.dir/build.make CMakeFiles/registration_calibration.dir/dependencies/mathLib/src/mathLib.cpp.s
+	$(MAKE) -f CMakeFiles/robotic_multiview_registration.dir/build.make CMakeFiles/robotic_multiview_registration.dir/dependencies/mathLib/src/mathLib.cpp.s
 .PHONY : dependencies/mathLib/src/mathLib.cpp.s
 
 dependencies/pointcloud/preprocess.o: dependencies/pointcloud/preprocess.cpp.o
@@ -169,8 +156,7 @@ dependencies/pointcloud/preprocess.o: dependencies/pointcloud/preprocess.cpp.o
 
 # target to build an object file
 dependencies/pointcloud/preprocess.cpp.o:
-	$(MAKE) -f CMakeFiles/registration_calibration.dir/build.make CMakeFiles/registration_calibration.dir/dependencies/pointcloud/preprocess.cpp.o
-	$(MAKE) -f CMakeFiles/min_cut_segmentation.dir/build.make CMakeFiles/min_cut_segmentation.dir/dependencies/pointcloud/preprocess.cpp.o
+	$(MAKE) -f CMakeFiles/robotic_multiview_registration.dir/build.make CMakeFiles/robotic_multiview_registration.dir/dependencies/pointcloud/preprocess.cpp.o
 .PHONY : dependencies/pointcloud/preprocess.cpp.o
 
 dependencies/pointcloud/preprocess.i: dependencies/pointcloud/preprocess.cpp.i
@@ -179,8 +165,7 @@ dependencies/pointcloud/preprocess.i: dependencies/pointcloud/preprocess.cpp.i
 
 # target to preprocess a source file
 dependencies/pointcloud/preprocess.cpp.i:
-	$(MAKE) -f CMakeFiles/registration_calibration.dir/build.make CMakeFiles/registration_calibration.dir/dependencies/pointcloud/preprocess.cpp.i
-	$(MAKE) -f CMakeFiles/min_cut_segmentation.dir/build.make CMakeFiles/min_cut_segmentation.dir/dependencies/pointcloud/preprocess.cpp.i
+	$(MAKE) -f CMakeFiles/robotic_multiview_registration.dir/build.make CMakeFiles/robotic_multiview_registration.dir/dependencies/pointcloud/preprocess.cpp.i
 .PHONY : dependencies/pointcloud/preprocess.cpp.i
 
 dependencies/pointcloud/preprocess.s: dependencies/pointcloud/preprocess.cpp.s
@@ -189,8 +174,7 @@ dependencies/pointcloud/preprocess.s: dependencies/pointcloud/preprocess.cpp.s
 
 # target to generate assembly for a file
 dependencies/pointcloud/preprocess.cpp.s:
-	$(MAKE) -f CMakeFiles/registration_calibration.dir/build.make CMakeFiles/registration_calibration.dir/dependencies/pointcloud/preprocess.cpp.s
-	$(MAKE) -f CMakeFiles/min_cut_segmentation.dir/build.make CMakeFiles/min_cut_segmentation.dir/dependencies/pointcloud/preprocess.cpp.s
+	$(MAKE) -f CMakeFiles/robotic_multiview_registration.dir/build.make CMakeFiles/robotic_multiview_registration.dir/dependencies/pointcloud/preprocess.cpp.s
 .PHONY : dependencies/pointcloud/preprocess.cpp.s
 
 dependencies/universalRobotsKinematics/src/universalRobotsKinematics.o: dependencies/universalRobotsKinematics/src/universalRobotsKinematics.cpp.o
@@ -199,7 +183,7 @@ dependencies/universalRobotsKinematics/src/universalRobotsKinematics.o: dependen
 
 # target to build an object file
 dependencies/universalRobotsKinematics/src/universalRobotsKinematics.cpp.o:
-	$(MAKE) -f CMakeFiles/registration_calibration.dir/build.make CMakeFiles/registration_calibration.dir/dependencies/universalRobotsKinematics/src/universalRobotsKinematics.cpp.o
+	$(MAKE) -f CMakeFiles/robotic_multiview_registration.dir/build.make CMakeFiles/robotic_multiview_registration.dir/dependencies/universalRobotsKinematics/src/universalRobotsKinematics.cpp.o
 .PHONY : dependencies/universalRobotsKinematics/src/universalRobotsKinematics.cpp.o
 
 dependencies/universalRobotsKinematics/src/universalRobotsKinematics.i: dependencies/universalRobotsKinematics/src/universalRobotsKinematics.cpp.i
@@ -208,7 +192,7 @@ dependencies/universalRobotsKinematics/src/universalRobotsKinematics.i: dependen
 
 # target to preprocess a source file
 dependencies/universalRobotsKinematics/src/universalRobotsKinematics.cpp.i:
-	$(MAKE) -f CMakeFiles/registration_calibration.dir/build.make CMakeFiles/registration_calibration.dir/dependencies/universalRobotsKinematics/src/universalRobotsKinematics.cpp.i
+	$(MAKE) -f CMakeFiles/robotic_multiview_registration.dir/build.make CMakeFiles/robotic_multiview_registration.dir/dependencies/universalRobotsKinematics/src/universalRobotsKinematics.cpp.i
 .PHONY : dependencies/universalRobotsKinematics/src/universalRobotsKinematics.cpp.i
 
 dependencies/universalRobotsKinematics/src/universalRobotsKinematics.s: dependencies/universalRobotsKinematics/src/universalRobotsKinematics.cpp.s
@@ -217,62 +201,35 @@ dependencies/universalRobotsKinematics/src/universalRobotsKinematics.s: dependen
 
 # target to generate assembly for a file
 dependencies/universalRobotsKinematics/src/universalRobotsKinematics.cpp.s:
-	$(MAKE) -f CMakeFiles/registration_calibration.dir/build.make CMakeFiles/registration_calibration.dir/dependencies/universalRobotsKinematics/src/universalRobotsKinematics.cpp.s
+	$(MAKE) -f CMakeFiles/robotic_multiview_registration.dir/build.make CMakeFiles/robotic_multiview_registration.dir/dependencies/universalRobotsKinematics/src/universalRobotsKinematics.cpp.s
 .PHONY : dependencies/universalRobotsKinematics/src/universalRobotsKinematics.cpp.s
 
-src/min_cut_segmentation.o: src/min_cut_segmentation.cpp.o
+src/robotic_multiview_registration.o: src/robotic_multiview_registration.cpp.o
 
-.PHONY : src/min_cut_segmentation.o
-
-# target to build an object file
-src/min_cut_segmentation.cpp.o:
-	$(MAKE) -f CMakeFiles/min_cut_segmentation.dir/build.make CMakeFiles/min_cut_segmentation.dir/src/min_cut_segmentation.cpp.o
-.PHONY : src/min_cut_segmentation.cpp.o
-
-src/min_cut_segmentation.i: src/min_cut_segmentation.cpp.i
-
-.PHONY : src/min_cut_segmentation.i
-
-# target to preprocess a source file
-src/min_cut_segmentation.cpp.i:
-	$(MAKE) -f CMakeFiles/min_cut_segmentation.dir/build.make CMakeFiles/min_cut_segmentation.dir/src/min_cut_segmentation.cpp.i
-.PHONY : src/min_cut_segmentation.cpp.i
-
-src/min_cut_segmentation.s: src/min_cut_segmentation.cpp.s
-
-.PHONY : src/min_cut_segmentation.s
-
-# target to generate assembly for a file
-src/min_cut_segmentation.cpp.s:
-	$(MAKE) -f CMakeFiles/min_cut_segmentation.dir/build.make CMakeFiles/min_cut_segmentation.dir/src/min_cut_segmentation.cpp.s
-.PHONY : src/min_cut_segmentation.cpp.s
-
-src/registration_calibration.o: src/registration_calibration.cpp.o
-
-.PHONY : src/registration_calibration.o
+.PHONY : src/robotic_multiview_registration.o
 
 # target to build an object file
-src/registration_calibration.cpp.o:
-	$(MAKE) -f CMakeFiles/registration_calibration.dir/build.make CMakeFiles/registration_calibration.dir/src/registration_calibration.cpp.o
-.PHONY : src/registration_calibration.cpp.o
+src/robotic_multiview_registration.cpp.o:
+	$(MAKE) -f CMakeFiles/robotic_multiview_registration.dir/build.make CMakeFiles/robotic_multiview_registration.dir/src/robotic_multiview_registration.cpp.o
+.PHONY : src/robotic_multiview_registration.cpp.o
 
-src/registration_calibration.i: src/registration_calibration.cpp.i
+src/robotic_multiview_registration.i: src/robotic_multiview_registration.cpp.i
 
-.PHONY : src/registration_calibration.i
+.PHONY : src/robotic_multiview_registration.i
 
 # target to preprocess a source file
-src/registration_calibration.cpp.i:
-	$(MAKE) -f CMakeFiles/registration_calibration.dir/build.make CMakeFiles/registration_calibration.dir/src/registration_calibration.cpp.i
-.PHONY : src/registration_calibration.cpp.i
+src/robotic_multiview_registration.cpp.i:
+	$(MAKE) -f CMakeFiles/robotic_multiview_registration.dir/build.make CMakeFiles/robotic_multiview_registration.dir/src/robotic_multiview_registration.cpp.i
+.PHONY : src/robotic_multiview_registration.cpp.i
 
-src/registration_calibration.s: src/registration_calibration.cpp.s
+src/robotic_multiview_registration.s: src/robotic_multiview_registration.cpp.s
 
-.PHONY : src/registration_calibration.s
+.PHONY : src/robotic_multiview_registration.s
 
 # target to generate assembly for a file
-src/registration_calibration.cpp.s:
-	$(MAKE) -f CMakeFiles/registration_calibration.dir/build.make CMakeFiles/registration_calibration.dir/src/registration_calibration.cpp.s
-.PHONY : src/registration_calibration.cpp.s
+src/robotic_multiview_registration.cpp.s:
+	$(MAKE) -f CMakeFiles/robotic_multiview_registration.dir/build.make CMakeFiles/robotic_multiview_registration.dir/src/robotic_multiview_registration.cpp.s
+.PHONY : src/robotic_multiview_registration.cpp.s
 
 # Help Target
 help:
@@ -281,9 +238,8 @@ help:
 	@echo "... clean"
 	@echo "... depend"
 	@echo "... edit_cache"
-	@echo "... registration_calibration"
 	@echo "... rebuild_cache"
-	@echo "... min_cut_segmentation"
+	@echo "... robotic_multiview_registration"
 	@echo "... dependencies/mathLib/src/mathLib.o"
 	@echo "... dependencies/mathLib/src/mathLib.i"
 	@echo "... dependencies/mathLib/src/mathLib.s"
@@ -293,12 +249,9 @@ help:
 	@echo "... dependencies/universalRobotsKinematics/src/universalRobotsKinematics.o"
 	@echo "... dependencies/universalRobotsKinematics/src/universalRobotsKinematics.i"
 	@echo "... dependencies/universalRobotsKinematics/src/universalRobotsKinematics.s"
-	@echo "... src/min_cut_segmentation.o"
-	@echo "... src/min_cut_segmentation.i"
-	@echo "... src/min_cut_segmentation.s"
-	@echo "... src/registration_calibration.o"
-	@echo "... src/registration_calibration.i"
-	@echo "... src/registration_calibration.s"
+	@echo "... src/robotic_multiview_registration.o"
+	@echo "... src/robotic_multiview_registration.i"
+	@echo "... src/robotic_multiview_registration.s"
 .PHONY : help
 
 

@@ -6,61 +6,7 @@
 
 #IncludeRegexTransform: 
 
-/home/pipeo/3dscan/dependencies/pointcloud/preprocess.cpp
-vector
--
-pcl/pcl_macros.h
--
-pcl/memory.h
--
-pcl/point_types.h
--
-pcl/point_cloud.h
--
-pcl/PCLPointCloud2.h
--
-pcl/point_representation.h
--
-pcl/ModelCoefficients.h
--
-pcl/io/pcd_io.h
--
-pcl/filters/extract_indices.h
--
-pcl/filters/voxel_grid.h
--
-pcl/filters/filter.h
--
-pcl/segmentation/extract_clusters.h
--
-pcl/sample_consensus/method_types.h
--
-pcl/sample_consensus/model_types.h
--
-pcl/segmentation/sac_segmentation.h
--
-pcl/features/normal_3d.h
--
-pcl/search/kdtree.h
--
-pcl/registration/icp.h
--
-pcl/registration/gicp.h
--
-pcl/registration/icp_nl.h
--
-pcl/common/transforms.h
--
-pcl/common/centroid.h
--
-pcl/filters/statistical_outlier_removal.h
--
-pcl/visualization/pcl_visualizer.h
--
-preprocess.h
-/home/pipeo/3dscan/dependencies/pointcloud/preprocess.h
-
-/home/pipeo/3dscan/dependencies/pointcloud/preprocess.h
+../dependencies/pointcloud/preprocess.h
 vector
 -
 iomanip
@@ -121,6 +67,28 @@ pcl/visualization/pcl_visualizer.h
 -
 pcl/visualization/cloud_viewer.h
 -
+
+../dependencies/universalRobotsKinematics/src/universalRobotsKinematics.h
+Eigen/Dense
+-
+iostream
+-
+vector
+-
+stdio.h
+-
+
+/home/pipeo/3dscan/src/registration_calibration.cpp
+chrono
+-
+filesystem
+-
+vector
+-
+preprocess.h
+/home/pipeo/3dscan/src/preprocess.h
+universalRobotsKinematics.h
+/home/pipeo/3dscan/src/universalRobotsKinematics.h
 
 /usr/include/eigen3/Eigen/Cholesky
 Core
@@ -489,6 +457,22 @@ src/Core/GlobalFunctions.h
 /usr/include/eigen3/Eigen/src/Core/GlobalFunctions.h
 src/Core/util/ReenableStupidWarnings.h
 /usr/include/eigen3/Eigen/src/Core/util/ReenableStupidWarnings.h
+
+/usr/include/eigen3/Eigen/Dense
+Core
+/usr/include/eigen3/Eigen/Core
+LU
+/usr/include/eigen3/Eigen/LU
+Cholesky
+/usr/include/eigen3/Eigen/Cholesky
+QR
+/usr/include/eigen3/Eigen/QR
+SVD
+/usr/include/eigen3/Eigen/SVD
+Geometry
+/usr/include/eigen3/Eigen/Geometry
+Eigenvalues
+/usr/include/eigen3/Eigen/Eigenvalues
 
 /usr/include/eigen3/Eigen/Eigenvalues
 Core
@@ -1206,22 +1190,6 @@ Eigen/Core
 src/NumericalDiff/NumericalDiff.h
 /usr/include/eigen3/unsupported/Eigen/src/NumericalDiff/NumericalDiff.h
 
-/usr/include/eigen3/unsupported/Eigen/Polynomials
-Eigen/Core
--
-Eigen/src/Core/util/DisableStupidWarnings.h
--
-Eigen/Eigenvalues
--
-src/Polynomials/PolynomialUtils.h
-/usr/include/eigen3/unsupported/Eigen/src/Polynomials/PolynomialUtils.h
-src/Polynomials/Companion.h
-/usr/include/eigen3/unsupported/Eigen/src/Polynomials/Companion.h
-src/Polynomials/PolynomialSolver.h
-/usr/include/eigen3/unsupported/Eigen/src/Polynomials/PolynomialSolver.h
-Eigen/src/Core/util/ReenableStupidWarnings.h
--
-
 /usr/include/eigen3/unsupported/Eigen/src/NonLinearOptimization/HybridNonLinearSolver.h
 
 /usr/include/eigen3/unsupported/Eigen/src/NonLinearOptimization/LevenbergMarquardt.h
@@ -1245,12 +1213,6 @@ Eigen/src/Core/util/ReenableStupidWarnings.h
 /usr/include/eigen3/unsupported/Eigen/src/NonLinearOptimization/rwupdt.h
 
 /usr/include/eigen3/unsupported/Eigen/src/NumericalDiff/NumericalDiff.h
-
-/usr/include/eigen3/unsupported/Eigen/src/Polynomials/Companion.h
-
-/usr/include/eigen3/unsupported/Eigen/src/Polynomials/PolynomialSolver.h
-
-/usr/include/eigen3/unsupported/Eigen/src/Polynomials/PolynomialUtils.h
 
 /usr/include/vtk-7.1/vtkABI.h
 
@@ -2940,12 +2902,6 @@ cstdint
 type_traits
 -
 
-/usr/local/include/pcl-1.14/pcl/registration/bfgs.h
-pcl/pcl_macros.h
--
-unsupported/Eigen/Polynomials
--
-
 /usr/local/include/pcl-1.14/pcl/registration/convergence_criteria.h
 pcl/memory.h
 -
@@ -3004,18 +2960,6 @@ pcl/pcl_macros.h
 pcl/registration/impl/default_convergence_criteria.hpp
 -
 
-/usr/local/include/pcl-1.14/pcl/registration/exceptions.h
-pcl/exceptions.h
--
-
-/usr/local/include/pcl-1.14/pcl/registration/gicp.h
-pcl/registration/bfgs.h
--
-pcl/registration/icp.h
--
-pcl/registration/impl/gicp.hpp
--
-
 /usr/local/include/pcl-1.14/pcl/registration/icp.h
 pcl/registration/correspondence_estimation.h
 -
@@ -3056,10 +3000,6 @@ vector
 
 /usr/local/include/pcl-1.14/pcl/registration/impl/default_convergence_criteria.hpp
 pcl/console/print.h
--
-
-/usr/local/include/pcl-1.14/pcl/registration/impl/gicp.hpp
-pcl/registration/exceptions.h
 -
 
 /usr/local/include/pcl-1.14/pcl/registration/impl/icp.hpp
