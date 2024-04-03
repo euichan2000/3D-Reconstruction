@@ -165,10 +165,24 @@ void pointcloudpreprocess::pre::visualizePointClouds(const std::vector<pcl::Poin
     pcl::visualization::PCLVisualizer viewer("Point Cloud Viewer");
     viewer.setBackgroundColor(0.05, 0.05, 0.05, 0); // Dark grey background
 
-    // Add each point cloud to the viewer with custom color
+    // Define a list of bright colors
+    std::vector<std::vector<double>> bright_colors = {
+        {1.0, 0.0, 0.0}, // Red
+        {0.0, 1.0, 0.0}, // Green
+        {0.0, 0.0, 1.0}, // Blue
+        {1.0, 1.0, 0.0}, // Yellow
+        {1.0, 0.0, 1.0}, // Magenta
+        {0.0, 1.0, 1.0}, // Cyan
+        {1.0, 0.5, 0.0}, // Orange
+        {0.0, 1.0, 0.5}, // Lime
+        {0.5, 1.0, 0.0}  // Chartreuse
+    };
+
+    // Add each point cloud to the viewer with a different bright color
     for (size_t i = 0; i < clouds.size(); ++i)
     {
-        pcl::visualization::PointCloudColorHandlerCustom<pcl::PointXYZ> cloud_color_handler(clouds[i], 255, 255, 255); // White color
+        std::vector<double> color = bright_colors[i % bright_colors.size()]; // Cycle through bright colors
+        pcl::visualization::PointCloudColorHandlerCustom<pcl::PointXYZ> cloud_color_handler(clouds[i], color[0] * 255, color[1] * 255, color[2] * 255);
         std::string cloud_name = "cloud_" + std::to_string(i);
         viewer.addPointCloud(clouds[i], cloud_color_handler, cloud_name);
         viewer.setPointCloudRenderingProperties(pcl::visualization::PCL_VISUALIZER_POINT_SIZE, 2, cloud_name);
@@ -202,3 +216,46 @@ std::vector<pcl::PointCloud<pcl::PointXYZ>::Ptr> pointcloudpreprocess::pre::load
     return clouds;
 }
 
+Eigen::Matrix4f pointcloudpreprocess::pre::fineICP(const PointCloud::Ptr cloud_src, const PointCloud::Ptr cloud_tgt)
+{
+    //
+    // Downsample for consistency and speed
+    // \note enable this for large datasets
+    PointCloud::Ptr src(new PointCloud);
+    PointCloud::Ptr tgt(new PointCloud);
+
+    src = cloud_src;
+    tgt = cloud_tgt;
+
+    // Align
+    pcl::GeneralizedIterativeClosestPoint<pcl::PointXYZ, pcl::PointXYZ> icp;
+    icp.setTransformationEpsilon(1e-6);
+    // Set the maximum distance between two correspondences (src<->tgt) to 1cm
+    // Note: adjust this based on the size of your datasets
+    icp.setMaxCorrespondenceDistance(0.1);
+    // Set the point representation
+
+    icp.setInputSource(src);
+    icp.setInputTarget(tgt);
+
+    //
+    // Run the same optimization in a loop and visualize the results
+    Eigen::Matrix4f Ti = Eigen::Matrix4f::Identity(), prev, targetToSource;
+    PointCloud::Ptr icp_result(new PointCloud);
+    icp.setMaximumIterations(1000);
+
+    icp.align(*icp_result);
+
+    // accumulate transformation between each Iteration
+    Ti = icp.getFinalTransformation();
+    // if the difference between this transformation and the previous one
+    // is smaller than the threshold, refine the process by reducing
+    // the maximal correspondence distance
+    double fine_score = icp.getFitnessScore();
+    // std::cout << "converge score: " << score << std::endl;
+    //
+    //  Get the transformation from target to source
+    targetToSource = Ti.inverse();
+
+    return targetToSource;
+}
