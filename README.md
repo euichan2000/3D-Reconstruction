@@ -1,12 +1,14 @@
 
-\textbf{Point Cloud 3D Reconstruction}
+**Point Cloud 3D Reconstruction**
 
-\textbf{ver_20240403}
+**Version: 20240404**
 
-Added YAML file Setting
-Implemented ICP algorithm
-\textbf{Problem:}
+- Added YAML file Setting
+- Implemented ICP algorithm
+- Segmentation using Charuco board
+
+**Problem:**
 The accuracy of the ICP algorithm.
 
-\textbf{Solution:}
+**Solution:**
 Adjusting parameters, utilizing GICP, incorporating ICP with Normal, etc.
