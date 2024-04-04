@@ -26,7 +26,7 @@
 #include <pcl/filters/statistical_outlier_removal.h>
 #include <pcl/visualization/pcl_visualizer.h>
 #include "preprocess.h"
-
+#include <pcl/filters/crop_box.h>
 typedef pcl::PointXYZ PointT;
 typedef pcl::PointNormal PointNormalT;
 typedef pcl::PointCloud<PointNormalT> PointCloudWithNormals;
@@ -160,6 +160,41 @@ PointCloud::Ptr pointcloudpreprocess::pre::mincutsegmentation(const PointCloud::
     return cloud_filtered;
 }
 
+PointCloud::Ptr pointcloudpreprocess::pre::charucosegmentation(const PointCloud::Ptr cloud_src, float min_pt[], float max_pt[])
+{
+    
+    pcl::PointCloud<pcl::PointXYZ>::Ptr joint_based_cloud(new pcl::PointCloud<pcl::PointXYZ>);
+    pcl::PointCloud<pcl::PointXYZ>::Ptr marker_based_cloud(new pcl::PointCloud<pcl::PointXYZ>);
+    pcl::PointCloud<pcl::PointXYZ>::Ptr joint_based_cut_cloud(new pcl::PointCloud<pcl::PointXYZ>);
+    pcl::CropBox<pcl::PointXYZ> cropBoxFilter(true);
+    Eigen::Matrix4f marker2base, base2marker;
+    
+    marker2base << 0.696142, 0.717802, 0.0111144, 0.0341231,
+        -0.71635, 0.695145, -0.043272, 0.60022,
+        -0.0389855, 0.0221005, 0.998364, 0.00557716,
+        0, 0, 0, 1;
+
+
+    base2marker = marker2base.inverse();
+    
+
+
+    Eigen::Vector4f min_pt_vec4f(min_pt[0], min_pt[1], min_pt[2], min_pt[3]);
+    Eigen::Vector4f max_pt_vec4f(max_pt[0], max_pt[1], max_pt[2], max_pt[3]);
+    
+    *joint_based_cloud = *cloud_src;
+
+    pcl::transformPointCloud(*joint_based_cloud, *marker_based_cloud, marker2base);
+    cropBoxFilter.setInputCloud(marker_based_cloud);
+    cropBoxFilter.setMin(min_pt_vec4f);
+    cropBoxFilter.setMax(max_pt_vec4f);
+    pcl::PointCloud<pcl::PointXYZ>::Ptr filtered_cloud(new pcl::PointCloud<pcl::PointXYZ>());
+    // 현재 포인트 클라우드에 대해 필터링을 수행합니다.
+    cropBoxFilter.filter(*filtered_cloud);
+    pcl::transformPointCloud(*filtered_cloud, *joint_based_cut_cloud, base2marker);
+    return joint_based_cut_cloud;
+}
+
 void pointcloudpreprocess::pre::visualizePointClouds(const std::vector<pcl::PointCloud<pcl::PointXYZ>::Ptr> &clouds)
 {
     pcl::visualization::PCLVisualizer viewer("Point Cloud Viewer");
@@ -228,11 +263,11 @@ Eigen::Matrix4f pointcloudpreprocess::pre::fineICP(const PointCloud::Ptr cloud_s
     tgt = cloud_tgt;
 
     // Align
-    pcl::GeneralizedIterativeClosestPoint<pcl::PointXYZ, pcl::PointXYZ> icp;
+    pcl::IterativeClosestPoint<pcl::PointXYZ, pcl::PointXYZ> icp;
     icp.setTransformationEpsilon(1e-6);
     // Set the maximum distance between two correspondences (src<->tgt) to 1cm
     // Note: adjust this based on the size of your datasets
-    icp.setMaxCorrespondenceDistance(0.1);
+    icp.setMaxCorrespondenceDistance(0.05);
     // Set the point representation
 
     icp.setInputSource(src);
@@ -255,6 +290,58 @@ Eigen::Matrix4f pointcloudpreprocess::pre::fineICP(const PointCloud::Ptr cloud_s
     // std::cout << "converge score: " << score << std::endl;
     //
     //  Get the transformation from target to source
+    targetToSource = Ti.inverse();
+
+    return targetToSource;
+}
+
+Eigen::Matrix4f pointcloudpreprocess::pre::fineICPwithNormals(const PointCloud::Ptr cloud_src, const PointCloud::Ptr cloud_tgt)
+{
+
+    PointCloud::Ptr src(new PointCloud);
+    PointCloud::Ptr tgt(new PointCloud);
+    // Compute surface normals and curvature
+    PointCloudWithNormals::Ptr points_with_normals_src(new PointCloudWithNormals);
+    PointCloudWithNormals::Ptr points_with_normals_tgt(new PointCloudWithNormals);
+    pcl::NormalEstimation<PointT, PointNormalT> norm_est;
+    pcl::search::KdTree<pcl::PointXYZ>::Ptr tree(new pcl::search::KdTree<pcl::PointXYZ>());
+    pcl::IterativeClosestPoint<PointNormalT, PointNormalT> icp;
+    Eigen::Matrix4f Ti = Eigen::Matrix4f::Identity(), prev, targetToSource;
+    PointCloudWithNormals::Ptr icp_result(new PointCloudWithNormals);
+
+    src = cloud_src;
+    tgt = cloud_tgt;
+
+    norm_est.setSearchMethod(tree);
+    norm_est.setKSearch(10);
+
+    norm_est.setInputCloud(src);
+    norm_est.compute(*points_with_normals_src);
+    pcl::copyPointCloud(*src, *points_with_normals_src);
+
+    norm_est.setInputCloud(tgt);
+    norm_est.compute(*points_with_normals_tgt);
+    pcl::copyPointCloud(*tgt, *points_with_normals_tgt);
+
+    // Align
+
+    icp.setTransformationEpsilon(1e-6);
+    // Set the maximum distance between two correspondences (src<->tgt) to 1cm
+    // Note: adjust this based on the size of your datasets
+    icp.setMaxCorrespondenceDistance(0.05);
+    // Set the point representation
+    icp.setInputSource(points_with_normals_src);
+    icp.setInputTarget(points_with_normals_tgt);
+    // Run the same optimization in a loop and visualize the results
+    icp.setMaximumIterations(1000);
+    icp.align(*icp_result);
+    // accumulate transformation between each Iteration
+    Ti = icp.getFinalTransformation();
+    double score = icp.getFitnessScore();
+    bool is_converged = icp.hasConverged();
+    // std::cout << "converge score: " << score << std::endl;
+    // //
+    // // Get the transformation from target to source
     targetToSource = Ti.inverse();
 
     return targetToSource;

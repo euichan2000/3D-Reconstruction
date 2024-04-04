@@ -54,6 +54,7 @@ CMAKE_BINARY_DIR = /home/pipeo/3dscan/build
 
 # The main recursive "all" target.
 all: CMakeFiles/robotic_multiview_registration.dir/all
+all: CMakeFiles/charuco_segmentation.dir/all
 
 .PHONY : all
 
@@ -64,6 +65,7 @@ preinstall:
 
 # The main recursive "clean" target.
 clean: CMakeFiles/robotic_multiview_registration.dir/clean
+clean: CMakeFiles/charuco_segmentation.dir/clean
 
 .PHONY : clean
 
@@ -74,7 +76,7 @@ clean: CMakeFiles/robotic_multiview_registration.dir/clean
 CMakeFiles/robotic_multiview_registration.dir/all:
 	$(MAKE) -f CMakeFiles/robotic_multiview_registration.dir/build.make CMakeFiles/robotic_multiview_registration.dir/depend
 	$(MAKE) -f CMakeFiles/robotic_multiview_registration.dir/build.make CMakeFiles/robotic_multiview_registration.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/pipeo/3dscan/build/CMakeFiles --progress-num=1,2,3,4,5 "Built target robotic_multiview_registration"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/pipeo/3dscan/build/CMakeFiles --progress-num=6,7,8,9,10 "Built target robotic_multiview_registration"
 .PHONY : CMakeFiles/robotic_multiview_registration.dir/all
 
 # Build rule for subdir invocation for target.
@@ -93,6 +95,33 @@ robotic_multiview_registration: CMakeFiles/robotic_multiview_registration.dir/ru
 CMakeFiles/robotic_multiview_registration.dir/clean:
 	$(MAKE) -f CMakeFiles/robotic_multiview_registration.dir/build.make CMakeFiles/robotic_multiview_registration.dir/clean
 .PHONY : CMakeFiles/robotic_multiview_registration.dir/clean
+
+#=============================================================================
+# Target rules for target CMakeFiles/charuco_segmentation.dir
+
+# All Build rule for target.
+CMakeFiles/charuco_segmentation.dir/all:
+	$(MAKE) -f CMakeFiles/charuco_segmentation.dir/build.make CMakeFiles/charuco_segmentation.dir/depend
+	$(MAKE) -f CMakeFiles/charuco_segmentation.dir/build.make CMakeFiles/charuco_segmentation.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/pipeo/3dscan/build/CMakeFiles --progress-num=1,2,3,4,5 "Built target charuco_segmentation"
+.PHONY : CMakeFiles/charuco_segmentation.dir/all
+
+# Build rule for subdir invocation for target.
+CMakeFiles/charuco_segmentation.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/pipeo/3dscan/build/CMakeFiles 5
+	$(MAKE) -f CMakeFiles/Makefile2 CMakeFiles/charuco_segmentation.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/pipeo/3dscan/build/CMakeFiles 0
+.PHONY : CMakeFiles/charuco_segmentation.dir/rule
+
+# Convenience name for target.
+charuco_segmentation: CMakeFiles/charuco_segmentation.dir/rule
+
+.PHONY : charuco_segmentation
+
+# clean rule for target.
+CMakeFiles/charuco_segmentation.dir/clean:
+	$(MAKE) -f CMakeFiles/charuco_segmentation.dir/build.make CMakeFiles/charuco_segmentation.dir/clean
+.PHONY : CMakeFiles/charuco_segmentation.dir/clean
 
 #=============================================================================
 # Special targets to cleanup operation of make.

@@ -7,13 +7,13 @@ namespace mathLib
 {
 	float rad(const float& degree)
 	{
-		return (degree * std::numbers::pi_v<float> / 180);// C++20
+		return (degree * M_PI / 180);// C++20
 	   //return (degree * PI / 180); //non-compiler dependant
 	}
 
 	float deg(const float& rad)
 	{
-		return (rad * 180 / std::numbers::pi_v<float>);// C++20
+		return (rad * 180 / M_PI);// C++20
 	   //return (rad * 180 / PI); //non-compiler dependant
 	}
 

@@ -123,6 +123,19 @@ robotic_multiview_registration/fast:
 	$(MAKE) -f CMakeFiles/robotic_multiview_registration.dir/build.make CMakeFiles/robotic_multiview_registration.dir/build
 .PHONY : robotic_multiview_registration/fast
 
+#=============================================================================
+# Target rules for targets named charuco_segmentation
+
+# Build rule for target.
+charuco_segmentation: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 charuco_segmentation
+.PHONY : charuco_segmentation
+
+# fast build rule for target.
+charuco_segmentation/fast:
+	$(MAKE) -f CMakeFiles/charuco_segmentation.dir/build.make CMakeFiles/charuco_segmentation.dir/build
+.PHONY : charuco_segmentation/fast
+
 dependencies/mathLib/src/mathLib.o: dependencies/mathLib/src/mathLib.cpp.o
 
 .PHONY : dependencies/mathLib/src/mathLib.o
@@ -130,6 +143,7 @@ dependencies/mathLib/src/mathLib.o: dependencies/mathLib/src/mathLib.cpp.o
 # target to build an object file
 dependencies/mathLib/src/mathLib.cpp.o:
 	$(MAKE) -f CMakeFiles/robotic_multiview_registration.dir/build.make CMakeFiles/robotic_multiview_registration.dir/dependencies/mathLib/src/mathLib.cpp.o
+	$(MAKE) -f CMakeFiles/charuco_segmentation.dir/build.make CMakeFiles/charuco_segmentation.dir/dependencies/mathLib/src/mathLib.cpp.o
 .PHONY : dependencies/mathLib/src/mathLib.cpp.o
 
 dependencies/mathLib/src/mathLib.i: dependencies/mathLib/src/mathLib.cpp.i
@@ -139,6 +153,7 @@ dependencies/mathLib/src/mathLib.i: dependencies/mathLib/src/mathLib.cpp.i
 # target to preprocess a source file
 dependencies/mathLib/src/mathLib.cpp.i:
 	$(MAKE) -f CMakeFiles/robotic_multiview_registration.dir/build.make CMakeFiles/robotic_multiview_registration.dir/dependencies/mathLib/src/mathLib.cpp.i
+	$(MAKE) -f CMakeFiles/charuco_segmentation.dir/build.make CMakeFiles/charuco_segmentation.dir/dependencies/mathLib/src/mathLib.cpp.i
 .PHONY : dependencies/mathLib/src/mathLib.cpp.i
 
 dependencies/mathLib/src/mathLib.s: dependencies/mathLib/src/mathLib.cpp.s
@@ -148,6 +163,7 @@ dependencies/mathLib/src/mathLib.s: dependencies/mathLib/src/mathLib.cpp.s
 # target to generate assembly for a file
 dependencies/mathLib/src/mathLib.cpp.s:
 	$(MAKE) -f CMakeFiles/robotic_multiview_registration.dir/build.make CMakeFiles/robotic_multiview_registration.dir/dependencies/mathLib/src/mathLib.cpp.s
+	$(MAKE) -f CMakeFiles/charuco_segmentation.dir/build.make CMakeFiles/charuco_segmentation.dir/dependencies/mathLib/src/mathLib.cpp.s
 .PHONY : dependencies/mathLib/src/mathLib.cpp.s
 
 dependencies/pointcloud/preprocess.o: dependencies/pointcloud/preprocess.cpp.o
@@ -157,6 +173,7 @@ dependencies/pointcloud/preprocess.o: dependencies/pointcloud/preprocess.cpp.o
 # target to build an object file
 dependencies/pointcloud/preprocess.cpp.o:
 	$(MAKE) -f CMakeFiles/robotic_multiview_registration.dir/build.make CMakeFiles/robotic_multiview_registration.dir/dependencies/pointcloud/preprocess.cpp.o
+	$(MAKE) -f CMakeFiles/charuco_segmentation.dir/build.make CMakeFiles/charuco_segmentation.dir/dependencies/pointcloud/preprocess.cpp.o
 .PHONY : dependencies/pointcloud/preprocess.cpp.o
 
 dependencies/pointcloud/preprocess.i: dependencies/pointcloud/preprocess.cpp.i
@@ -166,6 +183,7 @@ dependencies/pointcloud/preprocess.i: dependencies/pointcloud/preprocess.cpp.i
 # target to preprocess a source file
 dependencies/pointcloud/preprocess.cpp.i:
 	$(MAKE) -f CMakeFiles/robotic_multiview_registration.dir/build.make CMakeFiles/robotic_multiview_registration.dir/dependencies/pointcloud/preprocess.cpp.i
+	$(MAKE) -f CMakeFiles/charuco_segmentation.dir/build.make CMakeFiles/charuco_segmentation.dir/dependencies/pointcloud/preprocess.cpp.i
 .PHONY : dependencies/pointcloud/preprocess.cpp.i
 
 dependencies/pointcloud/preprocess.s: dependencies/pointcloud/preprocess.cpp.s
@@ -175,6 +193,7 @@ dependencies/pointcloud/preprocess.s: dependencies/pointcloud/preprocess.cpp.s
 # target to generate assembly for a file
 dependencies/pointcloud/preprocess.cpp.s:
 	$(MAKE) -f CMakeFiles/robotic_multiview_registration.dir/build.make CMakeFiles/robotic_multiview_registration.dir/dependencies/pointcloud/preprocess.cpp.s
+	$(MAKE) -f CMakeFiles/charuco_segmentation.dir/build.make CMakeFiles/charuco_segmentation.dir/dependencies/pointcloud/preprocess.cpp.s
 .PHONY : dependencies/pointcloud/preprocess.cpp.s
 
 dependencies/universalRobotsKinematics/src/universalRobotsKinematics.o: dependencies/universalRobotsKinematics/src/universalRobotsKinematics.cpp.o
@@ -184,6 +203,7 @@ dependencies/universalRobotsKinematics/src/universalRobotsKinematics.o: dependen
 # target to build an object file
 dependencies/universalRobotsKinematics/src/universalRobotsKinematics.cpp.o:
 	$(MAKE) -f CMakeFiles/robotic_multiview_registration.dir/build.make CMakeFiles/robotic_multiview_registration.dir/dependencies/universalRobotsKinematics/src/universalRobotsKinematics.cpp.o
+	$(MAKE) -f CMakeFiles/charuco_segmentation.dir/build.make CMakeFiles/charuco_segmentation.dir/dependencies/universalRobotsKinematics/src/universalRobotsKinematics.cpp.o
 .PHONY : dependencies/universalRobotsKinematics/src/universalRobotsKinematics.cpp.o
 
 dependencies/universalRobotsKinematics/src/universalRobotsKinematics.i: dependencies/universalRobotsKinematics/src/universalRobotsKinematics.cpp.i
@@ -193,6 +213,7 @@ dependencies/universalRobotsKinematics/src/universalRobotsKinematics.i: dependen
 # target to preprocess a source file
 dependencies/universalRobotsKinematics/src/universalRobotsKinematics.cpp.i:
 	$(MAKE) -f CMakeFiles/robotic_multiview_registration.dir/build.make CMakeFiles/robotic_multiview_registration.dir/dependencies/universalRobotsKinematics/src/universalRobotsKinematics.cpp.i
+	$(MAKE) -f CMakeFiles/charuco_segmentation.dir/build.make CMakeFiles/charuco_segmentation.dir/dependencies/universalRobotsKinematics/src/universalRobotsKinematics.cpp.i
 .PHONY : dependencies/universalRobotsKinematics/src/universalRobotsKinematics.cpp.i
 
 dependencies/universalRobotsKinematics/src/universalRobotsKinematics.s: dependencies/universalRobotsKinematics/src/universalRobotsKinematics.cpp.s
@@ -202,7 +223,35 @@ dependencies/universalRobotsKinematics/src/universalRobotsKinematics.s: dependen
 # target to generate assembly for a file
 dependencies/universalRobotsKinematics/src/universalRobotsKinematics.cpp.s:
 	$(MAKE) -f CMakeFiles/robotic_multiview_registration.dir/build.make CMakeFiles/robotic_multiview_registration.dir/dependencies/universalRobotsKinematics/src/universalRobotsKinematics.cpp.s
+	$(MAKE) -f CMakeFiles/charuco_segmentation.dir/build.make CMakeFiles/charuco_segmentation.dir/dependencies/universalRobotsKinematics/src/universalRobotsKinematics.cpp.s
 .PHONY : dependencies/universalRobotsKinematics/src/universalRobotsKinematics.cpp.s
+
+src/charuco_segmentation.o: src/charuco_segmentation.cpp.o
+
+.PHONY : src/charuco_segmentation.o
+
+# target to build an object file
+src/charuco_segmentation.cpp.o:
+	$(MAKE) -f CMakeFiles/charuco_segmentation.dir/build.make CMakeFiles/charuco_segmentation.dir/src/charuco_segmentation.cpp.o
+.PHONY : src/charuco_segmentation.cpp.o
+
+src/charuco_segmentation.i: src/charuco_segmentation.cpp.i
+
+.PHONY : src/charuco_segmentation.i
+
+# target to preprocess a source file
+src/charuco_segmentation.cpp.i:
+	$(MAKE) -f CMakeFiles/charuco_segmentation.dir/build.make CMakeFiles/charuco_segmentation.dir/src/charuco_segmentation.cpp.i
+.PHONY : src/charuco_segmentation.cpp.i
+
+src/charuco_segmentation.s: src/charuco_segmentation.cpp.s
+
+.PHONY : src/charuco_segmentation.s
+
+# target to generate assembly for a file
+src/charuco_segmentation.cpp.s:
+	$(MAKE) -f CMakeFiles/charuco_segmentation.dir/build.make CMakeFiles/charuco_segmentation.dir/src/charuco_segmentation.cpp.s
+.PHONY : src/charuco_segmentation.cpp.s
 
 src/robotic_multiview_registration.o: src/robotic_multiview_registration.cpp.o
 
@@ -240,6 +289,7 @@ help:
 	@echo "... edit_cache"
 	@echo "... rebuild_cache"
 	@echo "... robotic_multiview_registration"
+	@echo "... charuco_segmentation"
 	@echo "... dependencies/mathLib/src/mathLib.o"
 	@echo "... dependencies/mathLib/src/mathLib.i"
 	@echo "... dependencies/mathLib/src/mathLib.s"
@@ -249,6 +299,9 @@ help:
 	@echo "... dependencies/universalRobotsKinematics/src/universalRobotsKinematics.o"
 	@echo "... dependencies/universalRobotsKinematics/src/universalRobotsKinematics.i"
 	@echo "... dependencies/universalRobotsKinematics/src/universalRobotsKinematics.s"
+	@echo "... src/charuco_segmentation.o"
+	@echo "... src/charuco_segmentation.i"
+	@echo "... src/charuco_segmentation.s"
 	@echo "... src/robotic_multiview_registration.o"
 	@echo "... src/robotic_multiview_registration.i"
 	@echo "... src/robotic_multiview_registration.s"

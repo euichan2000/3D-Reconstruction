@@ -50,9 +50,11 @@ namespace pointcloudpreprocess
         PointCloud::Ptr outlier_remove(const PointCloud::Ptr cloud_src);
         PointCloud::Ptr calibrate(PointCloud::Ptr cloud_src, Eigen::Matrix4f &base2tcp, Eigen::Matrix4f &tcp2cam);
         PointCloud::Ptr mincutsegmentation(const PointCloud::Ptr cloud_src, float radius, float x, float y, float z);
+        PointCloud::Ptr charucosegmentation(const PointCloud::Ptr cloud_src, float min_pt[], float max_pt[]);
         void visualizePointClouds(const std::vector<pcl::PointCloud<pcl::PointXYZ>::Ptr> &clouds);
         std::vector<pcl::PointCloud<pcl::PointXYZ>::Ptr> loadData(const std::vector<std::string> &file_paths);
         Eigen::Matrix4f fineICP(const PointCloud::Ptr cloud_src, const PointCloud::Ptr cloud_tgt);
+        Eigen::Matrix4f fineICPwithNormals(const PointCloud::Ptr cloud_src, const PointCloud::Ptr cloud_tgt);
     };
 
 }

@@ -1,12 +1,32 @@
 // universalRobotsKinematics.cpp
 
-#include "universalRobotsKinematics.h"
 #include <random>
+#include <stdio.h>
+#include <vector>
 #include <cmath>
 #include <iostream>
 #include <fstream>
 #include <Eigen/Dense>
+#include <stdio.h>
+
+#include <opencv2/opencv.hpp>
+#include <opencv2/core/eigen.hpp>
+#include <opencv2/opencv_modules.hpp>
+
+#include <opencv2/aruco/charuco.hpp>
+#include <opencv2/highgui.hpp>
+#include <opencv2/calib3d/calib3d.hpp>
+#include <opencv2/calib3d/calib3d_c.h>
+#include <opencv2/imgproc/imgproc.hpp>
+
+#include <librealsense2/rs.hpp>
 #include <yaml-cpp/yaml.h>
+#include "universalRobotsKinematics.h"
+
+using namespace cv;
+using namespace std;
+using namespace aruco;
+
 Eigen::Matrix4f universalRobots::UR::forwardKinematics(float theta[])
 {
 
@@ -44,7 +64,7 @@ float universalRobots::UR::deg2rad(float degree)
 	return degree * M_PI / 180.0;
 }
 
-void universalRobots::UR::loadYAML(const std::string &filename, float &thetaX, float &thetaY, float &thetaZ, float &X, float &Y, float &Z, float scene1[6], float scene2[6],float scene3[6], float scene4[6])
+void universalRobots::UR::loadYAML(const std::string &filename, float &thetaX, float &thetaY, float &thetaZ, float &X, float &Y, float &Z, float scene1[6], float scene2[6], float scene3[6], float scene4[6], float minrange[4],float maxrange[4])
 {
 	// YAML 파일을 읽어들일 ifstream 객체를 생성합니다.
 	std::ifstream fin(filename);
@@ -85,36 +105,60 @@ void universalRobots::UR::loadYAML(const std::string &filename, float &thetaX, f
 	{
 		scene4[l++] = element.as<float>();
 	}
+	int m = 0;
+	for (const auto &element : doc["minrange"])
+	{
+		minrange[m++] = element.as<float>();
+	}
+	int n = 0;
+	for (const auto &element : doc["maxrange"])
+	{
+		maxrange[n++] = element.as<float>();
+	}
+
 }
 
-/*
-Mat createTransformationMatrix(const Mat &rotationMatrix, const Mat &translationVector)
+Eigen::Matrix4f universalRobots::UR::createTransformationMatrix(const Mat &rotationMatrix, const Mat &translationVector)
 {
-	// 4x4 크기의 변환 행렬을 생성합니다.
-	Mat transformationMatrix = Mat::eye(4, 4, CV_64F);
+	Eigen::Matrix3f rotationEigen;
+	Eigen::Vector3f translationEigen;
 
-	// 회전 행렬 A를 변환 행렬의 상단 왼쪽 3x3 부분에 복사합니다.
-	Mat rotationPart = transformationMatrix(Rect(0, 0, 3, 3));
-	Mat transpose_rotationmatrix;
-	transpose(rotationMatrix, transpose_rotationmatrix);
-	transpose_rotationmatrix.copyTo(rotationPart);
+	// OpenCV Mat 객체를 Eigen 행렬로 변환합니다.
+	cv::cv2eigen(rotationMatrix, rotationEigen);
+	cv::cv2eigen(translationVector, translationEigen);
 
-	// 이동 벡터 B를 변환 행렬의 우측 열에 복사합니다.
-	Mat translationPart = transformationMatrix.col(3).rowRange(0, 3);
-	Mat translationmatrix = -1 * transpose_rotationmatrix * translationVector;
-	translationmatrix.copyTo(translationPart);
+	Eigen::Matrix4f transformationMatrix = Eigen::Matrix4f::Identity();
+
+	// 회전 행렬을 변환 행렬의 상단 왼쪽 3x3 부분에 복사합니다.
+	transformationMatrix.block<3, 3>(0, 0) = rotationEigen;
+
+	// 이동 벡터를 변환 행렬의 우측 열에 복사합니다.
+	transformationMatrix.block<3, 1>(0, 3) = translationEigen;
 
 	return transformationMatrix;
 }
 
-Eigen::Matrix4f calcmarker2cam()
+Eigen::Matrix4f universalRobots::UR::calccam2marker(const std::string &filename)
 {
+
+	Mat cameraMatrix = (Mat_<double>(3, 3) << 898.454561024777, 0, 651.946687160551,
+						0, 899.092148378796, 382.332250962326,
+						0, 0, 1);
+	Mat distCoeffs = (Mat_<double>(1, 5) << 0.008861249213184505, 0.3494378753891278, -0.002162889885546831, 0.006092371833764963, -1.084121168410527);
+	Ptr<Dictionary> dictionary = getPredefinedDictionary(DICT_4X4_250);
+	Ptr<CharucoBoard> board = CharucoBoard::create(7, 5, 0.035, 0.005, dictionary);
+	Ptr<DetectorParameters> params = DetectorParameters::create();
+	cv::Mat rvec_image, tvec_image, rmatrix_image;
+	Eigen::Matrix4f matrix_cam2target;
+	std::vector<int> markerIds;
+	std::vector<std::vector<cv::Point2f>> markerCorners;
+	universalRobots::UR robot;
+
+	// if at least one marker detected
+
 	Mat image;
 	char buf[256];
-	image = imread(images[i]);
-
-	vector<int> markerIds;
-	vector<vector<Point2f>> markerCorners;
+	image = imread(filename);
 	detectMarkers(image, board->dictionary, markerCorners, markerIds, params);
 	// if at least one marker detected
 	if (markerIds.size() > 0)
@@ -133,8 +177,21 @@ Eigen::Matrix4f calcmarker2cam()
 
 			Rodrigues(rvec_image, rmatrix_image); // convert rotation vector to rotation matrix
 
-			matrix_target2cam = createTransformationMatrix(rmatrix_image, tvec_image);
+			matrix_cam2target = robot.createTransformationMatrix(rmatrix_image, tvec_image);
+
+			// if charuco pose is valid
+			if (valid)
+			{
+				drawFrameAxes(image, cameraMatrix, distCoeffs, rvec_image, tvec_image, 0.1f);
+			}
 		}
 	}
+	// sprintf(buf, "../image/charuco_with_axis.jpg");
+	// imwrite(buf, image);
+	// imshow("Image", image);
+	// waitKey(0);
+	return matrix_cam2target;
+
+	// Return an identity matrix if transformation could not be estimated
+	return Eigen::Matrix4f::Identity();
 }
-*/

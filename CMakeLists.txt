@@ -1,11 +1,10 @@
 
-cmake_minimum_required(VERSION 3.5 FATAL_ERROR)
+cmake_minimum_required(VERSION 3.5)
 project(PCL_Registration)
 
 
-set(CMAKE_CXX_STANDARD 20)
-set(CMAKE_CXX_STANDARD_REQUIRED ON)
-
+# set(CMAKE_CXX_STANDARD 20)
+# set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 find_package(PCL 1.4 REQUIRED)
 find_package (OpenCV REQUIRED)
@@ -16,9 +15,9 @@ link_directories(${PCL_LIBRARY_DIRS})
 add_definitions(${PCL_DEFINITIONS})
 #OpenCVLibrary
 include_directories(${OpenCV_INCLUDE_DIRS})
+#include_directories("/usr/include/opencv4/")
 link_directories(${OpenCV_LIBRARY_DIRS})
 add_definitions(${OpenCV_DEFINITIONS})
-include_directories(/usr/include/opencv4/)
 
 # #min_cut_Segmentation
 # add_executable (min_cut_segmentation src/min_cut_segmentation.cpp dependencies/pointcloud/preprocess.cpp)
@@ -29,12 +28,12 @@ include_directories(/usr/include/opencv4/)
 # add_executable (euclidean_segmentation src/euclidean_segmentation.cpp)
 # target_link_libraries (euclidean_segmentation ${PCL_LIBRARIES})
 #charuco_Segmentation
-# add_executable(charuco_segmentation src/charuco_segmentation.cpp)
-# target_link_libraries(charuco_segmentation ${PCL_LIBRARIES} ${OpenCV_LIBS})
-# target_include_directories(charuco_segmentation PRIVATE
-#     dependencies/universalRobotsKinematics/src
-#     dependencies/mathLib/src
-#     dependencies/pointcloud)
+add_executable(charuco_segmentation src/charuco_segmentation.cpp dependencies/universalRobotsKinematics/src/universalRobotsKinematics.cpp dependencies/mathLib/src/mathLib.cpp dependencies/pointcloud/preprocess.cpp)
+target_link_libraries(charuco_segmentation ${PCL_LIBRARIES} ${OpenCV_LIBS} yaml-cpp)
+target_include_directories(charuco_segmentation PRIVATE
+    dependencies/universalRobotsKinematics/src
+    dependencies/mathLib/src
+    dependencies/pointcloud)
 
 #robotic_multiview_registration    
 add_executable (robotic_multiview_registration src/robotic_multiview_registration.cpp dependencies/universalRobotsKinematics/src/universalRobotsKinematics.cpp dependencies/mathLib/src/mathLib.cpp dependencies/pointcloud/preprocess.cpp)
@@ -43,6 +42,7 @@ target_include_directories(robotic_multiview_registration PRIVATE
     dependencies/universalRobotsKinematics/src
     dependencies/mathLib/src
     dependencies/pointcloud/
+    
 )
     
 

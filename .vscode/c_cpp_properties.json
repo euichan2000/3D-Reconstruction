@@ -6,7 +6,8 @@
                 "${workspaceFolder}/**",
                 "/usr/local/include/pcl-1.14",
                 "/usr/include/eigen3",
-                "${workspaceFolder}/dependencies/mathLib/src"
+                "${workspaceFolder}/dependencies/mathLib/src",
+                "/usr/include/opencv4"
             ],
             "defines": [],
             "compilerPath": "/usr/bin/gcc",

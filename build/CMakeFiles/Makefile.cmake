@@ -140,10 +140,10 @@ set(CMAKE_MAKEFILE_DEPENDS
   "/usr/lib/x86_64-linux-gnu/cmake/boost_system-1.71.0/boost_system-config.cmake"
   "/usr/lib/x86_64-linux-gnu/cmake/boost_system-1.71.0/libboost_system-variant-shared.cmake"
   "/usr/lib/x86_64-linux-gnu/cmake/boost_system-1.71.0/libboost_system-variant-static.cmake"
-  "/usr/local/lib/cmake/opencv4/OpenCVConfig-version.cmake"
-  "/usr/local/lib/cmake/opencv4/OpenCVConfig.cmake"
-  "/usr/local/lib/cmake/opencv4/OpenCVModules-release.cmake"
-  "/usr/local/lib/cmake/opencv4/OpenCVModules.cmake"
+  "/usr/lib/x86_64-linux-gnu/cmake/opencv4/OpenCVConfig-version.cmake"
+  "/usr/lib/x86_64-linux-gnu/cmake/opencv4/OpenCVConfig.cmake"
+  "/usr/lib/x86_64-linux-gnu/cmake/opencv4/OpenCVModules-release.cmake"
+  "/usr/lib/x86_64-linux-gnu/cmake/opencv4/OpenCVModules.cmake"
   "/usr/local/share/pcl-1.14/Modules/FindFLANN.cmake"
   "/usr/local/share/pcl-1.14/Modules/FindOpenMP.cmake"
   "/usr/local/share/pcl-1.14/Modules/FindOpenNI.cmake"
@@ -198,4 +198,5 @@ set(CMAKE_MAKEFILE_PRODUCTS
 # Dependency information for all targets:
 set(CMAKE_DEPEND_INFO_FILES
   "CMakeFiles/robotic_multiview_registration.dir/DependInfo.cmake"
+  "CMakeFiles/charuco_segmentation.dir/DependInfo.cmake"
   )
