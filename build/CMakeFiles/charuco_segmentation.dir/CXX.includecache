@@ -49,11 +49,15 @@ pcl/registration/gicp.h
 -
 pcl/registration/icp_nl.h
 -
+pcl/recognition/ransac_based/trimmed_icp.h
+-
 pcl/common/transforms.h
 -
 pcl/common/centroid.h
 -
 pcl/filters/statistical_outlier_removal.h
+-
+pcl/filters/radius_outlier_removal.h
 -
 pcl/visualization/pcl_visualizer.h
 -
@@ -2596,6 +2600,14 @@ pcl/filters/filter.h
 pcl/filters/filter_indices.h
 -
 
+/usr/local/include/pcl-1.14/pcl/filters/impl/radius_outlier_removal.hpp
+pcl/filters/radius_outlier_removal.h
+-
+pcl/search/organized.h
+-
+pcl/search/kdtree.h
+-
+
 /usr/local/include/pcl-1.14/pcl/filters/impl/statistical_outlier_removal.hpp
 pcl/filters/statistical_outlier_removal.h
 -
@@ -2616,6 +2628,14 @@ pcl/common/io.h
 pcl/filters/voxel_grid.h
 -
 boost/sort/spreadsort/integer_sort.hpp
+-
+
+/usr/local/include/pcl-1.14/pcl/filters/radius_outlier_removal.h
+pcl/filters/filter_indices.h
+-
+pcl/search/search.h
+-
+pcl/filters/impl/radius_outlier_removal.hpp
 -
 
 /usr/local/include/pcl-1.14/pcl/filters/statistical_outlier_removal.h
@@ -2938,6 +2958,30 @@ type_traits
 bitset
 -
 pcl/impl/point_types.hpp
+-
+
+/usr/local/include/pcl-1.14/pcl/recognition/ransac_based/auxiliary.h
+Eigen/Core
+-
+Eigen/Geometry
+-
+pcl/point_types.h
+-
+
+/usr/local/include/pcl-1.14/pcl/recognition/ransac_based/trimmed_icp.h
+pcl/registration/transformation_estimation_svd.h
+-
+pcl/kdtree/kdtree_flann.h
+-
+pcl/correspondence.h
+-
+pcl/point_cloud.h
+-
+pcl/pcl_exports.h
+-
+limits
+-
+pcl/recognition/ransac_based/auxiliary.h
 -
 
 /usr/local/include/pcl-1.14/pcl/register_point_struct.h

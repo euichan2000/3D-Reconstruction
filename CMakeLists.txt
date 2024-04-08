@@ -27,6 +27,7 @@ add_definitions(${OpenCV_DEFINITIONS})
 # #euclidean_Segmentation
 # add_executable (euclidean_segmentation src/euclidean_segmentation.cpp)
 # target_link_libraries (euclidean_segmentation ${PCL_LIBRARIES})
+
 #charuco_Segmentation
 add_executable(charuco_segmentation src/charuco_segmentation.cpp dependencies/universalRobotsKinematics/src/universalRobotsKinematics.cpp dependencies/mathLib/src/mathLib.cpp dependencies/pointcloud/preprocess.cpp)
 target_link_libraries(charuco_segmentation ${PCL_LIBRARIES} ${OpenCV_LIBS} yaml-cpp)
@@ -45,9 +46,6 @@ target_include_directories(robotic_multiview_registration PRIVATE
     
 )
     
-
-
-
 
 #Reconstruction
 # add_executable (registration src/registration.cpp)
@@ -79,5 +77,5 @@ target_include_directories(robotic_multiview_registration PRIVATE
 # add_executable(SAC_IA_registration SAC_IA_registration.cpp)
 # target_link_libraries(SAC_IA_registration ${PCL_LIBRARIES})
 
-# add_executable(B_spline B_spline.cpp)
-# target_link_libraries(B_spline ${PCL_LIBRARIES})
+# add_executable(test src/test.cpp)
+# target_link_libraries(test ${PCL_LIBRARIES})

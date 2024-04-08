@@ -17,7 +17,7 @@ int main(int argc, char **argv)
   pointcloudpreprocess::pre pre;
   std::vector<Eigen::Matrix4f> base2tcp; // base to tcp TF Matrix
   Eigen::Matrix4f tcp2cam = Eigen::Matrix4f::Identity();
-  std::vector<pcl::PointCloud<pcl::PointXYZ>::Ptr> clouds, downsampled_clouds, segmented_clouds, calibrated_clouds, outlier_removed_clouds;
+  std::vector<pcl::PointCloud<pcl::PointXYZ>::Ptr> clouds, downsampled_clouds, segmented_clouds, calibrated_clouds, radius_outlier_removed_clouds, statistical_outlier_removed_clouds, final_clouds;
   std::vector<std::vector<pcl::PointCloud<pcl::PointXYZ>::Ptr>> result_clouds(4, std::vector<pcl::PointCloud<pcl::PointXYZ>::Ptr>(4));
   pcl::PointCloud<pcl::PointXYZ>::Ptr source(new pcl::PointCloud<pcl::PointXYZ>);
   pcl::PointCloud<pcl::PointXYZ>::Ptr target(new pcl::PointCloud<pcl::PointXYZ>);
@@ -47,23 +47,27 @@ int main(int argc, char **argv)
 
   for (int n = 0; n < clouds.size(); n++)
   {
-
-    outlier_removed_clouds.push_back(pre.outlier_remove(clouds[n]));                                    // outlier remove
-    calibrated_clouds.push_back(pre.calibrate(outlier_removed_clouds[n], base2tcp[n], tcp2cam));        // transform to base coordinate
+    
+    calibrated_clouds.push_back(pre.calibrate(clouds[n], base2tcp[n], tcp2cam)); // transform to base coordinate
     segmented_clouds.push_back(pre.charucosegmentation(calibrated_clouds[n], minrange, maxrange));
-    // downsampled_clouds.push_back(pre.downsampling(calibrated_clouds[n], 3000));                        // downsample to under 3000 points
+    statistical_outlier_removed_clouds.push_back(pre.statistical_outlier_remove(segmented_clouds[n]));
+    downsampled_clouds.push_back(pre.downsampling(statistical_outlier_removed_clouds[n])); // downsample to under 3000 points
+
+    // radius_outlier_removed_clouds.push_back(pre.radius_outlier_remove(statistical_outlier_removed_clouds[n])); // outlier remove
   }
-  pre.visualizePointClouds(outlier_removed_clouds);
   pre.visualizePointClouds(calibrated_clouds);
   pre.visualizePointClouds(segmented_clouds);
+  pre.visualizePointClouds(statistical_outlier_removed_clouds);
+  pre.visualizePointClouds(downsampled_clouds);
+  
+  // pre.visualizePointClouds(radius_outlier_removed_clouds);
 
-  for (int i = 0; i < segmented_clouds.size(); ++i)
+  for (int i = 0; i < statistical_outlier_removed_clouds.size(); ++i)
   {
-    result_clouds[0][i] = segmented_clouds[i];
+    result_clouds[0][i] = statistical_outlier_removed_clouds[i];
   }
 
-  //pre.visualizePointClouds(downsampled_clouds);
-  //compute registration & make final PCD
+  // compute registration & make final PCD
 
   for (int i = 0; i < clouds.size() - 1; ++i)
   {
@@ -78,7 +82,7 @@ int main(int argc, char **argv)
       if (source && target)
       {
         // source와 target이 nullptr이 아닌 경우에만 실행
-        target2source = pre.fineICPwithNormals(source, target);
+        target2source = pre.finetrICP(source, target);
         std::cerr << "icp complete." << std::endl;
       }
       else
@@ -102,18 +106,23 @@ int main(int argc, char **argv)
       j++;
     }
   }
-  final_viewer.setBackgroundColor(0.0, 0.0, 0.0);
-  final_viewer.addPointCloud(result_clouds[clouds.size() - 1][0], "final_aligned_cloud");
-  final_viewer.setPointCloudRenderingProperties(pcl::visualization::PCL_VISUALIZER_POINT_SIZE, 1, "final_aligned_cloud");
-  final_viewer.spin(); // Keep the visualization window open
-  //save aligned pair, transformed into the first cloud's frame
-  // std::stringstream ss;
-  // for (int i = 0; i < calibrated_clouds.size(); ++i)
-  // {
-  //   ss << "../pcd/calibrated_pcd/brick/brick_" << i+1
-  //      << ".pcd";
-  //   pcl::io::savePCDFile(ss.str(), *(calibrated_clouds[i]), true);
-  // }
+
+  // final_clouds.push_back(pre.statistical_outlier_remove(result_clouds[clouds.size() - 1][0]));
+  final_clouds.push_back(result_clouds[clouds.size() - 1][0]);
+  pre.visualizePointClouds(final_clouds);
+
+  // final_viewer.setBackgroundColor(0.0, 0.0, 0.0);
+  // final_viewer.addPointCloud(final_cloud, "final_aligned_cloud");
+  // final_viewer.setPointCloudRenderingProperties(pcl::visualization::PCL_VISUALIZER_POINT_SIZE, 1, "final_aligned_cloud");
+  // final_viewer.spin(); // Keep the visualization window open
+  // save aligned pair, transformed into the first cloud's frame
+  //  std::stringstream ss;
+  //  for (int i = 0; i < calibrated_clouds.size(); ++i)
+  //  {
+  //    ss << "../pcd/calibrated_pcd/brick/brick_" << i+1
+  //       << ".pcd";
+  //    pcl::io::savePCDFile(ss.str(), *(calibrated_clouds[i]), true);
+  //  }
 
   chrono::system_clock::time_point t_end = chrono::system_clock::now();
   /*******************************************/

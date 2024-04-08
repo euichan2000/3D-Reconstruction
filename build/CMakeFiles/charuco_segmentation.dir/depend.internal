@@ -615,8 +615,10 @@ CMakeFiles/charuco_segmentation.dir/dependencies/pointcloud/preprocess.cpp.o
  /usr/local/include/pcl-1.14/pcl/filters/impl/extract_indices.hpp
  /usr/local/include/pcl-1.14/pcl/filters/impl/filter.hpp
  /usr/local/include/pcl-1.14/pcl/filters/impl/filter_indices.hpp
+ /usr/local/include/pcl-1.14/pcl/filters/impl/radius_outlier_removal.hpp
  /usr/local/include/pcl-1.14/pcl/filters/impl/statistical_outlier_removal.hpp
  /usr/local/include/pcl-1.14/pcl/filters/impl/voxel_grid.hpp
+ /usr/local/include/pcl-1.14/pcl/filters/radius_outlier_removal.h
  /usr/local/include/pcl-1.14/pcl/filters/statistical_outlier_removal.h
  /usr/local/include/pcl-1.14/pcl/filters/voxel_grid.h
  /usr/local/include/pcl-1.14/pcl/for_each_type.h
@@ -640,6 +642,8 @@ CMakeFiles/charuco_segmentation.dir/dependencies/pointcloud/preprocess.cpp.o
  /usr/local/include/pcl-1.14/pcl/point_representation.h
  /usr/local/include/pcl-1.14/pcl/point_struct_traits.h
  /usr/local/include/pcl-1.14/pcl/point_types.h
+ /usr/local/include/pcl-1.14/pcl/recognition/ransac_based/auxiliary.h
+ /usr/local/include/pcl-1.14/pcl/recognition/ransac_based/trimmed_icp.h
  /usr/local/include/pcl-1.14/pcl/register_point_struct.h
  /usr/local/include/pcl-1.14/pcl/registration/bfgs.h
  /usr/local/include/pcl-1.14/pcl/registration/convergence_criteria.h

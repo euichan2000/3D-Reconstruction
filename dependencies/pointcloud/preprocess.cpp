@@ -21,9 +21,11 @@
 #include <pcl/registration/icp.h>
 #include <pcl/registration/gicp.h>
 #include <pcl/registration/icp_nl.h>
+#include <pcl/recognition/ransac_based/trimmed_icp.h>
 #include <pcl/common/transforms.h>
 #include <pcl/common/centroid.h>
 #include <pcl/filters/statistical_outlier_removal.h>
+#include <pcl/filters/radius_outlier_removal.h>
 #include <pcl/visualization/pcl_visualizer.h>
 #include "preprocess.h"
 #include <pcl/filters/crop_box.h>
@@ -32,37 +34,43 @@ typedef pcl::PointNormal PointNormalT;
 typedef pcl::PointCloud<PointNormalT> PointCloudWithNormals;
 typedef pcl::PointCloud<pcl::PointXYZ> PointCloud;
 
-PointCloud::Ptr pointcloudpreprocess::pre::downsampling(const PointCloud::Ptr cloud_src, int number)
+PointCloud::Ptr pointcloudpreprocess::pre::downsampling(const PointCloud::Ptr cloud_src)
 {
     PointCloud::Ptr cloud_tgt(new PointCloud);
-    if (cloud_src->width * cloud_src->height > number)
-    {
-        // Create the filtering object
-        pcl::VoxelGrid<pcl::PointXYZ> sor;
-        sor.setInputCloud(cloud_src);
-        sor.setLeafSize(0.005f, 0.005f, 0.005f);
-        sor.filter(*cloud_tgt);
 
-        std::cerr << "PointCloud after filtering: " << cloud_tgt->width * cloud_tgt->height
-                  << " data points (" << getFieldsList(*cloud_tgt) << ")." << std::endl;
-    }
-    else
-    {
-        std::cerr << "Skipping filtering and downsampling. Point cloud has fewer than" << number << " points." << std::endl;
-        *cloud_tgt = *cloud_src;
-    }
+    // Create the filtering object
+    pcl::VoxelGrid<pcl::PointXYZ> vox;
+    vox.setInputCloud(cloud_src);
+    vox.setLeafSize(0.01f, 0.01f, 0.01f);
+    vox.filter(*cloud_tgt);
+
+    std::cerr << "PointCloud after filtering: " << cloud_tgt->width * cloud_tgt->height
+              << " data points (" << getFieldsList(*cloud_tgt) << ")." << std::endl;
 
     return cloud_tgt;
 }
 
-PointCloud::Ptr pointcloudpreprocess::pre::outlier_remove(const PointCloud::Ptr cloud_src)
+PointCloud::Ptr pointcloudpreprocess::pre::statistical_outlier_remove(const PointCloud::Ptr cloud_src)
 {
     PointCloud::Ptr cloud_tgt(new PointCloud);
     pcl::StatisticalOutlierRemoval<pcl::PointXYZ> sor;
     sor.setInputCloud(cloud_src);
-    sor.setMeanK(16);
-    sor.setStddevMulThresh(0.05);
+    sor.setMeanK(80);
+    sor.setStddevMulThresh(1.0);
     sor.filter(*cloud_tgt);
+
+    return cloud_tgt;
+}
+
+PointCloud::Ptr pointcloudpreprocess::pre::radius_outlier_remove(const PointCloud::Ptr cloud_src)
+{
+    PointCloud::Ptr cloud_tgt(new PointCloud);
+    pcl::RadiusOutlierRemoval<pcl::PointXYZ> ror;
+    ror.setInputCloud(cloud_src);
+    ror.setRadiusSearch(0.01);
+    ror.setMinNeighborsInRadius(2);
+    ror.setKeepOrganized(true);
+    ror.filter(*cloud_tgt);
 
     return cloud_tgt;
 }
@@ -162,26 +170,23 @@ PointCloud::Ptr pointcloudpreprocess::pre::mincutsegmentation(const PointCloud::
 
 PointCloud::Ptr pointcloudpreprocess::pre::charucosegmentation(const PointCloud::Ptr cloud_src, float min_pt[], float max_pt[])
 {
-    
+
     pcl::PointCloud<pcl::PointXYZ>::Ptr joint_based_cloud(new pcl::PointCloud<pcl::PointXYZ>);
     pcl::PointCloud<pcl::PointXYZ>::Ptr marker_based_cloud(new pcl::PointCloud<pcl::PointXYZ>);
     pcl::PointCloud<pcl::PointXYZ>::Ptr joint_based_cut_cloud(new pcl::PointCloud<pcl::PointXYZ>);
     pcl::CropBox<pcl::PointXYZ> cropBoxFilter(true);
     Eigen::Matrix4f marker2base, base2marker;
-    
+
     marker2base << 0.696142, 0.717802, 0.0111144, 0.0341231,
         -0.71635, 0.695145, -0.043272, 0.60022,
         -0.0389855, 0.0221005, 0.998364, 0.00557716,
         0, 0, 0, 1;
 
-
     base2marker = marker2base.inverse();
-    
-
 
     Eigen::Vector4f min_pt_vec4f(min_pt[0], min_pt[1], min_pt[2], min_pt[3]);
     Eigen::Vector4f max_pt_vec4f(max_pt[0], max_pt[1], max_pt[2], max_pt[3]);
-    
+
     *joint_based_cloud = *cloud_src;
 
     pcl::transformPointCloud(*joint_based_cloud, *marker_based_cloud, marker2base);
@@ -267,7 +272,7 @@ Eigen::Matrix4f pointcloudpreprocess::pre::fineICP(const PointCloud::Ptr cloud_s
     icp.setTransformationEpsilon(1e-6);
     // Set the maximum distance between two correspondences (src<->tgt) to 1cm
     // Note: adjust this based on the size of your datasets
-    icp.setMaxCorrespondenceDistance(0.05);
+    icp.setMaxCorrespondenceDistance(0.03);
     // Set the point representation
 
     icp.setInputSource(src);
@@ -328,12 +333,12 @@ Eigen::Matrix4f pointcloudpreprocess::pre::fineICPwithNormals(const PointCloud::
     icp.setTransformationEpsilon(1e-6);
     // Set the maximum distance between two correspondences (src<->tgt) to 1cm
     // Note: adjust this based on the size of your datasets
-    icp.setMaxCorrespondenceDistance(0.05);
+    icp.setMaxCorrespondenceDistance(0.01);
     // Set the point representation
     icp.setInputSource(points_with_normals_src);
     icp.setInputTarget(points_with_normals_tgt);
     // Run the same optimization in a loop and visualize the results
-    icp.setMaximumIterations(1000);
+    icp.setMaximumIterations(500);
     icp.align(*icp_result);
     // accumulate transformation between each Iteration
     Ti = icp.getFinalTransformation();
@@ -343,6 +348,32 @@ Eigen::Matrix4f pointcloudpreprocess::pre::fineICPwithNormals(const PointCloud::
     // //
     // // Get the transformation from target to source
     targetToSource = Ti.inverse();
+
+    return targetToSource;
+}
+
+Eigen::Matrix4f pointcloudpreprocess::pre::finetrICP(const PointCloud::Ptr cloud_src, const PointCloud::Ptr cloud_tgt)
+{
+
+    PointCloud::Ptr src(new PointCloud);
+    PointCloud::Ptr tgt(new PointCloud);
+    // Compute surface normals and curvature
+    Eigen::Matrix4f Ti = Eigen::Matrix4f::Identity();
+    pcl::recognition::TrimmedICP<pcl::PointXYZ, float> trimmed_icp;
+
+    src = cloud_src;
+    tgt = cloud_tgt;
+
+    trimmed_icp.init(tgt);
+    trimmed_icp.setNewToOldEnergyRatio(0.9); // Set the ratio of new energy to old energy
+
+    // Align the source point cloud to the target point cloud
+    Eigen::Matrix4f transformation = Eigen::Matrix4f::Identity(), targetToSource; // Initialize with identity matrix
+    trimmed_icp.align(*src, 0.7*src->size(), transformation);
+    targetToSource = transformation.inverse();
+    // double fine_score=trimmed_icp.getFitnessScore();
+    // std::cout << "converge score: " << score << std::endl;
+
 
     return targetToSource;
 }
