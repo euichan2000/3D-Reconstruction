@@ -4,10 +4,14 @@
             "name": "Linux",
             "includePath": [
                 "${workspaceFolder}/**",
-                "/usr/local/include/pcl-1.14",
                 "/usr/include/eigen3",
                 "${workspaceFolder}/dependencies/mathLib/src",
-                "/usr/include/opencv4"
+                "/usr/include/opencv4",
+                "/usr/include/vtk-7.1",
+                "/usr/include/pcl-1.10",
+                "/usr/local/include/CGAL"
+                
+                
             ],
             "defines": [],
             "compilerPath": "/usr/bin/gcc",

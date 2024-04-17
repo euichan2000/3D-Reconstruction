@@ -31,7 +31,7 @@ namespace universalRobots
 		Eigen::Matrix4f forwardKinematics(float theta[]);
 		Eigen::Matrix4f calcTransformationMatrix(float alpha, float a, float d, float theta);
 		float deg2rad(float degree);
-		void loadYAML(const std::string &filename, float &thetaX, float &thetaY, float &thetaZ, float &X, float &Y, float &Z, float scene1[6], float scene2[6], float scene3[6], float scene4[6], float minrange[4], float maxrange[4]);
+		void loadYAML(const std::string &filename, float &thetaX, float &thetaY, float &thetaZ, float &X, float &Y, float &Z, float scene[][6], int &n, float minrange[4], float maxrange[4]);
 		Eigen::Matrix4f createTransformationMatrix(const cv::Mat &rotationMatrix, const cv::Mat &translationVector);
 		Eigen::Matrix4f calccam2marker(const std::string &filename);
 	};

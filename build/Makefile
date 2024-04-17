@@ -111,6 +111,19 @@ depend:
 .PHONY : depend
 
 #=============================================================================
+# Target rules for targets named CGAL_reconstruction
+
+# Build rule for target.
+CGAL_reconstruction: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 CGAL_reconstruction
+.PHONY : CGAL_reconstruction
+
+# fast build rule for target.
+CGAL_reconstruction/fast:
+	$(MAKE) -f CMakeFiles/CGAL_reconstruction.dir/build.make CMakeFiles/CGAL_reconstruction.dir/build
+.PHONY : CGAL_reconstruction/fast
+
+#=============================================================================
 # Target rules for targets named robotic_multiview_registration
 
 # Build rule for target.
@@ -226,6 +239,33 @@ dependencies/universalRobotsKinematics/src/universalRobotsKinematics.cpp.s:
 	$(MAKE) -f CMakeFiles/charuco_segmentation.dir/build.make CMakeFiles/charuco_segmentation.dir/dependencies/universalRobotsKinematics/src/universalRobotsKinematics.cpp.s
 .PHONY : dependencies/universalRobotsKinematics/src/universalRobotsKinematics.cpp.s
 
+src/CGAL_reconstruction.o: src/CGAL_reconstruction.cpp.o
+
+.PHONY : src/CGAL_reconstruction.o
+
+# target to build an object file
+src/CGAL_reconstruction.cpp.o:
+	$(MAKE) -f CMakeFiles/CGAL_reconstruction.dir/build.make CMakeFiles/CGAL_reconstruction.dir/src/CGAL_reconstruction.cpp.o
+.PHONY : src/CGAL_reconstruction.cpp.o
+
+src/CGAL_reconstruction.i: src/CGAL_reconstruction.cpp.i
+
+.PHONY : src/CGAL_reconstruction.i
+
+# target to preprocess a source file
+src/CGAL_reconstruction.cpp.i:
+	$(MAKE) -f CMakeFiles/CGAL_reconstruction.dir/build.make CMakeFiles/CGAL_reconstruction.dir/src/CGAL_reconstruction.cpp.i
+.PHONY : src/CGAL_reconstruction.cpp.i
+
+src/CGAL_reconstruction.s: src/CGAL_reconstruction.cpp.s
+
+.PHONY : src/CGAL_reconstruction.s
+
+# target to generate assembly for a file
+src/CGAL_reconstruction.cpp.s:
+	$(MAKE) -f CMakeFiles/CGAL_reconstruction.dir/build.make CMakeFiles/CGAL_reconstruction.dir/src/CGAL_reconstruction.cpp.s
+.PHONY : src/CGAL_reconstruction.cpp.s
+
 src/charuco_segmentation.o: src/charuco_segmentation.cpp.o
 
 .PHONY : src/charuco_segmentation.o
@@ -287,6 +327,7 @@ help:
 	@echo "... clean"
 	@echo "... depend"
 	@echo "... edit_cache"
+	@echo "... CGAL_reconstruction"
 	@echo "... rebuild_cache"
 	@echo "... robotic_multiview_registration"
 	@echo "... charuco_segmentation"
@@ -299,6 +340,9 @@ help:
 	@echo "... dependencies/universalRobotsKinematics/src/universalRobotsKinematics.o"
 	@echo "... dependencies/universalRobotsKinematics/src/universalRobotsKinematics.i"
 	@echo "... dependencies/universalRobotsKinematics/src/universalRobotsKinematics.s"
+	@echo "... src/CGAL_reconstruction.o"
+	@echo "... src/CGAL_reconstruction.i"
+	@echo "... src/CGAL_reconstruction.s"
 	@echo "... src/charuco_segmentation.o"
 	@echo "... src/charuco_segmentation.i"
 	@echo "... src/charuco_segmentation.s"

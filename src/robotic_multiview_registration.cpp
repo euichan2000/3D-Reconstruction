@@ -25,19 +25,22 @@ int main(int argc, char **argv)
   std::vector<std::string> file_paths;
 
   float thetaX, thetaY, thetaZ, X, Y, Z;
-  float scene1[6], scene2[6], scene3[6], scene4[6];
+  float scene[10][6];
   float minrange[4], maxrange[4];
-  robot.loadYAML("../setting.yaml", thetaX, thetaY, thetaZ, X, Y, Z, scene1, scene2, scene3, scene4, minrange, maxrange);
+  int n;
+  robot.loadYAML("../reconstruction.yaml", thetaX, thetaY, thetaZ, X, Y, Z, scene, n, minrange, maxrange);
 
   tcp2cam << cos(thetaZ) * cos(thetaY), cos(thetaZ) * sin(thetaY) * sin(thetaX) - sin(thetaZ) * cos(thetaX), cos(thetaZ) * sin(thetaY) * cos(thetaX) + sin(thetaZ) * sin(thetaX), X,
       sin(thetaZ) * cos(thetaY), sin(thetaZ) * sin(thetaY) * sin(thetaX) + cos(thetaZ) * cos(thetaX), sin(thetaZ) * sin(thetaY) * cos(thetaX) - cos(thetaZ) * sin(thetaX), Y,
       -sin(thetaY), cos(thetaY) * sin(thetaX), cos(thetaY) * cos(thetaX), Z,
       0, 0, 0, 1;
 
-  base2tcp.push_back(robot.forwardKinematics(scene1));
-  base2tcp.push_back(robot.forwardKinematics(scene2));
-  base2tcp.push_back(robot.forwardKinematics(scene3));
-  base2tcp.push_back(robot.forwardKinematics(scene4));
+  
+
+  base2tcp.push_back(robot.forwardKinematics(scene[0]));
+  base2tcp.push_back(robot.forwardKinematics(scene[1]));
+  base2tcp.push_back(robot.forwardKinematics(scene[2]));
+  base2tcp.push_back(robot.forwardKinematics(scene[3]));
 
   for (int i = 1; i < argc; ++i)
   {
@@ -51,7 +54,7 @@ int main(int argc, char **argv)
     calibrated_clouds.push_back(pre.calibrate(clouds[n], base2tcp[n], tcp2cam)); // transform to base coordinate
     segmented_clouds.push_back(pre.charucosegmentation(calibrated_clouds[n], minrange, maxrange));
     statistical_outlier_removed_clouds.push_back(pre.statistical_outlier_remove(segmented_clouds[n]));
-    downsampled_clouds.push_back(pre.downsampling(statistical_outlier_removed_clouds[n])); // downsample to under 3000 points
+    downsampled_clouds.push_back(pre.downsampling(statistical_outlier_removed_clouds[n])); // 
 
     // radius_outlier_removed_clouds.push_back(pre.radius_outlier_remove(statistical_outlier_removed_clouds[n])); // outlier remove
   }
@@ -62,9 +65,9 @@ int main(int argc, char **argv)
   
   // pre.visualizePointClouds(radius_outlier_removed_clouds);
 
-  for (int i = 0; i < statistical_outlier_removed_clouds.size(); ++i)
+  for (int i = 0; i < downsampled_clouds.size(); ++i)
   {
-    result_clouds[0][i] = statistical_outlier_removed_clouds[i];
+    result_clouds[0][i] = downsampled_clouds[i];
   }
 
   // compute registration & make final PCD
@@ -107,27 +110,22 @@ int main(int argc, char **argv)
     }
   }
 
-  // final_clouds.push_back(pre.statistical_outlier_remove(result_clouds[clouds.size() - 1][0]));
-  final_clouds.push_back(result_clouds[clouds.size() - 1][0]);
+  //final_clouds.push_back(pre.statistical_outlier_remove(result_clouds[clouds.size() - 1][0]));
+  final_clouds.push_back(pre.statistical_outlier_remove(pre.downsampling(result_clouds[clouds.size() - 1][0])));
+  //final_clouds.push_back(result_clouds[clouds.size() - 1][0]);
   pre.visualizePointClouds(final_clouds);
 
-  // final_viewer.setBackgroundColor(0.0, 0.0, 0.0);
-  // final_viewer.addPointCloud(final_cloud, "final_aligned_cloud");
-  // final_viewer.setPointCloudRenderingProperties(pcl::visualization::PCL_VISUALIZER_POINT_SIZE, 1, "final_aligned_cloud");
-  // final_viewer.spin(); // Keep the visualization window open
-  // save aligned pair, transformed into the first cloud's frame
-  //  std::stringstream ss;
-  //  for (int i = 0; i < calibrated_clouds.size(); ++i)
-  //  {
-  //    ss << "../pcd/calibrated_pcd/brick/brick_" << i+1
-  //       << ".pcd";
-  //    pcl::io::savePCDFile(ss.str(), *(calibrated_clouds[i]), true);
-  //  }
+  //save aligned pair, transformed into the first cloud's frame
+   std::stringstream ss;
+   for (int i = 0; i < final_clouds.size(); ++i)
+   {
+     ss << "../pcd/registrated_pcd/brick/brick_" << i+1
+        << ".pcd";
+     pcl::io::savePCDFile(ss.str(), *(final_clouds[i]), false);
+   }
 
   chrono::system_clock::time_point t_end = chrono::system_clock::now();
   /*******************************************/
   chrono::duration<double> t_reg = t_end - t_start;
   cout << "Takes " << t_reg.count() << " sec..." << endl;
 }
-
-/* ]--- */

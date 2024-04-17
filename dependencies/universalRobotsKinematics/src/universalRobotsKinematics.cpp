@@ -64,7 +64,7 @@ float universalRobots::UR::deg2rad(float degree)
 	return degree * M_PI / 180.0;
 }
 
-void universalRobots::UR::loadYAML(const std::string &filename, float &thetaX, float &thetaY, float &thetaZ, float &X, float &Y, float &Z, float scene1[6], float scene2[6], float scene3[6], float scene4[6], float minrange[4],float maxrange[4])
+void universalRobots::UR::loadYAML(const std::string &filename, float &thetaX, float &thetaY, float &thetaZ, float &X, float &Y, float &Z, float scene[][6], int &n, float minrange[4], float maxrange[4])
 {
 	// YAML 파일을 읽어들일 ifstream 객체를 생성합니다.
 	std::ifstream fin(filename);
@@ -80,42 +80,24 @@ void universalRobots::UR::loadYAML(const std::string &filename, float &thetaX, f
 	Y = doc["hand_eye_calibration"][4].as<float>();
 	Z = doc["hand_eye_calibration"][5].as<float>();
 
-	// scene1 배열 불러오기
-	int i = 0;
-	for (const auto &element : doc["scene1"])
-	{
-		scene1[i++] = element.as<float>();
-	}
-
-	// scene2 배열 불러오기
-	int j = 0;
-	for (const auto &element : doc["scene2"])
-	{
-		scene2[j++] = element.as<float>();
-	}
-	// scene3 배열 불러오기
-	int k = 0;
-	for (const auto &element : doc["scene3"])
-	{
-		scene3[k++] = element.as<float>();
-	}
-	// scene4 배열 불러오기
-	int l = 0;
-	for (const auto &element : doc["scene4"])
-	{
-		scene4[l++] = element.as<float>();
-	}
 	int m = 0;
 	for (const auto &element : doc["minrange"])
 	{
 		minrange[m++] = element.as<float>();
 	}
-	int n = 0;
+	int k = 0;
 	for (const auto &element : doc["maxrange"])
 	{
-		maxrange[n++] = element.as<float>();
+		maxrange[k++] = element.as<float>();
 	}
-
+	n = doc["scene"].size();
+	for (int i = 0; i < n; ++i)
+	{
+		for (int j = 0; j < 6; ++j)
+		{
+			scene[i][j] = doc["scene"][i][j].as<float>();
+		}
+	}
 }
 
 Eigen::Matrix4f universalRobots::UR::createTransformationMatrix(const Mat &rotationMatrix, const Mat &translationVector)

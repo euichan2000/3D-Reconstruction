@@ -5,9 +5,12 @@ project(PCL_Registration)
 
 # set(CMAKE_CXX_STANDARD 20)
 # set(CMAKE_CXX_STANDARD_REQUIRED ON)
+# set(PCL_DIR "/usr/include/pcl-1.10")
 
-find_package(PCL 1.4 REQUIRED)
-find_package (OpenCV REQUIRED)
+# PCL 라이브러리 찾기
+find_package(PCL REQUIRED COMPONENTS common apps)
+find_package(OpenCV REQUIRED)
+find_package(CGAL REQUIRED)
 
 #PointCloudLibrary
 include_directories(${PCL_INCLUDE_DIRS})
@@ -18,7 +21,6 @@ include_directories(${OpenCV_INCLUDE_DIRS})
 #include_directories("/usr/include/opencv4/")
 link_directories(${OpenCV_LIBRARY_DIRS})
 add_definitions(${OpenCV_DEFINITIONS})
-
 # #min_cut_Segmentation
 # add_executable (min_cut_segmentation src/min_cut_segmentation.cpp dependencies/pointcloud/preprocess.cpp)
 # target_link_libraries (min_cut_segmentation ${PCL_LIBRARIES})
@@ -72,10 +74,14 @@ target_include_directories(robotic_multiview_registration PRIVATE
 # add_executable (transformation_gicp transformation_gicp.cpp)
 # target_link_libraries (transformation_gicp ${PCL_LIBRARIES})
 
-
-
 # add_executable(SAC_IA_registration SAC_IA_registration.cpp)
 # target_link_libraries(SAC_IA_registration ${PCL_LIBRARIES})
 
 # add_executable(test src/test.cpp)
 # target_link_libraries(test ${PCL_LIBRARIES})
+
+# add_executable(B_spline src/B_spline.cpp)
+# target_link_libraries(B_spline ${PCL_LIBRARIES})
+
+add_executable(CGAL_reconstruction src/CGAL_reconstruction.cpp)
+target_link_libraries(CGAL_reconstruction CGAL::CGAL)

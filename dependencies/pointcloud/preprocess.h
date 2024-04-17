@@ -1,9 +1,10 @@
+#pragma once
 #include <vector>
 #include <iomanip> // for setw, setfill
 #include <filesystem>
 #include <iostream>
 #include <pcl/pcl_macros.h>
-#include <pcl/memory.h> // for make_shared
+//#include <pcl/memory.h> // for make_shared
 #include <pcl/point_types.h>
 #include <pcl/point_cloud.h>
 #include <pcl/PCLPointCloud2.h>

@@ -1,7 +1,6 @@
 #include <vector>
-
+//#include <pcl/memory.h> // for make_shared
 #include <pcl/pcl_macros.h>
-#include <pcl/memory.h> // for make_shared
 #include <pcl/point_types.h>
 #include <pcl/point_cloud.h>
 #include <pcl/PCLPointCloud2.h>
@@ -41,7 +40,7 @@ PointCloud::Ptr pointcloudpreprocess::pre::downsampling(const PointCloud::Ptr cl
     // Create the filtering object
     pcl::VoxelGrid<pcl::PointXYZ> vox;
     vox.setInputCloud(cloud_src);
-    vox.setLeafSize(0.01f, 0.01f, 0.01f);
+    vox.setLeafSize(0.008f, 0.008f, 0.008f);
     vox.filter(*cloud_tgt);
 
     std::cerr << "PointCloud after filtering: " << cloud_tgt->width * cloud_tgt->height
@@ -55,7 +54,7 @@ PointCloud::Ptr pointcloudpreprocess::pre::statistical_outlier_remove(const Poin
     PointCloud::Ptr cloud_tgt(new PointCloud);
     pcl::StatisticalOutlierRemoval<pcl::PointXYZ> sor;
     sor.setInputCloud(cloud_src);
-    sor.setMeanK(80);
+    sor.setMeanK(60);
     sor.setStddevMulThresh(1.0);
     sor.filter(*cloud_tgt);
 
@@ -183,6 +182,7 @@ PointCloud::Ptr pointcloudpreprocess::pre::charucosegmentation(const PointCloud:
         0, 0, 0, 1;
 
     base2marker = marker2base.inverse();
+    // std::cout<<"base2marker\n"<<base2marker<<std::endl;
 
     Eigen::Vector4f min_pt_vec4f(min_pt[0], min_pt[1], min_pt[2], min_pt[3]);
     Eigen::Vector4f max_pt_vec4f(max_pt[0], max_pt[1], max_pt[2], max_pt[3]);
@@ -228,7 +228,7 @@ void pointcloudpreprocess::pre::visualizePointClouds(const std::vector<pcl::Poin
         viewer.setPointCloudRenderingProperties(pcl::visualization::PCL_VISUALIZER_POINT_SIZE, 2, cloud_name);
     }
 
-    viewer.addCoordinateSystem(1.0, "coordinate_system", 0); // Add coordinate system
+    viewer.addCoordinateSystem(0.5, "coordinate_system", 0); // Add coordinate system
     viewer.setPosition(800, 400);                            // Set viewer position
 
     while (!viewer.wasStopped())
@@ -365,7 +365,7 @@ Eigen::Matrix4f pointcloudpreprocess::pre::finetrICP(const PointCloud::Ptr cloud
     tgt = cloud_tgt;
 
     trimmed_icp.init(tgt);
-    trimmed_icp.setNewToOldEnergyRatio(0.9); // Set the ratio of new energy to old energy
+    trimmed_icp.setNewToOldEnergyRatio(1.0); // Set the ratio of new energy to old energy
 
     // Align the source point cloud to the target point cloud
     Eigen::Matrix4f transformation = Eigen::Matrix4f::Identity(), targetToSource; // Initialize with identity matrix

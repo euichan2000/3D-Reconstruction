@@ -1,2 +1,0 @@
-/usr/bin/ar qc libuniversalRobotsKinematics.a  CMakeFiles/universalRobotsKinematics.dir/dependencies/universalRobotsKinematics/src/universalRobotsKinematics.cpp.o
-/usr/bin/ranlib libuniversalRobotsKinematics.a
