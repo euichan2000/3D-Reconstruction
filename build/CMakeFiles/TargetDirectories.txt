@@ -1,5 +1,0 @@
-/home/pipeo/3dscan/build/CMakeFiles/edit_cache.dir
-/home/pipeo/3dscan/build/CMakeFiles/CGAL_reconstruction.dir
-/home/pipeo/3dscan/build/CMakeFiles/rebuild_cache.dir
-/home/pipeo/3dscan/build/CMakeFiles/robotic_multiview_registration.dir
-/home/pipeo/3dscan/build/CMakeFiles/charuco_segmentation.dir

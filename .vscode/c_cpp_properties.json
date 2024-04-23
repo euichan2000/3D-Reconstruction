@@ -8,16 +8,17 @@
                 "${workspaceFolder}/dependencies/mathLib/src",
                 "/usr/include/opencv4",
                 "/usr/include/vtk-7.1",
-                "/usr/include/pcl-1.10",
-                "/usr/local/include/CGAL"
-                
-                
+                "/usr/local/include/pcl-1.10",
+                "/usr/local/include/CGAL",
+                "/usr/local/include/pcl-1.10",
+                "/usr/include/pcl-1.10"
             ],
             "defines": [],
             "compilerPath": "/usr/bin/gcc",
             "cStandard": "c17",
             "cppStandard": "gnu++14",
-            "intelliSenseMode": "linux-gcc-x64"
+            "intelliSenseMode": "linux-gcc-x64",
+            "configurationProvider": "ms-vscode.cmake-tools"
         }
     ],
     "version": 4

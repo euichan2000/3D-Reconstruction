@@ -98,5 +98,6 @@
         "csignal": "cpp",
         "any": "cpp",
         "coroutine": "cpp"
-    }
+    },
+    "C_Cpp.errorSquiggles": "disabled"
 }

@@ -5,12 +5,13 @@ project(PCL_Registration)
 
 # set(CMAKE_CXX_STANDARD 20)
 # set(CMAKE_CXX_STANDARD_REQUIRED ON)
-# set(PCL_DIR "/usr/include/pcl-1.10")
-
+set(PCL_DIR "/usr/local/include/pcl-1.10")
+set(VTK_DIR "/usr/include/vtk-7.1")
 # PCL 라이브러리 찾기
-find_package(PCL REQUIRED COMPONENTS common apps)
+find_package(PCL REQUIRED)
 find_package(OpenCV REQUIRED)
 find_package(CGAL REQUIRED)
+find_package(VTK REQUIRED)
 
 #PointCloudLibrary
 include_directories(${PCL_INCLUDE_DIRS})
@@ -21,6 +22,8 @@ include_directories(${OpenCV_INCLUDE_DIRS})
 #include_directories("/usr/include/opencv4/")
 link_directories(${OpenCV_LIBRARY_DIRS})
 add_definitions(${OpenCV_DEFINITIONS})
+
+
 # #min_cut_Segmentation
 # add_executable (min_cut_segmentation src/min_cut_segmentation.cpp dependencies/pointcloud/preprocess.cpp)
 # target_link_libraries (min_cut_segmentation ${PCL_LIBRARIES})
@@ -31,16 +34,16 @@ add_definitions(${OpenCV_DEFINITIONS})
 # target_link_libraries (euclidean_segmentation ${PCL_LIBRARIES})
 
 #charuco_Segmentation
-add_executable(charuco_segmentation src/charuco_segmentation.cpp dependencies/universalRobotsKinematics/src/universalRobotsKinematics.cpp dependencies/mathLib/src/mathLib.cpp dependencies/pointcloud/preprocess.cpp)
-target_link_libraries(charuco_segmentation ${PCL_LIBRARIES} ${OpenCV_LIBS} yaml-cpp)
-target_include_directories(charuco_segmentation PRIVATE
-    dependencies/universalRobotsKinematics/src
-    dependencies/mathLib/src
-    dependencies/pointcloud)
+# add_executable(charuco_segmentation src/charuco_segmentation.cpp dependencies/universalRobotsKinematics/src/universalRobotsKinematics.cpp dependencies/mathLib/src/mathLib.cpp dependencies/pointcloud/preprocess.cpp)
+# target_link_libraries(charuco_segmentation ${PCL_LIBRARIES} ${OpenCV_LIBS} yaml-cpp)
+# target_include_directories(charuco_segmentation PRIVATE
+#     dependencies/universalRobotsKinematics/src
+#     dependencies/mathLib/src
+#     dependencies/pointcloud)
 
 #robotic_multiview_registration    
 add_executable (robotic_multiview_registration src/robotic_multiview_registration.cpp dependencies/universalRobotsKinematics/src/universalRobotsKinematics.cpp dependencies/mathLib/src/mathLib.cpp dependencies/pointcloud/preprocess.cpp)
-target_link_libraries(robotic_multiview_registration ${PCL_LIBRARIES} ${OpenCV_LIBS} yaml-cpp)
+target_link_libraries(robotic_multiview_registration ${PCL_LIBRARIES} ${OpenCV_LIBS} ${VTK_LIBRARIES} yaml-cpp)
 target_include_directories(robotic_multiview_registration PRIVATE
     dependencies/universalRobotsKinematics/src
     dependencies/mathLib/src
@@ -84,4 +87,4 @@ target_include_directories(robotic_multiview_registration PRIVATE
 # target_link_libraries(B_spline ${PCL_LIBRARIES})
 
 add_executable(CGAL_reconstruction src/CGAL_reconstruction.cpp)
-target_link_libraries(CGAL_reconstruction CGAL::CGAL)
+target_link_libraries(CGAL_reconstruction ${CGAL_LIBRARIES})

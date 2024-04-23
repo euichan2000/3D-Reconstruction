@@ -64,7 +64,7 @@ float universalRobots::UR::deg2rad(float degree)
 	return degree * M_PI / 180.0;
 }
 
-void universalRobots::UR::loadYAML(const std::string &filename, float &thetaX, float &thetaY, float &thetaZ, float &X, float &Y, float &Z, float scene[][6], int &n, float minrange[4], float maxrange[4])
+void universalRobots::UR::loadYAML(const std::string &filename, float &thetaX, float &thetaY, float &thetaZ, float &X, float &Y, float &Z, float scene[][6], int &n, float minrange[4], float maxrange[4], float &statisticfilterparam, float &downsampleparam)
 {
 	// YAML 파일을 읽어들일 ifstream 객체를 생성합니다.
 	std::ifstream fin(filename);
@@ -98,6 +98,8 @@ void universalRobots::UR::loadYAML(const std::string &filename, float &thetaX, f
 			scene[i][j] = doc["scene"][i][j].as<float>();
 		}
 	}
+	statisticfilterparam = doc["filterparam"][0].as<float>();
+	downsampleparam = doc["downsampleparam"][0].as<float>();
 }
 
 Eigen::Matrix4f universalRobots::UR::createTransformationMatrix(const Mat &rotationMatrix, const Mat &translationVector)

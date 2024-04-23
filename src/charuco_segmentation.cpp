@@ -62,7 +62,7 @@ int main(int argc, char **argv)
     marker_based_clouds.resize(joint_based_clouds.size());
     for (int i = 0; i < joint_based_clouds.size(); ++i) // save marker_based_clouds
     {
-        marker_based_clouds[i] = std::make_shared<pcl::PointCloud<pcl::PointXYZ>>();
+        marker_based_clouds[i] = boost::make_shared<pcl::PointCloud<pcl::PointXYZ>>();
         pcl::transformPointCloud(*joint_based_clouds[i], *marker_based_clouds[i], marker2base);
     }
 

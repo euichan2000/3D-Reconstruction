@@ -1,5 +1,5 @@
 #include <vector>
-//#include <pcl/memory.h> // for make_shared
+// #include <pcl/memory.h> // for make_shared
 #include <pcl/pcl_macros.h>
 #include <pcl/point_types.h>
 #include <pcl/point_cloud.h>
@@ -33,14 +33,14 @@ typedef pcl::PointNormal PointNormalT;
 typedef pcl::PointCloud<PointNormalT> PointCloudWithNormals;
 typedef pcl::PointCloud<pcl::PointXYZ> PointCloud;
 
-PointCloud::Ptr pointcloudpreprocess::pre::downsampling(const PointCloud::Ptr cloud_src)
+PointCloud::Ptr pointcloudpreprocess::pre::downsampling(const PointCloud::Ptr cloud_src, float downsampleparam)
 {
     PointCloud::Ptr cloud_tgt(new PointCloud);
 
     // Create the filtering object
     pcl::VoxelGrid<pcl::PointXYZ> vox;
     vox.setInputCloud(cloud_src);
-    vox.setLeafSize(0.008f, 0.008f, 0.008f);
+    vox.setLeafSize(downsampleparam, downsampleparam, downsampleparam);
     vox.filter(*cloud_tgt);
 
     std::cerr << "PointCloud after filtering: " << cloud_tgt->width * cloud_tgt->height
@@ -49,12 +49,12 @@ PointCloud::Ptr pointcloudpreprocess::pre::downsampling(const PointCloud::Ptr cl
     return cloud_tgt;
 }
 
-PointCloud::Ptr pointcloudpreprocess::pre::statistical_outlier_remove(const PointCloud::Ptr cloud_src)
+PointCloud::Ptr pointcloudpreprocess::pre::statistical_outlier_remove(const PointCloud::Ptr cloud_src, float filterparam)
 {
     PointCloud::Ptr cloud_tgt(new PointCloud);
     pcl::StatisticalOutlierRemoval<pcl::PointXYZ> sor;
     sor.setInputCloud(cloud_src);
-    sor.setMeanK(60);
+    sor.setMeanK(filterparam);
     sor.setStddevMulThresh(1.0);
     sor.filter(*cloud_tgt);
 
@@ -222,6 +222,7 @@ void pointcloudpreprocess::pre::visualizePointClouds(const std::vector<pcl::Poin
     for (size_t i = 0; i < clouds.size(); ++i)
     {
         std::vector<double> color = bright_colors[i % bright_colors.size()]; // Cycle through bright colors
+        //std::vector<double> color = bright_colors[3]; // Cycle through bright colors
         pcl::visualization::PointCloudColorHandlerCustom<pcl::PointXYZ> cloud_color_handler(clouds[i], color[0] * 255, color[1] * 255, color[2] * 255);
         std::string cloud_name = "cloud_" + std::to_string(i);
         viewer.addPointCloud(clouds[i], cloud_color_handler, cloud_name);
@@ -369,11 +370,10 @@ Eigen::Matrix4f pointcloudpreprocess::pre::finetrICP(const PointCloud::Ptr cloud
 
     // Align the source point cloud to the target point cloud
     Eigen::Matrix4f transformation = Eigen::Matrix4f::Identity(), targetToSource; // Initialize with identity matrix
-    trimmed_icp.align(*src, 0.7*src->size(), transformation);
+    trimmed_icp.align(*src, 0.7 * src->size(), transformation);
     targetToSource = transformation.inverse();
     // double fine_score=trimmed_icp.getFitnessScore();
     // std::cout << "converge score: " << score << std::endl;
-
 
     return targetToSource;
 }

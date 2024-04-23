@@ -47,8 +47,8 @@ namespace pointcloudpreprocess
     {
     public:
         // void loadData(int argc, char **argv, std::vector<PCD, Eigen::aligned_allocator<PCD>> &models);
-        PointCloud::Ptr downsampling(const PointCloud::Ptr cloud_src);
-        PointCloud::Ptr statistical_outlier_remove(const PointCloud::Ptr cloud_src);
+        PointCloud::Ptr downsampling(const PointCloud::Ptr cloud_src, float downsampleparam);
+        PointCloud::Ptr statistical_outlier_remove(const PointCloud::Ptr cloud_src, float filterparam);
         PointCloud::Ptr radius_outlier_remove(const PointCloud::Ptr cloud_src);
         PointCloud::Ptr calibrate(PointCloud::Ptr cloud_src, Eigen::Matrix4f &base2tcp, Eigen::Matrix4f &tcp2cam);
         PointCloud::Ptr mincutsegmentation(const PointCloud::Ptr cloud_src, float radius, float x, float y, float z);

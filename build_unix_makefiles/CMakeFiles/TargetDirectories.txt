@@ -1,0 +1,4 @@
+/home/nrs/3D-Reconstruction/build_unix_makefiles/CMakeFiles/edit_cache.dir
+/home/nrs/3D-Reconstruction/build_unix_makefiles/CMakeFiles/rebuild_cache.dir
+/home/nrs/3D-Reconstruction/build_unix_makefiles/CMakeFiles/robotic_multiview_registration.dir
+/home/nrs/3D-Reconstruction/build_unix_makefiles/CMakeFiles/charuco_segmentation.dir
