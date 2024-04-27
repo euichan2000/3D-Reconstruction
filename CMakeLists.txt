@@ -42,12 +42,12 @@ add_definitions(${OpenCV_DEFINITIONS})
 #     dependencies/pointcloud)
 
 #robotic_multiview_registration    
-add_executable (robotic_multiview_registration src/robotic_multiview_registration.cpp dependencies/universalRobotsKinematics/src/universalRobotsKinematics.cpp dependencies/mathLib/src/mathLib.cpp dependencies/pointcloud/preprocess.cpp)
+add_executable (robotic_multiview_registration src/robotic_multiview_registration.cpp dependencies/universalRobotsKinematics/src/universalRobotsKinematics.cpp dependencies/mathLib/src/mathLib.cpp dependencies/pointcloud/src/preprocess.cpp)
 target_link_libraries(robotic_multiview_registration ${PCL_LIBRARIES} ${OpenCV_LIBS} ${VTK_LIBRARIES} yaml-cpp)
 target_include_directories(robotic_multiview_registration PRIVATE
     dependencies/universalRobotsKinematics/src
     dependencies/mathLib/src
-    dependencies/pointcloud/
+    dependencies/pointcloud/src
     
 )
     

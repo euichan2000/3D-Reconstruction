@@ -59,7 +59,19 @@ int main(int argc, char *argv[])
     std::cerr << "Error: cannot read file " << fname << std::endl;
     return EXIT_FAILURE;
   }
-  stream >> points;
+  // Move the file stream to the 12nd line
+  for (int i = 0; i < 12; ++i)
+  {
+    std::string dummy;
+    std::getline(stream, dummy);
+  }
+  Point_3 point;
+  while (stream >> point)
+  {
+    points.insert(point);
+  }
+
+  // stream >> points;
   std::cout << "Read " << points.size() << " point(s)" << std::endl;
   if (points.empty())
     return EXIT_FAILURE;
