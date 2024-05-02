@@ -54,7 +54,9 @@ CMAKE_BINARY_DIR = /home/nrs/3D-Reconstruction/build
 
 # The main recursive "all" target.
 all: CMakeFiles/CGAL_reconstruction.dir/all
+all: CMakeFiles/outlier_remove.dir/all
 all: CMakeFiles/robotic_multiview_registration.dir/all
+all: CMakeFiles/euclidean_segmentation.dir/all
 
 .PHONY : all
 
@@ -65,7 +67,9 @@ preinstall:
 
 # The main recursive "clean" target.
 clean: CMakeFiles/CGAL_reconstruction.dir/clean
+clean: CMakeFiles/outlier_remove.dir/clean
 clean: CMakeFiles/robotic_multiview_registration.dir/clean
+clean: CMakeFiles/euclidean_segmentation.dir/clean
 
 .PHONY : clean
 
@@ -97,13 +101,40 @@ CMakeFiles/CGAL_reconstruction.dir/clean:
 .PHONY : CMakeFiles/CGAL_reconstruction.dir/clean
 
 #=============================================================================
+# Target rules for target CMakeFiles/outlier_remove.dir
+
+# All Build rule for target.
+CMakeFiles/outlier_remove.dir/all:
+	$(MAKE) -f CMakeFiles/outlier_remove.dir/build.make CMakeFiles/outlier_remove.dir/depend
+	$(MAKE) -f CMakeFiles/outlier_remove.dir/build.make CMakeFiles/outlier_remove.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/nrs/3D-Reconstruction/build/CMakeFiles --progress-num=5,6 "Built target outlier_remove"
+.PHONY : CMakeFiles/outlier_remove.dir/all
+
+# Build rule for subdir invocation for target.
+CMakeFiles/outlier_remove.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/nrs/3D-Reconstruction/build/CMakeFiles 2
+	$(MAKE) -f CMakeFiles/Makefile2 CMakeFiles/outlier_remove.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/nrs/3D-Reconstruction/build/CMakeFiles 0
+.PHONY : CMakeFiles/outlier_remove.dir/rule
+
+# Convenience name for target.
+outlier_remove: CMakeFiles/outlier_remove.dir/rule
+
+.PHONY : outlier_remove
+
+# clean rule for target.
+CMakeFiles/outlier_remove.dir/clean:
+	$(MAKE) -f CMakeFiles/outlier_remove.dir/build.make CMakeFiles/outlier_remove.dir/clean
+.PHONY : CMakeFiles/outlier_remove.dir/clean
+
+#=============================================================================
 # Target rules for target CMakeFiles/robotic_multiview_registration.dir
 
 # All Build rule for target.
 CMakeFiles/robotic_multiview_registration.dir/all:
 	$(MAKE) -f CMakeFiles/robotic_multiview_registration.dir/build.make CMakeFiles/robotic_multiview_registration.dir/depend
 	$(MAKE) -f CMakeFiles/robotic_multiview_registration.dir/build.make CMakeFiles/robotic_multiview_registration.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/nrs/3D-Reconstruction/build/CMakeFiles --progress-num=3,4,5,6,7 "Built target robotic_multiview_registration"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/nrs/3D-Reconstruction/build/CMakeFiles --progress-num=7,8,9,10,11 "Built target robotic_multiview_registration"
 .PHONY : CMakeFiles/robotic_multiview_registration.dir/all
 
 # Build rule for subdir invocation for target.
@@ -122,6 +153,33 @@ robotic_multiview_registration: CMakeFiles/robotic_multiview_registration.dir/ru
 CMakeFiles/robotic_multiview_registration.dir/clean:
 	$(MAKE) -f CMakeFiles/robotic_multiview_registration.dir/build.make CMakeFiles/robotic_multiview_registration.dir/clean
 .PHONY : CMakeFiles/robotic_multiview_registration.dir/clean
+
+#=============================================================================
+# Target rules for target CMakeFiles/euclidean_segmentation.dir
+
+# All Build rule for target.
+CMakeFiles/euclidean_segmentation.dir/all:
+	$(MAKE) -f CMakeFiles/euclidean_segmentation.dir/build.make CMakeFiles/euclidean_segmentation.dir/depend
+	$(MAKE) -f CMakeFiles/euclidean_segmentation.dir/build.make CMakeFiles/euclidean_segmentation.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/nrs/3D-Reconstruction/build/CMakeFiles --progress-num=3,4 "Built target euclidean_segmentation"
+.PHONY : CMakeFiles/euclidean_segmentation.dir/all
+
+# Build rule for subdir invocation for target.
+CMakeFiles/euclidean_segmentation.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/nrs/3D-Reconstruction/build/CMakeFiles 2
+	$(MAKE) -f CMakeFiles/Makefile2 CMakeFiles/euclidean_segmentation.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/nrs/3D-Reconstruction/build/CMakeFiles 0
+.PHONY : CMakeFiles/euclidean_segmentation.dir/rule
+
+# Convenience name for target.
+euclidean_segmentation: CMakeFiles/euclidean_segmentation.dir/rule
+
+.PHONY : euclidean_segmentation
+
+# clean rule for target.
+CMakeFiles/euclidean_segmentation.dir/clean:
+	$(MAKE) -f CMakeFiles/euclidean_segmentation.dir/build.make CMakeFiles/euclidean_segmentation.dir/clean
+.PHONY : CMakeFiles/euclidean_segmentation.dir/clean
 
 #=============================================================================
 # Special targets to cleanup operation of make.

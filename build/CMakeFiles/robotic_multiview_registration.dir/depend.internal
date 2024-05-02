@@ -580,6 +580,7 @@ CMakeFiles/robotic_multiview_registration.dir/dependencies/pointcloud/src/prepro
  /usr/local/include/pcl-1.10/pcl/common/copy_point.h
  /usr/local/include/pcl-1.10/pcl/common/distances.h
  /usr/local/include/pcl-1.10/pcl/common/eigen.h
+ /usr/local/include/pcl-1.10/pcl/common/geometry.h
  /usr/local/include/pcl-1.10/pcl/common/impl/accumulators.hpp
  /usr/local/include/pcl-1.10/pcl/common/impl/centroid.hpp
  /usr/local/include/pcl-1.10/pcl/common/impl/common.hpp
@@ -752,6 +753,12 @@ CMakeFiles/robotic_multiview_registration.dir/dependencies/pointcloud/src/prepro
  /usr/local/include/pcl-1.10/pcl/segmentation/impl/sac_segmentation.hpp
  /usr/local/include/pcl-1.10/pcl/segmentation/min_cut_segmentation.h
  /usr/local/include/pcl-1.10/pcl/segmentation/sac_segmentation.h
+ /usr/local/include/pcl-1.10/pcl/surface/boost.h
+ /usr/local/include/pcl-1.10/pcl/surface/eigen.h
+ /usr/local/include/pcl-1.10/pcl/surface/impl/mls.hpp
+ /usr/local/include/pcl-1.10/pcl/surface/impl/processing.hpp
+ /usr/local/include/pcl-1.10/pcl/surface/mls.h
+ /usr/local/include/pcl-1.10/pcl/surface/processing.h
  /usr/local/include/pcl-1.10/pcl/visualization/area_picking_event.h
  /usr/local/include/pcl-1.10/pcl/visualization/boost.h
  /usr/local/include/pcl-1.10/pcl/visualization/cloud_viewer.h

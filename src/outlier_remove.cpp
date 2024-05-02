@@ -2,8 +2,9 @@
 #include <iostream>
 #include <pcl/io/pcd_io.h>
 #include <pcl/point_types.h>
-#include <pcl/filters/statistical_outlier_removal.h>
+#include <pcl/filters/radius_outlier_removal.h>
 #include <filesystem>
+
 typedef pcl::PointCloud<pcl::PointXYZ> PointCloud;
 
 struct PCD
@@ -72,20 +73,20 @@ int main(int argc, char **argv)
   std::cerr << *cloud << std::endl;
 
   // Create the filtering object
-  pcl::StatisticalOutlierRemoval<pcl::PointXYZ> sor;
-  sor.setInputCloud(cloud);
-  sor.setMeanK(50);
-  sor.setStddevMulThresh(1.0);
-  sor.filter(*cloud_filtered);
+  pcl::RadiusOutlierRemoval<pcl::PointXYZ> ror;
+  ror.setInputCloud(cloud);
+  ror.setRadiusSearch(0.01);
+  ror.setMinNeighborsInRadius(90);
+  ror.filter(*cloud_filtered); 
 
   std::cerr << "Cloud after filtering: " << std::endl;
   std::cerr << *cloud_filtered << std::endl;
-  std::filesystem::path filePath(data[0].f_name);
-  std::string fileName = filePath.stem().string();
-  std::string clusterFileName = "./outlier_removed_pcd/gun/outlier_removed_" + fileName + ".pcd";
 
-  pcl::PCDWriter writer;
-  writer.write<pcl::PointXYZ>(clusterFileName, *cloud_filtered, false);
+  std::stringstream ss;
+
+  ss << "../pcd/outlier_removed_pcd/plate/outlier_removed_"
+     << ".pcd";
+  pcl::io::savePCDFile(ss.str(), *cloud_filtered, false);
 
   // sor.setNegative (true);
   // sor.filter (*cloud_filtered);

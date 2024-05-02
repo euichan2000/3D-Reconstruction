@@ -14,9 +14,9 @@
 #include <pcl/sample_consensus/method_types.h>
 #include <pcl/sample_consensus/model_types.h>
 #include <pcl/segmentation/sac_segmentation.h>
-
 #include <pcl/features/normal_3d.h>
 #include <pcl/search/kdtree.h>
+#include <pcl/surface/mls.h>
 #include <pcl/registration/icp.h>
 #include <pcl/registration/gicp.h>
 #include <pcl/registration/icp_nl.h>
@@ -32,6 +32,31 @@ typedef pcl::PointXYZ PointT;
 typedef pcl::PointNormal PointNormalT;
 typedef pcl::PointCloud<PointNormalT> PointCloudWithNormals;
 typedef pcl::PointCloud<pcl::PointXYZ> PointCloud;
+
+pcl::PointCloud<pcl::PointNormal> pointcloudpreprocess::pre::smoothing(const PointCloud::Ptr cloud_src, const float &smoothing_radius)
+{
+    // Create a KD-Tree
+    pcl::search::KdTree<pcl::PointXYZ>::Ptr tree(new pcl::search::KdTree<pcl::PointXYZ>);
+
+    // Output has the PointNormal type in order to store the normals calculated by MLS
+    pcl::PointCloud<pcl::PointNormal> cloud_tgt;
+
+    // Init object (second point type is for the normals, even if unused)
+    pcl::MovingLeastSquares<pcl::PointXYZ, pcl::PointNormal> mls;
+
+    mls.setComputeNormals(true);
+
+    // Set parameters
+    mls.setInputCloud(cloud_src);
+    mls.setPolynomialOrder(2);
+    mls.setSearchMethod(tree);
+    mls.setSearchRadius(smoothing_radius);
+
+    // Reconstruct
+    mls.process(cloud_tgt);
+
+    return cloud_tgt;
+}
 
 PointCloud::Ptr pointcloudpreprocess::pre::downsampling(const PointCloud::Ptr cloud_src, const float &downsampleparam)
 {
@@ -49,7 +74,7 @@ PointCloud::Ptr pointcloudpreprocess::pre::downsampling(const PointCloud::Ptr cl
     return cloud_tgt;
 }
 
-PointCloud::Ptr pointcloudpreprocess::pre::statistical_outlier_remove(const PointCloud::Ptr cloud_src, const int &sor_mean, const float &sor_thresh)
+PointCloud::Ptr pointcloudpreprocess::pre::statistical_outlier_remove(const PointCloud::Ptr cloud_src, const int &sor_mean, const double &sor_thresh)
 {
     PointCloud::Ptr cloud_tgt(new PointCloud);
     pcl::StatisticalOutlierRemoval<pcl::PointXYZ> sor;
@@ -61,17 +86,63 @@ PointCloud::Ptr pointcloudpreprocess::pre::statistical_outlier_remove(const Poin
     return cloud_tgt;
 }
 
-PointCloud::Ptr pointcloudpreprocess::pre::radius_outlier_remove(const PointCloud::Ptr cloud_src, const float &ror_radius, const int &ror_neighbor)
+PointCloud::Ptr pointcloudpreprocess::pre::radius_outlier_remove(const PointCloud::Ptr cloud_src, const double &ror_radius, const int &ror_neighbor)
 {
-    PointCloud::Ptr cloud_tgt(new PointCloud);
+
+    pcl::PointCloud<pcl::PointXYZ>::Ptr cloud_filtered(new pcl::PointCloud<pcl::PointXYZ>);
     pcl::RadiusOutlierRemoval<pcl::PointXYZ> ror;
+
     ror.setInputCloud(cloud_src);
-    ror.setRadiusSearch(ror_neighbor);
-    ror.setMinNeighborsInRadius(ror_radius);
+
+    ror.setRadiusSearch(ror_radius);
+    ror.setMinNeighborsInRadius(ror_neighbor);
     ror.setKeepOrganized(true);
-    ror.filter(*cloud_tgt);
+    ror.filter(*cloud_filtered);
     // std::cout << "radius outlier remove success" << std::endl;
-    return cloud_tgt;
+    return cloud_filtered;
+}
+
+PointCloud::Ptr pointcloudpreprocess::pre::euclidean_outlier_remove(const PointCloud::Ptr cloud_src)
+{ // Create the segmentation object for the planar model and set all the parameters
+
+    pcl::search::KdTree<pcl::PointXYZ>::Ptr tree(new pcl::search::KdTree<pcl::PointXYZ>);
+
+    tree->setInputCloud(cloud_src);
+
+    std::vector<pcl::PointIndices> cluster_indices;
+    pcl::EuclideanClusterExtraction<pcl::PointXYZ> ec;
+    ec.setClusterTolerance(0.002); // 5mm
+    ec.setMinClusterSize(10);
+    ec.setMaxClusterSize(250000);
+    ec.setSearchMethod(tree);
+
+    ec.setInputCloud(cloud_src);
+
+    ec.extract(cluster_indices);
+
+    // Find the largest cluster
+    int largest_cluster_index = 0;
+    size_t largest_cluster_size = 0;
+    for (size_t i = 0; i < cluster_indices.size(); ++i)
+    {
+
+        if (cluster_indices[i].indices.size() > largest_cluster_size)
+        {
+
+            largest_cluster_size = cluster_indices[i].indices.size();
+            largest_cluster_index = i;
+        }
+    }
+
+    // Extract the largest cluster and save it
+    pcl::PointCloud<pcl::PointXYZ>::Ptr largest_cluster(new pcl::PointCloud<pcl::PointXYZ>);
+    for (const auto &idx : cluster_indices[largest_cluster_index].indices)
+    {
+
+        largest_cluster->push_back((*cloud_src)[idx]);
+    }
+
+    return largest_cluster;
 }
 
 PointCloud::Ptr pointcloudpreprocess::pre::calibrate(const PointCloud::Ptr cloud_src, const Eigen::Matrix4f base2tcp, const Eigen::Matrix4f tcp2cam)
@@ -79,10 +150,18 @@ PointCloud::Ptr pointcloudpreprocess::pre::calibrate(const PointCloud::Ptr cloud
 
     pcl::PointCloud<pcl::PointXYZ>::Ptr cloud_tcp2cam(new pcl::PointCloud<pcl::PointXYZ>());
     pcl::PointCloud<pcl::PointXYZ>::Ptr cloud_base2cam(new pcl::PointCloud<pcl::PointXYZ>());
+    pcl::PointCloud<pcl::PointXYZ>::Ptr cloud_marker2cam(new pcl::PointCloud<pcl::PointXYZ>());
+    Eigen::Matrix4f marker2base, base2marker;
+
+    marker2base << 0.696142, 0.717802, 0.0111144, 0.0341231,
+        -0.71635, 0.695145, -0.043272, 0.60022,
+        -0.0389855, 0.0221005, 0.998364, 0.00557716,
+        0, 0, 0, 1;
     pcl::transformPointCloud(*cloud_src, *cloud_tcp2cam, tcp2cam);
     pcl::transformPointCloud(*cloud_tcp2cam, *cloud_base2cam, base2tcp);
+    pcl::transformPointCloud(*cloud_base2cam, *cloud_marker2cam, marker2base); // 현재는 charuco marker 기준 calibration되어있는 상태
     // std::cout << "calibrate success" << std::endl;
-    return cloud_base2cam;
+    return cloud_marker2cam;
 }
 // plane segmentation + min-cut segmentation
 PointCloud::Ptr pointcloudpreprocess::pre::mincutsegmentation(const PointCloud::Ptr cloud_src, float radius, float x = 0, float y = 0, float z = 0.2)
@@ -171,34 +250,20 @@ PointCloud::Ptr pointcloudpreprocess::pre::mincutsegmentation(const PointCloud::
 PointCloud::Ptr pointcloudpreprocess::pre::charucosegmentation(const PointCloud::Ptr cloud_src, float min_pt[], float max_pt[])
 {
 
-    pcl::PointCloud<pcl::PointXYZ>::Ptr joint_based_cloud(new pcl::PointCloud<pcl::PointXYZ>);
-    pcl::PointCloud<pcl::PointXYZ>::Ptr marker_based_cloud(new pcl::PointCloud<pcl::PointXYZ>);
-    pcl::PointCloud<pcl::PointXYZ>::Ptr joint_based_cut_cloud(new pcl::PointCloud<pcl::PointXYZ>);
     pcl::CropBox<pcl::PointXYZ> cropBoxFilter(true);
     Eigen::Matrix4f marker2base, base2marker;
-
-    marker2base << 0.696142, 0.717802, 0.0111144, 0.0341231,
-        -0.71635, 0.695145, -0.043272, 0.60022,
-        -0.0389855, 0.0221005, 0.998364, 0.00557716,
-        0, 0, 0, 1;
-
-    base2marker = marker2base.inverse();
-    // std::cout<<"base2marker\n"<<base2marker<<std::endl;
 
     Eigen::Vector4f min_pt_vec4f(min_pt[0], min_pt[1], min_pt[2], min_pt[3]);
     Eigen::Vector4f max_pt_vec4f(max_pt[0], max_pt[1], max_pt[2], max_pt[3]);
 
-    *joint_based_cloud = *cloud_src;
-
-    pcl::transformPointCloud(*joint_based_cloud, *marker_based_cloud, marker2base);
-    cropBoxFilter.setInputCloud(marker_based_cloud);
+    cropBoxFilter.setInputCloud(cloud_src);
     cropBoxFilter.setMin(min_pt_vec4f);
     cropBoxFilter.setMax(max_pt_vec4f);
     pcl::PointCloud<pcl::PointXYZ>::Ptr filtered_cloud(new pcl::PointCloud<pcl::PointXYZ>());
     // 현재 포인트 클라우드에 대해 필터링을 수행합니다.
     cropBoxFilter.filter(*filtered_cloud);
-    pcl::transformPointCloud(*filtered_cloud, *joint_based_cut_cloud, base2marker);
-    return joint_based_cut_cloud;
+
+    return filtered_cloud;
 }
 
 void pointcloudpreprocess::pre::visualizePointClouds(const std::vector<pcl::PointCloud<pcl::PointXYZ>::Ptr> &clouds)
@@ -302,56 +367,73 @@ Eigen::Matrix4f pointcloudpreprocess::pre::fineICP(const PointCloud::Ptr cloud_s
     return targetToSource;
 }
 
-Eigen::Matrix4f pointcloudpreprocess::pre::fineICPwithNormals(const PointCloud::Ptr cloud_src, const PointCloud::Ptr cloud_tgt)
+pcl::PointCloud<pcl::PointXYZ>::Ptr pointcloudpreprocess::pre::fineICPwithNormals(const PointCloud::Ptr cloud_src, const PointCloud::Ptr cloud_tgt)
 {
 
     PointCloud::Ptr src(new PointCloud);
     PointCloud::Ptr tgt(new PointCloud);
+    pcl::PointCloud<pcl::PointXYZ>::Ptr cloud_result(new PointCloud);
     // Compute surface normals and curvature
     PointCloudWithNormals::Ptr points_with_normals_src(new PointCloudWithNormals);
     PointCloudWithNormals::Ptr points_with_normals_tgt(new PointCloudWithNormals);
     pcl::NormalEstimation<PointT, PointNormalT> norm_est;
     pcl::search::KdTree<pcl::PointXYZ>::Ptr tree(new pcl::search::KdTree<pcl::PointXYZ>());
-    pcl::IterativeClosestPoint<PointNormalT, PointNormalT> icp;
+    pcl::IterativeClosestPointNonLinear<PointNormalT, PointNormalT> icp;
     Eigen::Matrix4f Ti = Eigen::Matrix4f::Identity(), prev, targetToSource;
-    PointCloudWithNormals::Ptr icp_result(new PointCloudWithNormals);
+
 
     src = cloud_src;
     tgt = cloud_tgt;
 
     norm_est.setSearchMethod(tree);
-    norm_est.setKSearch(10);
+
+    norm_est.setKSearch(100);
 
     norm_est.setInputCloud(src);
+
     norm_est.compute(*points_with_normals_src);
+
     pcl::copyPointCloud(*src, *points_with_normals_src);
 
     norm_est.setInputCloud(tgt);
+
     norm_est.compute(*points_with_normals_tgt);
+
     pcl::copyPointCloud(*tgt, *points_with_normals_tgt);
 
     // Align
 
     icp.setTransformationEpsilon(1e-6);
+
     // Set the maximum distance between two correspondences (src<->tgt) to 1cm
     // Note: adjust this based on the size of your datasets
-    icp.setMaxCorrespondenceDistance(0.01);
+    icp.setMaxCorrespondenceDistance(0.03);
+
     // Set the point representation
     icp.setInputSource(points_with_normals_src);
+
     icp.setInputTarget(points_with_normals_tgt);
+    PointCloudWithNormals::Ptr icp_result = points_with_normals_src;
     // Run the same optimization in a loop and visualize the results
     icp.setMaximumIterations(500);
+
     icp.align(*icp_result);
+
     // accumulate transformation between each Iteration
     Ti = icp.getFinalTransformation();
-    double score = icp.getFitnessScore();
-    bool is_converged = icp.hasConverged();
+
+    // double score = icp.getFitnessScore();
+    // bool is_converged = icp.hasConverged();
     // std::cout << "converge score: " << score << std::endl;
     // //
     // // Get the transformation from target to source
     targetToSource = Ti.inverse();
 
-    return targetToSource;
+    pcl::transformPointCloud(*tgt, *cloud_result, targetToSource);
+
+    *cloud_result += *src;
+
+    return cloud_result;
 }
 
 pcl::PointCloud<pcl::PointXYZ>::Ptr pointcloudpreprocess::pre::finetrICP(const PointCloud::Ptr cloud_src, const PointCloud::Ptr cloud_tgt)
@@ -384,7 +466,7 @@ pcl::PointCloud<pcl::PointXYZ>::Ptr pointcloudpreprocess::pre::finetrICP(const P
 
     Eigen::Matrix4f targetToSource = Eigen::Matrix4f::Identity(); // Initialize with identity matrix
 
-    trimmed_icp.align(*src, 0.7 * src->size(), transformation);
+    trimmed_icp.align(*src, 0.9 * src->size(), transformation);
 
     targetToSource = transformation.inverse();
 
@@ -410,9 +492,32 @@ pcl::PointCloud<pcl::PointXYZ>::Ptr pointcloudpreprocess::pre::RecursiveRegistra
     {
         pcl::PointCloud<pcl::PointXYZ>::Ptr result_cloud(new pcl::PointCloud<pcl::PointXYZ>);
 
-        result_cloud = finetrICP(clouds_src[i], clouds_src[i + 1]);
+        result_cloud = fineICPwithNormals(clouds_src[i], clouds_src[i + 1]);
         clouds_result.push_back(result_cloud);
         std::cout << "--------------------------" << std::endl;
     }
     return RecursiveRegistration(clouds_result);
+}
+
+pcl::PointCloud<pcl::PointXYZ>::Ptr pointcloudpreprocess::pre::PointNormal2PointXYZ(const pcl::PointCloud<pcl::PointNormal> &cloud_src)
+{
+    pcl::PointCloud<pcl::PointXYZ>::Ptr output_cloud(new pcl::PointCloud<pcl::PointXYZ>);
+    for (size_t i = 0; i < cloud_src.points.size(); ++i)
+    {
+        const pcl::PointNormal &mls_pt = cloud_src.points[i];
+        pcl::PointXYZ pt(mls_pt.x, mls_pt.y, mls_pt.z);
+        output_cloud->push_back(pt);
+    }
+
+    return output_cloud;
+}
+
+pcl::PointCloud<pcl::PointXYZ>::Ptr pointcloudpreprocess::pre::addPoint(const std::vector<pcl::PointCloud<pcl::PointXYZ>::Ptr> &clouds_src)
+{
+    pcl::PointCloud<pcl::PointXYZ>::Ptr result_cloud(new pcl::PointCloud<pcl::PointXYZ>);
+    for (int i = 0; i < clouds_src.size(); ++i)
+    {
+        *result_cloud += *clouds_src[i];
+    }
+    return result_cloud;
 }

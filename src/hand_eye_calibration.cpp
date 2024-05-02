@@ -41,7 +41,6 @@ int main()
      Ptr<CharucoBoard> board = CharucoBoard::create(7, 5, 0.035, 0.005, dictionary);
      Ptr<DetectorParameters> params = DetectorParameters::create();
      universalRobots::UR robot; // universalRobots::UR 클래스의 객체 생성
-     pointcloudpreprocess::pre pre;
      vector<Mat> R_target2cam, t_target2cam;
      Mat rmatrix_tcp2base, tmatrix_tcp2base;
      Mat rvec_image, tvec_image; // image to camera rotation, transformation vector

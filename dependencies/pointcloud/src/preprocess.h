@@ -46,19 +46,22 @@ namespace pointcloudpreprocess
     class pre
     {
     public:
-        // void loadData(int argc, char **argv, std::vector<PCD, Eigen::aligned_allocator<PCD>> &models);
+        pcl::PointCloud<pcl::PointNormal> smoothing(const PointCloud::Ptr cloud_src, const float &smoothing_radius);
         PointCloud::Ptr downsampling(const PointCloud::Ptr cloud_src, const float &downsampleparam);
-        PointCloud::Ptr statistical_outlier_remove(const PointCloud::Ptr cloud_src, const int &sor_mean, const float &sor_thresh);
-        PointCloud::Ptr radius_outlier_remove(const PointCloud::Ptr cloud_src, const float &ror_radius, const int &ror_neighbor);
+        PointCloud::Ptr statistical_outlier_remove(const PointCloud::Ptr cloud_src, const int &sor_mean, const double &sor_thresh);
+        PointCloud::Ptr radius_outlier_remove(const PointCloud::Ptr cloud_src, const double &ror_radius, const int &ror_neighbor);
+        PointCloud::Ptr euclidean_outlier_remove(const PointCloud::Ptr cloud_src);
         PointCloud::Ptr calibrate(const PointCloud::Ptr cloud_src, const Eigen::Matrix4f base2tcp, const Eigen::Matrix4f tcp2cam);
         PointCloud::Ptr mincutsegmentation(const PointCloud::Ptr cloud_src, float radius, float x, float y, float z);
         PointCloud::Ptr charucosegmentation(const PointCloud::Ptr cloud_src, float min_pt[], float max_pt[]);
         void visualizePointClouds(const std::vector<pcl::PointCloud<pcl::PointXYZ>::Ptr> &clouds);
         std::vector<pcl::PointCloud<pcl::PointXYZ>::Ptr> loadData(const std::vector<std::string> &file_paths);
         Eigen::Matrix4f fineICP(const PointCloud::Ptr cloud_src, const PointCloud::Ptr cloud_tgt);
-        Eigen::Matrix4f fineICPwithNormals(const PointCloud::Ptr cloud_src, const PointCloud::Ptr cloud_tgt);
+        pcl::PointCloud<pcl::PointXYZ>::Ptr fineICPwithNormals(const PointCloud::Ptr cloud_src, const PointCloud::Ptr cloud_tgt);
         pcl::PointCloud<pcl::PointXYZ>::Ptr finetrICP(const PointCloud::Ptr cloud_src, const PointCloud::Ptr cloud_tgt);
         pcl::PointCloud<pcl::PointXYZ>::Ptr RecursiveRegistration(const std::vector<pcl::PointCloud<pcl::PointXYZ>::Ptr> &clouds_src);
+        pcl::PointCloud<pcl::PointXYZ>::Ptr PointNormal2PointXYZ(const pcl::PointCloud<pcl::PointNormal> &cloud_src);
+        pcl::PointCloud<pcl::PointXYZ>::Ptr addPoint(const std::vector<pcl::PointCloud<pcl::PointXYZ>::Ptr> &clouds_src);
     };
 
 }

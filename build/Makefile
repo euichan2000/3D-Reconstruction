@@ -124,6 +124,19 @@ CGAL_reconstruction/fast:
 .PHONY : CGAL_reconstruction/fast
 
 #=============================================================================
+# Target rules for targets named outlier_remove
+
+# Build rule for target.
+outlier_remove: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 outlier_remove
+.PHONY : outlier_remove
+
+# fast build rule for target.
+outlier_remove/fast:
+	$(MAKE) -f CMakeFiles/outlier_remove.dir/build.make CMakeFiles/outlier_remove.dir/build
+.PHONY : outlier_remove/fast
+
+#=============================================================================
 # Target rules for targets named robotic_multiview_registration
 
 # Build rule for target.
@@ -135,6 +148,19 @@ robotic_multiview_registration: cmake_check_build_system
 robotic_multiview_registration/fast:
 	$(MAKE) -f CMakeFiles/robotic_multiview_registration.dir/build.make CMakeFiles/robotic_multiview_registration.dir/build
 .PHONY : robotic_multiview_registration/fast
+
+#=============================================================================
+# Target rules for targets named euclidean_segmentation
+
+# Build rule for target.
+euclidean_segmentation: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 euclidean_segmentation
+.PHONY : euclidean_segmentation
+
+# fast build rule for target.
+euclidean_segmentation/fast:
+	$(MAKE) -f CMakeFiles/euclidean_segmentation.dir/build.make CMakeFiles/euclidean_segmentation.dir/build
+.PHONY : euclidean_segmentation/fast
 
 dependencies/mathLib/src/mathLib.o: dependencies/mathLib/src/mathLib.cpp.o
 
@@ -244,6 +270,60 @@ src/CGAL_reconstruction.cpp.s:
 	$(MAKE) -f CMakeFiles/CGAL_reconstruction.dir/build.make CMakeFiles/CGAL_reconstruction.dir/src/CGAL_reconstruction.cpp.s
 .PHONY : src/CGAL_reconstruction.cpp.s
 
+src/euclidean_segmentation.o: src/euclidean_segmentation.cpp.o
+
+.PHONY : src/euclidean_segmentation.o
+
+# target to build an object file
+src/euclidean_segmentation.cpp.o:
+	$(MAKE) -f CMakeFiles/euclidean_segmentation.dir/build.make CMakeFiles/euclidean_segmentation.dir/src/euclidean_segmentation.cpp.o
+.PHONY : src/euclidean_segmentation.cpp.o
+
+src/euclidean_segmentation.i: src/euclidean_segmentation.cpp.i
+
+.PHONY : src/euclidean_segmentation.i
+
+# target to preprocess a source file
+src/euclidean_segmentation.cpp.i:
+	$(MAKE) -f CMakeFiles/euclidean_segmentation.dir/build.make CMakeFiles/euclidean_segmentation.dir/src/euclidean_segmentation.cpp.i
+.PHONY : src/euclidean_segmentation.cpp.i
+
+src/euclidean_segmentation.s: src/euclidean_segmentation.cpp.s
+
+.PHONY : src/euclidean_segmentation.s
+
+# target to generate assembly for a file
+src/euclidean_segmentation.cpp.s:
+	$(MAKE) -f CMakeFiles/euclidean_segmentation.dir/build.make CMakeFiles/euclidean_segmentation.dir/src/euclidean_segmentation.cpp.s
+.PHONY : src/euclidean_segmentation.cpp.s
+
+src/outlier_remove.o: src/outlier_remove.cpp.o
+
+.PHONY : src/outlier_remove.o
+
+# target to build an object file
+src/outlier_remove.cpp.o:
+	$(MAKE) -f CMakeFiles/outlier_remove.dir/build.make CMakeFiles/outlier_remove.dir/src/outlier_remove.cpp.o
+.PHONY : src/outlier_remove.cpp.o
+
+src/outlier_remove.i: src/outlier_remove.cpp.i
+
+.PHONY : src/outlier_remove.i
+
+# target to preprocess a source file
+src/outlier_remove.cpp.i:
+	$(MAKE) -f CMakeFiles/outlier_remove.dir/build.make CMakeFiles/outlier_remove.dir/src/outlier_remove.cpp.i
+.PHONY : src/outlier_remove.cpp.i
+
+src/outlier_remove.s: src/outlier_remove.cpp.s
+
+.PHONY : src/outlier_remove.s
+
+# target to generate assembly for a file
+src/outlier_remove.cpp.s:
+	$(MAKE) -f CMakeFiles/outlier_remove.dir/build.make CMakeFiles/outlier_remove.dir/src/outlier_remove.cpp.s
+.PHONY : src/outlier_remove.cpp.s
+
 src/robotic_multiview_registration.o: src/robotic_multiview_registration.cpp.o
 
 .PHONY : src/robotic_multiview_registration.o
@@ -279,8 +359,10 @@ help:
 	@echo "... depend"
 	@echo "... edit_cache"
 	@echo "... CGAL_reconstruction"
+	@echo "... outlier_remove"
 	@echo "... rebuild_cache"
 	@echo "... robotic_multiview_registration"
+	@echo "... euclidean_segmentation"
 	@echo "... dependencies/mathLib/src/mathLib.o"
 	@echo "... dependencies/mathLib/src/mathLib.i"
 	@echo "... dependencies/mathLib/src/mathLib.s"
@@ -293,6 +375,12 @@ help:
 	@echo "... src/CGAL_reconstruction.o"
 	@echo "... src/CGAL_reconstruction.i"
 	@echo "... src/CGAL_reconstruction.s"
+	@echo "... src/euclidean_segmentation.o"
+	@echo "... src/euclidean_segmentation.i"
+	@echo "... src/euclidean_segmentation.s"
+	@echo "... src/outlier_remove.o"
+	@echo "... src/outlier_remove.i"
+	@echo "... src/outlier_remove.s"
 	@echo "... src/robotic_multiview_registration.o"
 	@echo "... src/robotic_multiview_registration.i"
 	@echo "... src/robotic_multiview_registration.s"

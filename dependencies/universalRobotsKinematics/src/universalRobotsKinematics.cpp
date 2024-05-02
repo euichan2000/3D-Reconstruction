@@ -64,7 +64,7 @@ float universalRobots::UR::deg2rad(float degree)
 	return degree * M_PI / 180.0;
 }
 
-void universalRobots::UR::loadYAML(const std::string &filename, float &thetaX, float &thetaY, float &thetaZ, float &X, float &Y, float &Z, float scene[][6], int &n, float minrange[4], float maxrange[4], float &downsampleparam, int &sor_mean, float &sor_thresh, float &ror_radius, int &ror_neighbor)
+void universalRobots::UR::loadYAML(const std::string &filename, float &thetaX, float &thetaY, float &thetaZ, float &X, float &Y, float &Z, float scene[][6], int &n, float minrange[4], float maxrange[4], float &downsampleparam, int &sor_mean, double &sor_thresh, double &ror_radius, int &ror_neighbor,float &smoothing_radius)
 {
 	// YAML 파일을 읽어들일 ifstream 객체를 생성합니다.
 	std::ifstream fin(filename);
@@ -102,9 +102,10 @@ void universalRobots::UR::loadYAML(const std::string &filename, float &thetaX, f
 	// radiusparam = doc["radiusparam"][0].as<int>();
 	downsampleparam = doc["downsampleparam"][0].as<float>();
 	sor_mean = doc["sor_mean"][0].as<int>();
-	sor_thresh = doc["sor_thresh"][0].as<float>();
-	ror_radius = doc["ror_radius"][0].as<float>();
+	sor_thresh = doc["sor_thresh"][0].as<double>();
+	ror_radius = doc["ror_radius"][0].as<double>();
 	ror_neighbor = doc["ror_neighbor"][0].as<int>();
+	smoothing_radius=doc["smoothing_radius"][0].as<float>();
 }
 
 Eigen::Matrix4f universalRobots::UR::createTransformationMatrix(const Mat &rotationMatrix, const Mat &translationVector)

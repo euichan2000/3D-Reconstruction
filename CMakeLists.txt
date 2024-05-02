@@ -30,8 +30,8 @@ add_definitions(${OpenCV_DEFINITIONS})
 # target_include_directories(min_cut_segmentation PRIVATE
 #     dependencies/pointcloud/)
 # #euclidean_Segmentation
-# add_executable (euclidean_segmentation src/euclidean_segmentation.cpp)
-# target_link_libraries (euclidean_segmentation ${PCL_LIBRARIES})
+add_executable (euclidean_segmentation src/euclidean_segmentation.cpp)
+target_link_libraries (euclidean_segmentation ${PCL_LIBRARIES})
 
 #charuco_Segmentation
 # add_executable(charuco_segmentation src/charuco_segmentation.cpp dependencies/universalRobotsKinematics/src/universalRobotsKinematics.cpp dependencies/mathLib/src/mathLib.cpp dependencies/pointcloud/preprocess.cpp)
@@ -62,8 +62,8 @@ target_include_directories(robotic_multiview_registration PRIVATE
 # add_executable (min_cut_segmentation min_cut_segmentation.cpp)
 # target_link_libraries (min_cut_segmentation ${PCL_LIBRARIES})
 
-# add_executable (outlier_remove outlier_remove.cpp)
-# target_link_libraries (outlier_remove ${PCL_LIBRARIES})
+add_executable (outlier_remove src/outlier_remove.cpp)
+target_link_libraries (outlier_remove ${PCL_LIBRARIES})
 
 # add_executable (downsample downsample.cpp)
 # target_link_libraries (downsample ${PCL_LIBRARIES})

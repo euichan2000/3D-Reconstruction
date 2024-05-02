@@ -1,4 +1,6 @@
 /home/nrs/3D-Reconstruction/build/CMakeFiles/edit_cache.dir
 /home/nrs/3D-Reconstruction/build/CMakeFiles/CGAL_reconstruction.dir
+/home/nrs/3D-Reconstruction/build/CMakeFiles/outlier_remove.dir
 /home/nrs/3D-Reconstruction/build/CMakeFiles/rebuild_cache.dir
 /home/nrs/3D-Reconstruction/build/CMakeFiles/robotic_multiview_registration.dir
+/home/nrs/3D-Reconstruction/build/CMakeFiles/euclidean_segmentation.dir
