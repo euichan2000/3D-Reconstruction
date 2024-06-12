@@ -147,6 +147,9 @@ int main(int argc, char **argv)
   std::cout << "cluster number: " << cluster_indices.size() << std::endl;
   int j = 0;
 
+
+
+
   int largest_cluster_index = 0;
   size_t largest_cluster_size = 0;
   for (size_t i = 0; i < cluster_indices.size(); ++i)

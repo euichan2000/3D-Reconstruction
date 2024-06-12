@@ -24,22 +24,7 @@ link_directories(${OpenCV_LIBRARY_DIRS})
 add_definitions(${OpenCV_DEFINITIONS})
 
 
-# #min_cut_Segmentation
-# add_executable (min_cut_segmentation src/min_cut_segmentation.cpp dependencies/pointcloud/preprocess.cpp)
-# target_link_libraries (min_cut_segmentation ${PCL_LIBRARIES})
-# target_include_directories(min_cut_segmentation PRIVATE
-#     dependencies/pointcloud/)
-# #euclidean_Segmentation
-add_executable (euclidean_segmentation src/euclidean_segmentation.cpp)
-target_link_libraries (euclidean_segmentation ${PCL_LIBRARIES})
 
-#charuco_Segmentation
-# add_executable(charuco_segmentation src/charuco_segmentation.cpp dependencies/universalRobotsKinematics/src/universalRobotsKinematics.cpp dependencies/mathLib/src/mathLib.cpp dependencies/pointcloud/preprocess.cpp)
-# target_link_libraries(charuco_segmentation ${PCL_LIBRARIES} ${OpenCV_LIBS} yaml-cpp)
-# target_include_directories(charuco_segmentation PRIVATE
-#     dependencies/universalRobotsKinematics/src
-#     dependencies/mathLib/src
-#     dependencies/pointcloud)
 
 #robotic_multiview_registration    
 add_executable (robotic_multiview_registration src/robotic_multiview_registration.cpp dependencies/universalRobotsKinematics/src/universalRobotsKinematics.cpp dependencies/mathLib/src/mathLib.cpp dependencies/pointcloud/src/preprocess.cpp)
@@ -48,10 +33,29 @@ target_include_directories(robotic_multiview_registration PRIVATE
     dependencies/universalRobotsKinematics/src
     dependencies/mathLib/src
     dependencies/pointcloud/src
-    
 )
-    
+ 
+add_executable(CGAL_reconstruction src/CGAL_reconstruction.cpp)
+target_link_libraries(CGAL_reconstruction ${CGAL_LIBRARIES})   
 
+add_executable(off2ply src/off2ply.cpp)
+
+# #min_cut_Segmentation
+# add_executable (min_cut_segmentation src/min_cut_segmentation.cpp dependencies/pointcloud/preprocess.cpp)
+# target_link_libraries (min_cut_segmentation ${PCL_LIBRARIES})
+# target_include_directories(min_cut_segmentation PRIVATE
+#     dependencies/pointcloud/)
+# #euclidean_Segmentation
+# add_executable (euclidean_segmentation src/euclidean_segmentation.cpp)
+# target_link_libraries (euclidean_segmentation ${PCL_LIBRARIES})
+
+#charuco_Segmentation
+# add_executable(charuco_segmentation src/charuco_segmentation.cpp dependencies/universalRobotsKinematics/src/universalRobotsKinematics.cpp dependencies/mathLib/src/mathLib.cpp dependencies/pointcloud/preprocess.cpp)
+# target_link_libraries(charuco_segmentation ${PCL_LIBRARIES} ${OpenCV_LIBS} yaml-cpp)
+# target_include_directories(charuco_segmentation PRIVATE
+#     dependencies/universalRobotsKinematics/src
+#     dependencies/mathLib/src
+#     dependencies/pointcloud)
 #Reconstruction
 # add_executable (registration src/registration.cpp)
 # target_link_libraries (registration ${PCL_LIBRARIES})
@@ -62,8 +66,8 @@ target_include_directories(robotic_multiview_registration PRIVATE
 # add_executable (min_cut_segmentation min_cut_segmentation.cpp)
 # target_link_libraries (min_cut_segmentation ${PCL_LIBRARIES})
 
-add_executable (outlier_remove src/outlier_remove.cpp)
-target_link_libraries (outlier_remove ${PCL_LIBRARIES})
+# add_executable (outlier_remove src/outlier_remove.cpp)
+# target_link_libraries (outlier_remove ${PCL_LIBRARIES})
 
 # add_executable (downsample downsample.cpp)
 # target_link_libraries (downsample ${PCL_LIBRARIES})
@@ -86,5 +90,4 @@ target_link_libraries (outlier_remove ${PCL_LIBRARIES})
 # add_executable(B_spline src/B_spline.cpp)
 # target_link_libraries(B_spline ${PCL_LIBRARIES})
 
-add_executable(CGAL_reconstruction src/CGAL_reconstruction.cpp)
-target_link_libraries(CGAL_reconstruction ${CGAL_LIBRARIES})
+

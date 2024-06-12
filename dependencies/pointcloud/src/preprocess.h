@@ -4,6 +4,7 @@
 #include <filesystem>
 #include <iostream>
 #include <pcl/pcl_macros.h>
+#include <boost/filesystem.hpp>
 // #include <pcl/memory.h> // for make_shared
 #include <pcl/point_types.h>
 #include <pcl/point_cloud.h>
@@ -50,12 +51,13 @@ namespace pointcloudpreprocess
         PointCloud::Ptr downsampling(const PointCloud::Ptr cloud_src, const float &downsampleparam);
         PointCloud::Ptr statistical_outlier_remove(const PointCloud::Ptr cloud_src, const int &sor_mean, const double &sor_thresh);
         PointCloud::Ptr radius_outlier_remove(const PointCloud::Ptr cloud_src, const double &ror_radius, const int &ror_neighbor);
+        PointCloud::Ptr dynamic_statistic_outlier_remove(const PointCloud::Ptr cloud_src, const int &mean_k, const float &std_mul, const float &range_mul,bool negative);
         PointCloud::Ptr euclidean_outlier_remove(const PointCloud::Ptr cloud_src);
         PointCloud::Ptr calibrate(const PointCloud::Ptr cloud_src, const Eigen::Matrix4f base2tcp, const Eigen::Matrix4f tcp2cam);
         PointCloud::Ptr mincutsegmentation(const PointCloud::Ptr cloud_src, float radius, float x, float y, float z);
         PointCloud::Ptr charucosegmentation(const PointCloud::Ptr cloud_src, float min_pt[], float max_pt[]);
         void visualizePointClouds(const std::vector<pcl::PointCloud<pcl::PointXYZ>::Ptr> &clouds);
-        std::vector<pcl::PointCloud<pcl::PointXYZ>::Ptr> loadData(const std::vector<std::string> &file_paths);
+        std::vector<pcl::PointCloud<pcl::PointXYZ>::Ptr> loadData(const std::string &file_paths);
         Eigen::Matrix4f fineICP(const PointCloud::Ptr cloud_src, const PointCloud::Ptr cloud_tgt);
         pcl::PointCloud<pcl::PointXYZ>::Ptr fineICPwithNormals(const PointCloud::Ptr cloud_src, const PointCloud::Ptr cloud_tgt);
         pcl::PointCloud<pcl::PointXYZ>::Ptr finetrICP(const PointCloud::Ptr cloud_src, const PointCloud::Ptr cloud_tgt);

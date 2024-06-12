@@ -1,0 +1,31 @@
+scene:
+  - [-13.32, -143.57, -56.07, -165.17, 124.05, -91.43]
+  - [31.20, -141.67, -59.68, -163.02, 76.11, -87.64]
+  - [89.27, -97.38, -132.54, -136.79, 43.58, -83.70]
+  - [-46.80, -119.43, -154.47, -4.86, 169.79, 174.37]
+  - [12.32, -79.50, -99.82, -90.37, 88.83, 139.07]
+  
+minrange:
+  - 0.2
+  - 0.1
+  - -0.015
+  - 1.0
+maxrange:
+  - 0.6
+  - 0.25
+  - 0.35
+  - 1.0
+  
+downsampleparam: #size of downsampling voxel grid[meter]
+  - 0.002
+sor_mean: #Statistical Outlier Remove filter// the number of nearest neighbors to use for mean distance estimation.
+  - 100
+sor_thresh: #Statistical Outlier Reomve filter// Set the standard deviation multiplier for the distance threshold calculation
+  - 1.0
+ror_radius: #Radius Oulier remove filter// The radius of the sphere for nearest neighbor searching
+  - 0.02
+ror_neighbor: #Radius Oulier remove filter// Set the number of neighbors that need to be present in order to be classified as an inlier.
+  - 350
+smoothing_radius:
+  - 0.01
+

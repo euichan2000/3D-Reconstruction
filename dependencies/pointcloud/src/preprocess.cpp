@@ -1,4 +1,8 @@
+
 #include <vector>
+#include <iostream>
+#include <boost/filesystem.hpp>
+#include <algorithm>
 // #include <pcl/memory.h> // for make_shared
 #include <pcl/pcl_macros.h>
 #include <pcl/point_types.h>
@@ -16,6 +20,7 @@
 #include <pcl/segmentation/sac_segmentation.h>
 #include <pcl/features/normal_3d.h>
 #include <pcl/search/kdtree.h>
+#include <pcl/kdtree/kdtree_flann.h>
 #include <pcl/surface/mls.h>
 #include <pcl/registration/icp.h>
 #include <pcl/registration/gicp.h>
@@ -32,6 +37,7 @@ typedef pcl::PointXYZ PointT;
 typedef pcl::PointNormal PointNormalT;
 typedef pcl::PointCloud<PointNormalT> PointCloudWithNormals;
 typedef pcl::PointCloud<pcl::PointXYZ> PointCloud;
+namespace fs = boost::filesystem;
 
 pcl::PointCloud<pcl::PointNormal> pointcloudpreprocess::pre::smoothing(const PointCloud::Ptr cloud_src, const float &smoothing_radius)
 {
@@ -102,6 +108,87 @@ PointCloud::Ptr pointcloudpreprocess::pre::radius_outlier_remove(const PointClou
     return cloud_filtered;
 }
 
+PointCloud::Ptr pointcloudpreprocess::pre::dynamic_statistic_outlier_remove(const PointCloud::Ptr cloud_src, const int &mean_k, const float &std_mul, const float &range_mul,bool negative)
+{
+
+    pcl::PointCloud<PointT>::Ptr cloud_filtered(new pcl::PointCloud<pcl::PointXYZ>);
+    pcl::PointCloud<PointT>::Ptr cloud_negative(new pcl::PointCloud<pcl::PointXYZ>);
+
+    pcl::KdTreeFLANN<PointT> kd_tree;
+    kd_tree.setInputCloud(cloud_src);
+
+    // Allocate enough space to hold the results
+    std::vector<int> pointIdxNKNSearch(mean_k);
+    std::vector<float> pointNKNSquaredDistance(mean_k);
+    std::vector<float> mean_distances;
+
+    // Go over all the points and check which doesn't have enough neighbors
+    // perform filtering
+    for (pcl::PointCloud<PointT>::iterator it = cloud_src->begin();
+         it != cloud_src->end(); ++it)
+    {
+        // k nearest search
+        kd_tree.nearestKSearch(*it, mean_k, pointIdxNKNSearch,
+                               pointNKNSquaredDistance);
+
+        // calculate mean distance
+        double dist_sum = 0;
+        for (int j = 1; j < mean_k; ++j)
+        {
+            dist_sum += sqrt(pointNKNSquaredDistance[j]);
+        }
+        mean_distances.push_back(static_cast<float>(dist_sum / (mean_k - 1)));
+    }
+
+    // Estimate the mean and the standard deviation of the distance vector
+    double sum = 0, sq_sum = 0;
+    for (size_t i = 0; i < mean_distances.size(); ++i)
+    {
+        sum += mean_distances[i];
+        sq_sum += mean_distances[i] * mean_distances[i];
+    }
+    double mean = sum / static_cast<double>(mean_distances.size());
+    double variance =
+        (sq_sum - sum * sum / static_cast<double>(mean_distances.size())) /
+        (static_cast<double>(mean_distances.size()) - 1);
+    double stddev = sqrt(variance);
+    std::cout << "mean: " << mean << " var: " << variance << std::endl;
+    // calculate distance threshold (PCL sor implementation)
+    double distance_threshold = (mean + std_mul * stddev);
+    // iterate through vector
+    int i = 0;
+    for (pcl::PointCloud<PointT>::iterator it = cloud_src->begin();
+         it != cloud_src->end(); ++it)
+    {
+        // calculate distance of every point from the sensor
+        float range = sqrt(pow(it->x, 2) + pow(it->y, 2) + pow(it->z, 2));
+        // dynamic threshold: as a point is farther away from the sensor,
+        // the threshold increases
+        double dynamic_threshold = distance_threshold * range_mul * range;
+
+        std::cout << "dynamic threshold: " << dynamic_threshold << " mean_distance" << mean_distances[i] << std::endl;
+        // a distance lower than the threshold is an inlier
+        if (mean_distances[i] < dynamic_threshold)
+        {
+            cloud_filtered->push_back(*it);
+        }
+        else
+        {
+            cloud_negative->push_back(*it);
+        }
+        // update iterator
+        i++;
+    }
+    if (negative)
+    {
+        return (cloud_negative);
+    }
+    else
+    {
+        return cloud_filtered;
+    }
+}
+
 PointCloud::Ptr pointcloudpreprocess::pre::euclidean_outlier_remove(const PointCloud::Ptr cloud_src)
 { // Create the segmentation object for the planar model and set all the parameters
 
@@ -111,9 +198,9 @@ PointCloud::Ptr pointcloudpreprocess::pre::euclidean_outlier_remove(const PointC
 
     std::vector<pcl::PointIndices> cluster_indices;
     pcl::EuclideanClusterExtraction<pcl::PointXYZ> ec;
-    ec.setClusterTolerance(0.002); // 5mm
-    ec.setMinClusterSize(10);
-    ec.setMaxClusterSize(250000);
+    ec.setClusterTolerance(0.01); // 5mm
+    ec.setMinClusterSize(5);
+    ec.setMaxClusterSize(50000);
     ec.setSearchMethod(tree);
 
     ec.setInputCloud(cloud_src);
@@ -153,7 +240,7 @@ PointCloud::Ptr pointcloudpreprocess::pre::calibrate(const PointCloud::Ptr cloud
     pcl::PointCloud<pcl::PointXYZ>::Ptr cloud_marker2cam(new pcl::PointCloud<pcl::PointXYZ>());
     Eigen::Matrix4f marker2base, base2marker;
 
-    marker2base << 0.696142, 0.717802, 0.0111144, 0.0341231,
+    marker2base << 0.696142, 0.717802, 0.0111144, 0.0541231,
         -0.71635, 0.695145, -0.043272, 0.60022,
         -0.0389855, 0.0221005, 0.998364, 0.00557716,
         0, 0, 0, 1;
@@ -287,8 +374,8 @@ void pointcloudpreprocess::pre::visualizePointClouds(const std::vector<pcl::Poin
     // Add each point cloud to the viewer with a different bright color
     for (size_t i = 0; i < clouds.size(); ++i)
     {
-        std::vector<double> color = bright_colors[i % bright_colors.size()]; // Cycle through bright colors
-        // std::vector<double> color = bright_colors[3]; // Cycle through bright colors
+        // std::vector<double> color = bright_colors[i % bright_colors.size()]; // Cycle through bright colors
+        std::vector<double> color = bright_colors[0]; // Cycle through bright colors
         pcl::visualization::PointCloudColorHandlerCustom<pcl::PointXYZ> cloud_color_handler(clouds[i], color[0] * 255, color[1] * 255, color[2] * 255);
         std::string cloud_name = "cloud_" + std::to_string(i);
         viewer.addPointCloud(clouds[i], cloud_color_handler, cloud_name);
@@ -304,20 +391,36 @@ void pointcloudpreprocess::pre::visualizePointClouds(const std::vector<pcl::Poin
     }
 }
 
-std::vector<pcl::PointCloud<pcl::PointXYZ>::Ptr> pointcloudpreprocess::pre::loadData(const std::vector<std::string> &file_paths)
+std::vector<pcl::PointCloud<pcl::PointXYZ>::Ptr> pointcloudpreprocess::pre::loadData(const std::string &file_paths)
 {
     std::vector<pcl::PointCloud<pcl::PointXYZ>::Ptr> clouds;
-
-    for (const auto &file_path : file_paths)
+    fs::path directory(file_paths);
+    fs::directory_iterator end_iter;
+    if (fs::exists(directory) && fs::is_directory(directory))
     {
-        pcl::PointCloud<pcl::PointXYZ>::Ptr temp_cloud(new pcl::PointCloud<pcl::PointXYZ>);
-        if (pcl::io::loadPCDFile<pcl::PointXYZ>(file_path, *temp_cloud) == -1)
+        std::vector<std::string> fileNames;
+        for (fs::directory_iterator dir_iter(directory); dir_iter != end_iter; ++dir_iter)
         {
-            std::cerr << "Couldn't read file " << file_path << std::endl;
-            continue;
+            if (fs::is_regular_file(dir_iter->status()) && dir_iter->path().extension() == ".pcd")
+            {
+                fileNames.push_back(dir_iter->path().filename().string());
+            }
         }
-        std::cout << "Loaded " << temp_cloud->width * temp_cloud->height << " data points from " << file_path << std::endl;
-        clouds.push_back(temp_cloud);
+        std::sort(fileNames.begin(), fileNames.end());
+        // 정렬된 파일 순서대로 읽어서 clouds에 저장
+        for (const auto &fileName : fileNames)
+        {
+            pcl::PointCloud<pcl::PointXYZ>::Ptr cloud(new pcl::PointCloud<pcl::PointXYZ>);
+            if (pcl::io::loadPCDFile<pcl::PointXYZ>((directory / fileName).string(), *cloud) == 0)
+            {
+                clouds.push_back(cloud);
+                std::cout << fileName << std::endl;
+            }
+        }
+    }
+    else
+    {
+        std::cerr << "Invalid folder path." << std::endl;
     }
 
     return clouds;
@@ -380,7 +483,6 @@ pcl::PointCloud<pcl::PointXYZ>::Ptr pointcloudpreprocess::pre::fineICPwithNormal
     pcl::search::KdTree<pcl::PointXYZ>::Ptr tree(new pcl::search::KdTree<pcl::PointXYZ>());
     pcl::IterativeClosestPointNonLinear<PointNormalT, PointNormalT> icp;
     Eigen::Matrix4f Ti = Eigen::Matrix4f::Identity(), prev, targetToSource;
-
 
     src = cloud_src;
     tgt = cloud_tgt;
@@ -492,7 +594,7 @@ pcl::PointCloud<pcl::PointXYZ>::Ptr pointcloudpreprocess::pre::RecursiveRegistra
     {
         pcl::PointCloud<pcl::PointXYZ>::Ptr result_cloud(new pcl::PointCloud<pcl::PointXYZ>);
 
-        result_cloud = fineICPwithNormals(clouds_src[i], clouds_src[i + 1]);
+        result_cloud = finetrICP(clouds_src[i], clouds_src[i + 1]);
         clouds_result.push_back(result_cloud);
         std::cout << "--------------------------" << std::endl;
     }
