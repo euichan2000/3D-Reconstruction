@@ -1,14 +1,12 @@
 
 **Point Cloud 3D Reconstruction**
 
-**Version: 20240404**
+**Version: 20240728**
 
-- Added YAML file Setting
-- Implemented ICP algorithm
-- Segmentation using Charuco board
+**PipeLine**
+1. 3D Scan using L515
+2. Downsampling & Radius Outlier Removal Filtering
+3. Registration using UR10's Forward Kinematics & Coordinate Calibration
+4. Statistical Outlier removal Fitering
+5. Meshing using CGAL Alpha Wrappint Algorithm
 
-**Problem:**
-The accuracy of the ICP algorithm.
-
-**Solution:**
-Adjusting parameters, utilizing GICP, incorporating ICP with Normal, etc.
