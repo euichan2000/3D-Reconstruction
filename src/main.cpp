@@ -78,7 +78,7 @@ int main(int argc, char **argv)
 
   //////////////////////Save Final PCD///////////////
   std::stringstream ss6;
-  ss6 << "../pcd/registrated_pcd/lid/3/lid_l515.pcd";
+  ss6 << "../pcd/registrated_pcd/lid.pcd";
   pcl::io::savePCDFile(ss6.str(), *(smoothed_cloud), false);
 
   //////////////////////Meshing Process Start///////////////
@@ -88,7 +88,7 @@ int main(int argc, char **argv)
   CGAL::Meshing::PointList point_list = mesh.convert_to_point_list(points);
   point_list = mesh.estimate_normal(point_list);
   point_list = mesh.bilateral_smooth(point_list);
-  mesh.generate_mesh(point_list, "../mesh/lid/l515/3/lid_wrap.stl", relative_alpha, relative_offset); // 100. 1000.
+  mesh.generate_mesh(point_list, "../mesh/lid.stl", relative_alpha, relative_offset); // 100. 1000.
   std::cout
       << "Remeshing done." << std::endl;
   chrono::system_clock::time_point t_end = chrono::system_clock::now();
