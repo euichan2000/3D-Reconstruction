@@ -104,8 +104,8 @@ namespace CGAL {
         const double diag_length = std::sqrt(CGAL::square(bbox.xmax() - bbox.xmin()) +
                                              CGAL::square(bbox.ymax() - bbox.ymin()) +
                                              CGAL::square(bbox.zmax() - bbox.zmin()));
-        const double alpha = diag_length / relative_alpha; //100.
-        const double offset = diag_length / relative_offset; //1000.
+        const double alpha = diag_length / relative_alpha;
+        const double offset = diag_length / relative_offset;
         CGAL::alpha_wrap_3(pointwrap, alpha, offset, meshwrap);
 
         CGAL::IO::write_polygon_mesh(output_filename, meshwrap, CGAL::parameters::stream_precision(17));

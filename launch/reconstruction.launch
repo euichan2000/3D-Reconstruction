@@ -1,0 +1,25 @@
+<launch>
+    <!-- 첫 번째 노드: multi_cam_single_node_class -->
+
+
+    <node name="multi_cam_single_node" pkg="multi_cam" type="multi_cam_single_node_class"
+        output="screen" />
+
+
+    <!-- 'capture' 명령을 받아 pointcloud_to_pcd를 실행하는 노드 -->
+    <node name="pointcloud_save" pkg="reconstruction" type="pointcloud_save"
+        output="screen" />
+
+
+    <node name="reconstruction" pkg="reconstruction" type="reconstruction" output="screen" />
+
+    <!-- 세 번째 노드: RViz 실행 -->
+    <node name="rviz" pkg="rviz" type="rviz" args="-d $(find reconstruction)/rviz/rviz_config.rviz"
+        output="screen" />
+
+
+    <node name="keyboard_listener2" pkg="reconstruction" type="keyboard_listener2" output="screen" />
+
+
+</launch>
+  

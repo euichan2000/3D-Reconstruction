@@ -1,0 +1,54 @@
+hand_eye_calibration:
+  ###########L515 after setting#####
+  - 0.0
+  - 0.0
+  - 0.0
+  - 0.00018
+  - -0.111005
+  - 0.04240
+  ############L515 before setting##########
+  # - 0.0
+  # - 0.0
+  # - -90.0
+  # - -0.08250
+  # - 0.0
+  # - 0.04140
+minrange:
+  - -0.1
+  - -0.1
+  - -0.015
+  - 1.0
+maxrange:
+  - 0.75
+  - 1.0
+  - 0.2
+  - 1.0
+
+scene:
+  ############lid[l515]setting##########
+  - [-5.17, -78.70, -101.93, -106.77, 84.98, 26.49]
+  - [4.57, -83.91, -97.46, -106.60, 87.93, 35.79]
+  - [18.63, -82.20, -98.96, -106.75, 92.29, 49.16]
+  - [19.83, -78.25, -106.13, -81.88, 84.88, 51.22]
+  - [30.11, -97.53, -83.49, -107.91, 92.10, 60.39]
+  - [44.69, -99.98, -80.34, -110.91, 93.39, 75.42]
+  - [43.79, -66.16, -112.59, -95.68, 90.86, 76.28]
+  - [64.34, -74.15, -107.61, -92.06, 92.33, 96.77]
+  - [82.88, -69.51, -110.51, -93.95, 91.65, 86.19]
+  - [78.72, -69.98, -111.67, -88.86, 113.65, 79.98]
+  - [49.18, -47.11, -120.34, -106.34, 89.38, 15.32]
+  - [54.17, -40.11, -124.62, -96.04, 96.55, 23.30]
+  - [54.11, -42.44, -116.96, -101.37, 96.55, 23.27]
+
+downsampleparam: #size of downsampling voxel grid[meter]
+  - 0.003
+sor_mean: #Statistical Outlier Remove filter// the number of nearest neighbors to use for mean distance estimation.
+  - 200
+sor_thresh: #Statistical Outlier Reomve filter// Set the standard deviation multiplier for the distance threshold calculation
+  - 1.0
+ror_radius: #Radius Oulier remove filter// The radius of the sphere for nearest neighbor searching
+  - 0.01
+ror_neighbor: #Radius Oulier remove filter// Set the number of neighbors that need to be present in order to be classified as an inlier.
+  - 55
+smoothing_radius:
+  - 0.01

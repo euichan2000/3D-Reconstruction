@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.0.2)
-project(3d_reconstruction)
+project(reconstruction)
 
 # ROS 필수 패키지 찾기 (roscpp, std_msgs)
 find_package(catkin REQUIRED COMPONENTS
@@ -52,15 +52,14 @@ link_directories(${PCL_LIBRARY_DIRS} ${OpenCV_LIBRARY_DIRS})
 ###################################
 
 # robotic_multiview_registration 노드 빌드
-add_executable(robotic_multiview_registration
-  src/main.cpp
+add_executable(reconstruction
+  src/reconstruction.cpp
   src/universalRobotsKinematics.cpp
   src/preprocess.cpp
   src/Meshing.cpp
 )
-
 # 타겟 링크 라이브러리 설정 (PCL, OpenCV, CGAL 등과 연결)
-target_link_libraries(robotic_multiview_registration
+target_link_libraries(reconstruction
   ${catkin_LIBRARIES}
   ${PCL_LIBRARIES}
   ${OpenCV_LIBS}
@@ -70,3 +69,10 @@ target_link_libraries(robotic_multiview_registration
   ${MPFR_LIBRARIES}
   yaml-cpp
 )
+
+add_executable(pointcloud_save src/pointcloud_save.cpp)
+target_link_libraries(pointcloud_save ${catkin_LIBRARIES} ${PCL_LIBRARIES})
+
+add_executable(keyboard_listener2 src/keyboard_listener2.cpp)
+target_link_libraries(keyboard_listener2 ${catkin_LIBRARIES})
+
