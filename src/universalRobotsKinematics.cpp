@@ -7,9 +7,15 @@ using namespace aruco;
 Eigen::Matrix4f universalRobots::UR::forwardKinematics(float theta[])
 {
 
+	// UR10
 	float alpha[6] = {M_PI / 2, 0.0, 0.0, M_PI / 2, -M_PI / 2, 0.0};
 	float a[6] = {0.0, -0.612, -0.5723, 0.0, 0.0, 0.0};
 	float d[6] = {0.1273, 0.0, 0.0, 0.163941, 0.1157, 0.0922};
+
+	// UR10e
+	// float alpha[6] = {M_PI / 2, 0.0, 0.0, M_PI / 2, -M_PI / 2, 0.0};
+	// float a[6] = {0.0, -0.6127, -0.57155, 0.0, 0.0, 0.0};
+	// float d[6] = {0.1807, 0.0, 0.0, 0.17415, 0.11985, 0.11655};
 
 	for (int i = 0; i < 6; ++i)
 	{

@@ -1,19 +1,31 @@
 cmake_minimum_required(VERSION 3.0.2)
 project(reconstruction)
 
+
+
+set(CMAKE_BUILD_TYPE Release)
+set(realsense2_DIR /usr/local/lib/cmake/realsense2)
+set(Eigen3_DIR /usr/include/eigen3)
+set(VTK_DIR "/usr/lib/cmake/vtk-7.1")  # VTK 7.1 설치 경로로 설정
+set(PCL_DIR "/usr/local/share/pcl-1.10")
+
+
 # ROS 필수 패키지 찾기 (roscpp, std_msgs)
 find_package(catkin REQUIRED COMPONENTS
   roscpp
   std_msgs
   pcl_ros
   pcl_conversions
+  sensor_msgs
+  image_transport
+  cv_bridge
+  image_geometry
+  geometry_msgs
+  realsense2
+  tf2_ros
+  eigen_conversions
 )
 
-
-set(CMAKE_BUILD_TYPE Release)
-# VTK 버전 설정
-set(VTK_DIR "/usr/lib/cmake/vtk-7.1")  # VTK 7.1 설치 경로로 설정
-set(PCL_DIR "/usr/local/share/pcl-1.10")
 
 # 외부 라이브러리 찾기 (PCL, OpenCV, CGAL, VTK, GMP, MPFR)
 find_package(PCL REQUIRED)
@@ -27,10 +39,9 @@ find_package(MPFR REQUIRED)
 ## catkin 패키지 설정 ##
 ###################################
 catkin_package(
-  CATKIN_DEPENDS roscpp std_msgs
+  CATKIN_DEPENDS roscpp std_msgs sensor_msgs image_transport cv_bridge image_geometry
   DEPENDS PCL OpenCV CGAL VTK GMP MPFR
 )
-
 ###################################
 ## include 디렉토리 설정 ##
 ###################################
@@ -43,6 +54,7 @@ include_directories(
   ${VTK_INCLUDE_DIRS}
   ${GMP_INCLUDE_DIR}
   ${MPFR_INCLUDE_DIR}
+  ${realsense2_INCLUDE_DIR}
 )
 
 link_directories(${PCL_LIBRARY_DIRS} ${OpenCV_LIBRARY_DIRS})
@@ -70,9 +82,25 @@ target_link_libraries(reconstruction
   yaml-cpp
 )
 
+# pointcloud_save 노드 빌드
 add_executable(pointcloud_save src/pointcloud_save.cpp)
-target_link_libraries(pointcloud_save ${catkin_LIBRARIES} ${PCL_LIBRARIES})
+target_link_libraries(pointcloud_save 
+  ${catkin_LIBRARIES} 
+  ${PCL_LIBRARIES} 
+  ${OpenCV_LIBS} 
+  ${image_transport_LIBRARIES} 
+  ${cv_bridge_LIBRARIES} 
+  ${image_geometry_LIBRARIES}
+)
 
 add_executable(keyboard_listener2 src/keyboard_listener2.cpp)
 target_link_libraries(keyboard_listener2 ${catkin_LIBRARIES})
 
+
+find_library(REALSENSE2_FOUND realsense2 HINTS ${LIBRARY_DIR} REQUIRED)
+
+add_executable(pointcloud_capture src/pointcloud_capture.cpp)
+target_link_libraries(pointcloud_capture
+    ${REALSENSE2_FOUND}
+    ${catkin_LIBRARIES}
+    )

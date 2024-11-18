@@ -6,7 +6,7 @@
 #include "universalRobotsKinematics.h"
 #include "Meshing.h"
 #include <ros/ros.h>
-#include <std_msgs/String.h>  // 명령을 받기 위한 메시지
+#include <std_msgs/String.h> // 명령을 받기 위한 메시지
 #include <typeinfo>
 
 using namespace std;
@@ -31,11 +31,11 @@ void processPointCloud()
   double sor_thresh, ror_radius;
   float minrange[4], maxrange[4], smoothing_radius;
   int n, sor_mean, ror_neighbor;
-  const double relative_alpha = 40.;
-  const double relative_offset = 500.;
+  const double relative_alpha = 120.;
+  const double relative_offset = 1000.;
 
   // pcd Load
-  std::string folderPath = "/home/nrs/catkin_ws/src/reconstruction/pcd/temp_pcd";
+  std::string folderPath = "/home/nrs/catkin_ws/src/reconstruction/pcd/temp_pcd/white_part";
   clouds = pre.loadData(folderPath);
   float scene[(int)(clouds.size())][6];
 
@@ -56,16 +56,27 @@ void processPointCloud()
   for (int i = 0; i < clouds.size(); ++i)
   {
     radius_outlier_removed_clouds.push_back(pre.radius_outlier_remove(clouds[i], ror_radius, ror_neighbor)); // Noise filter
+
     downsampled_clouds.push_back(pre.downsampling(radius_outlier_removed_clouds[i], downsampleparam));
-    calibrated_clouds.push_back(pre.calibrate(downsampled_clouds[i], base2tcp[i], tcp2cam));       // transform to world coordinate
+
+    calibrated_clouds.push_back(pre.calibrate(downsampled_clouds[i], base2tcp[i], tcp2cam)); // transform to world coordinate
+
     segmented_clouds.push_back(pre.charucosegmentation(calibrated_clouds[i], minrange, maxrange)); // Cut ROI
+
     robot_base_calibrated_clouds.push_back(pre.calibratemarker2base(segmented_clouds[i]));
+
     statistical_outlier_removed_clouds.push_back(pre.statistical_outlier_remove(robot_base_calibrated_clouds[i], sor_mean, sor_thresh)); // Noise filter
   }
-
+  // pre.visualizePointClouds(radius_outlier_removed_clouds);
+  // pre.visualizePointClouds(downsampled_clouds);
+  // pre.visualizePointClouds(calibrated_clouds);
+  // pre.visualizePointClouds(segmented_clouds);
+  // pre.visualizePointClouds(statistical_outlier_removed_clouds);
   //////////////////Simple Add Version/////////////////////////
-  result_cloud = pre.downsampling((pre.addPoint(statistical_outlier_removed_clouds)), 0.003);
+  result_cloud = pre.downsampling((pre.addPoint(statistical_outlier_removed_clouds)), downsampleparam / 2);
   final_clouds.push_back(result_cloud);
+  // pre.visualizePointClouds(final_clouds);
+
   smoothed_cloud_withNormal = (pre.smoothing(final_clouds[0], smoothing_radius));
   smoothed_cloud = pre.PointNormal2PointXYZ(smoothed_cloud_withNormal);
   smoothed_clouds.push_back(smoothed_cloud);
@@ -73,7 +84,7 @@ void processPointCloud()
 
   //////////////////////Save Final PCD///////////////
   std::stringstream ss6;
-  ss6 << "/home/nrs/catkin_ws/src/reconstruction/pcd/registrated_pcd/fenda.pcd";
+  ss6 << "/home/nrs/catkin_ws/src/reconstruction/pcd/registrated_pcd/white_part.pcd";
   pcl::io::savePCDFile(ss6.str(), *(smoothed_cloud), false);
 
   //////////////////////Meshing Process Start///////////////
@@ -82,7 +93,7 @@ void processPointCloud()
   CGAL::Meshing::PointList point_list = mesh.convert_to_point_list(points);
   point_list = mesh.estimate_normal(point_list);
   point_list = mesh.bilateral_smooth(point_list);
-  mesh.generate_mesh(point_list, "/home/nrs/catkin_ws/src/reconstruction/mesh/fenda.stl", relative_alpha, relative_offset); // 100. 1000.
+  mesh.generate_mesh(point_list, "/home/nrs/catkin_ws/src/nrs_vision_rviz/mesh/white_part.stl", relative_alpha, relative_offset); // 100. 1000.
 
   std::cout << "Remeshing done." << std::endl;
 
@@ -94,24 +105,24 @@ void processPointCloud()
 // 명령을 수신하면 포인트 클라우드를 처리하는 콜백 함수
 void keyboardCallback(const std_msgs::String::ConstPtr &msg)
 {
-    if (msg->data == "reconstruction")
-    {
-        ROS_INFO("Received 'reconstruction' command. reconstruction point cloud...");
-        processPointCloud();  // 포인트 클라우드 처리 함수 호출
-    }
+  if (msg->data == "reconstruction")
+  {
+    ROS_INFO("Received 'reconstruction' command. reconstruction point cloud...");
+    processPointCloud(); // 포인트 클라우드 처리 함수 호출
+  }
 }
 
 int main(int argc, char **argv)
 {
-    ros::init(argc, argv, "reconstruction");
-    ros::NodeHandle nh;
+  ros::init(argc, argv, "reconstruction");
+  ros::NodeHandle nh;
 
-    // 명령을 받기 위한 토픽 구독
-    ros::Subscriber sub = nh.subscribe("keyboard_command", 10, keyboardCallback);
+  // 명령을 받기 위한 토픽 구독
+  ros::Subscriber sub = nh.subscribe("keyboard_command", 10, keyboardCallback);
 
-    ROS_INFO("Waiting for 'capture' command to start reconstruction...");
+  ROS_INFO("Waiting for 'capture' command to start reconstruction...");
 
-    ros::spin();
+  ros::spin();
 
-    return 0;
+  return 0;
 }
