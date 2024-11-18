@@ -2,12 +2,107 @@
 # Reconstruction ROS Package
 
 ## Contents
-1. [Launch](#1-launch)
-2. [Include](#2-include)
-3. [main](#3-main)
-4. [YAML](#4-reconstructionyaml)
+1. [Dependencies](#1-dependencies)
+1. [Launch](#2-launch)
+2. [Include](#3-include)
+3. [main](#4-main)
+4. [YAML](#5-reconstructionyaml)
 
-## 1. Launch
+## 1. dependencies
+
+### Rviz
+
+```
+sudo apt-get install ros-noetic-moveit
+```
+
+### Realsense
+
+1. Realsense SDK 설치
+    
+    ```jsx
+    
+    sudo mkdir -p /etc/apt/keyrings
+    
+    curl -sSf https://librealsense.intel.com/Debian/librealsense.pgp | sudo tee /etc/apt/keyrings/librealsense.pgp > /dev/null
+    
+    sudo apt-get install apt-transport-https
+    
+    echo "deb [signed-by=/etc/apt/keyrings/librealsense.pgp] https://librealsense.intel.com/Debian/apt-repo `lsb_release -cs` main" | \
+    
+    sudo tee /etc/apt/sources.list.d/librealsense.list
+    
+    sudo apt-get update
+    
+    sudo apt-get install librealsense2-dkms
+        
+    sudo apt-get install librealsense2-utils
+    
+    sudo apt-get install librealsense2-dev(optional)
+    
+    sudo apt-get install librealsense2-dbg(optional)
+    ```
+    
+2. Realsense-ROS 설치
+    
+    ```jsx
+    
+    sudo apt-get install ros-$ROS_DISTRO-realsense2-camera
+    
+    cd ~/catkin_ws/src/
+    
+    git clone https://github.com/IntelRealSense/realsense-ros.git
+    cd realsense-ros/
+    git checkout git tag | sort -V | grep -P "^2.\\d+\\.\\d+" | tail -1
+    cd ..
+    
+    catkin_init_workspace
+    cd ..
+    catkin_make clean
+    catkin_make -DCATKIN_ENABLE_TESTING=False -DCMAKE_BUILD_TYPE=Release
+    catkin_make install
+    
+    echo "source ~/catkin_ws/devel/setup.bash" >> ~/.bashrc
+    source ~/.bashrc
+    ```
+    
+    
+    
+
+### PCL
+
+```jsx
+sudo apt-get update 
+sudo apt-get install pcl-tools
+```
+
+### CGAL
+
+```jsx
+sudo apt-get install libcgal-dev
+
+wget https://github.com/CGAL/cgal/releases/download/v5.6.1/CGAL-5.6.1.tar.xz
+tar xf CGAL-5.6.1.tar.xz
+cd CGAL-5.6.1
+
+mkdir build
+cd build
+cmake -DCMAKE_BUILD_TYPE=Release ..
+make -j4
+sudo make install
+```
+
+### VTK
+
+```jsx
+sudo apt-get install libvtk7-dev
+```
+
+### OPENCV
+```
+sudo apt install libopencv-dev
+```
+## 2. Launch
 ```
 <launch>
 
@@ -37,7 +132,7 @@
 `reconstruction`: This ROS node subscribes to the `keyboard_command` topic and processes point clouds upon receiving the "reconstruction" command. It performs segmentation, outlier removal, downsampling, registration, and meshing to produce a final STL file, while saving intermediate and final PCD files.
 
 `keyboard_listener2`:This ROS node publishes commands (`capture` or `reconstruction`) to the `keyboard_command` topic based on keyboard input (`a` or `b`). It allows triggering specific processes in other nodes via user input.
-## 2. Include
+## 3. Include
 1. `Meshing.h`
 
 2. `preprocess.h`
@@ -481,7 +576,7 @@ you can change UR10 or UR10e mode.
   ```cpp
   Eigen::Matrix4f cam_to_marker = robot.calccam2marker("marker_image.jpg");
 
-# 3. Main 
+# 4. Main 
 
 ## Overview
 
@@ -505,7 +600,7 @@ By combining these modules, the program allows seamless integration of robot kin
 ## Important parameters
   - `relative_alpha`: determine size of mesh's triangle face. large alpha makes detail meshes.
   - `relative_offset`: determine depth of mesh surface. large offser makes thin mesh surface.
-# 4. reconstruction.yaml
+# 5. reconstruction.yaml
 
 ## Overview
 
