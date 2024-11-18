@@ -2,11 +2,23 @@
 # Reconstruction ROS Package
 
 ## Contents
+0. [How to Use](#0-how-to-use)
 1. [Dependencies](#1-dependencies)
 1. [Launch](#2-launch)
 2. [Include](#3-include)
 3. [main](#4-main)
 4. [YAML](#5-reconstructionyaml)
+
+## 0. How to Use
+
+```
+roslaunch reconstruction reconstruction.launch
+```
+command 'a' : capture point cloud
+
+command 'b' : 3D Reconstruction start
+
+press 'q' : next step
 
 ## 1. dependencies
 
