@@ -151,7 +151,7 @@ sudo apt install libopencv-dev
 3. `universalRobotsKinematics.h`
 
 
-## 2.1. Meshing.h
+## 3.1. Meshing.h
 ## Overview
 
 The `Meshing` class, implemented in `meshing.h` and `meshing.cpp`, provides functionality for point cloud processing and 3D surface mesh generation using the CGAL library. This module supports operations such as reading and filtering point clouds, normal estimation, bilateral smoothing, and creating surface meshes using the alpha-wrap algorithm. It is designed for robust handling of point cloud data to produce high-quality 3D models.
@@ -274,7 +274,7 @@ The `Meshing` module requires the following:
   meshing.generate_mesh(point_list, "output.stl", 120.0, 1000.0);
 
 ---
-## 2.2. preprocess.h
+## 3.2. preprocess.h
 
 ## Overview
 
@@ -457,7 +457,7 @@ The `preprocess` module, implemented in `preprocess.h` and `preprocess.cpp`, pro
   ```cpp
   pcl::PointCloud<pcl::PointXYZ>::Ptr merged_cloud = pre.addPoint(clouds);
 
-## 2.1. universalRobotsKinematics.h
+## 3.3. universalRobotsKinematics.h
 ## Overview
 
 The `universalRobotsKinematics` module provides functionality for handling forward kinematics, transformation matrix calculations, YAML configuration loading, and camera-to-marker transformation calculations. It is designed specifically for Universal Robots (UR10/UR10e) and integrates seamlessly with robotic workflows.
