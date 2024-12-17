@@ -65,7 +65,7 @@ sudo apt-get install ros-noetic-moveit
     
     git clone https://github.com/IntelRealSense/realsense-ros.git
     cd realsense-ros/
-    git checkout git tag | sort -V | grep -P "^2.\\d+\\.\\d+" | tail -1
+    git checkout `git tag | sort -V | grep -P "^2.\d+\.\d+" | tail -1`
     cd ..
     
     catkin_init_workspace
