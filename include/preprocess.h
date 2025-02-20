@@ -54,6 +54,7 @@ namespace pointcloudpreprocess
         pcl::PointCloud<pcl::PointXYZ>::Ptr PointNormal2PointXYZ(const pcl::PointCloud<pcl::PointNormal> &cloud_src);
         std::vector<pcl::PointCloud<pcl::PointXYZ>::Ptr> loadData(const std::string &file_paths);
         pcl::PointCloud<pcl::PointXYZ>::Ptr addPoint(const std::vector<pcl::PointCloud<pcl::PointXYZ>::Ptr> &clouds_src);
+        std::string resolve_template(const std::string &param_value, const std::string &file_name);
     };
 
 }

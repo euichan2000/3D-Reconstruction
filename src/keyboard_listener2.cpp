@@ -4,7 +4,7 @@
 
 int main(int argc, char **argv)
 {
-    ros::init(argc, argv, "keyboard_listener2");
+    ros::init(argc, argv, "keyboard_listener2_node");
     ros::NodeHandle nh;
     ros::Publisher command_pub = nh.advertise<std_msgs::String>("keyboard_command", 10);
     ros::AsyncSpinner spinner(1);

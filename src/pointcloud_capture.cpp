@@ -244,7 +244,7 @@ int main(int argc, char *argv[])
     int decimate_temp = 2;
     int width = 640, height = 480, frame_rate = 30;
 
-    ros::init(argc, argv, "pointcloud_node");
+    ros::init(argc, argv, "pointcloud_capture_node");
     ros::NodeHandle nh;
     ros::Publisher pub;
     ros::Rate loop_rate(frame_rate);

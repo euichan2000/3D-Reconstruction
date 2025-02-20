@@ -1,5 +1,13 @@
 {
     "files.associations": {
-        "*.txx": "cpp"
+        "*.txx": "cpp",
+        "dense": "cpp",
+        "core": "cpp",
+        "lu": "cpp",
+        "cholesky": "cpp",
+        "qr": "cpp",
+        "svd": "cpp",
+        "geometry": "cpp",
+        "eigenvalues": "cpp"
     }
 }

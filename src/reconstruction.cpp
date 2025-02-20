@@ -35,12 +35,12 @@ void processPointCloud()
   const double relative_offset = 1000.;
 
   // pcd Load
-  std::string folderPath = "/home/nrs/catkin_ws/src/reconstruction/pcd/temp_pcd/white_part";
+  std::string folderPath = "/home/nrs_vision/catkin_ws/src/reconstruction/pcd/temp_pcd/fenda";
   clouds = pre.loadData(folderPath);
   float scene[(int)(clouds.size())][6];
 
   // YAML 파일에서 로봇 파라미터 불러오기
-  robot.loadYAML("/home/nrs/catkin_ws/src/reconstruction/reconstruction.yaml", thetaX, thetaY, thetaZ, X, Y, Z, scene, n, minrange, maxrange, downsampleparam, sor_mean, sor_thresh, ror_radius, ror_neighbor, smoothing_radius);
+  robot.loadYAML("/home/nrs_vision/catkin_ws/src/reconstruction/config/params.yaml", thetaX, thetaY, thetaZ, X, Y, Z, scene, n, minrange, maxrange, downsampleparam, sor_mean, sor_thresh, ror_radius, ror_neighbor, smoothing_radius);
 
   tcp2cam << cos(thetaZ) * cos(thetaY), cos(thetaZ) * sin(thetaY) * sin(thetaX) - sin(thetaZ) * cos(thetaX), cos(thetaZ) * sin(thetaY) * cos(thetaX) + sin(thetaZ) * sin(thetaX), X,
       sin(thetaZ) * cos(thetaY), sin(thetaZ) * sin(thetaY) * sin(thetaX) + cos(thetaZ) * cos(thetaX), sin(thetaZ) * sin(thetaY) * cos(thetaX) - cos(thetaZ) * sin(thetaX), Y,
@@ -84,7 +84,7 @@ void processPointCloud()
 
   //////////////////////Save Final PCD///////////////
   std::stringstream ss6;
-  ss6 << "/home/nrs/catkin_ws/src/reconstruction/pcd/registrated_pcd/white_part.pcd";
+  ss6 << "/home/nrs_vision/catkin_ws/src/reconstruction/pcd/registrated_pcd/fenda_wrap.pcd";
   pcl::io::savePCDFile(ss6.str(), *(smoothed_cloud), false);
 
   //////////////////////Meshing Process Start///////////////
@@ -93,7 +93,7 @@ void processPointCloud()
   CGAL::Meshing::PointList point_list = mesh.convert_to_point_list(points);
   point_list = mesh.estimate_normal(point_list);
   point_list = mesh.bilateral_smooth(point_list);
-  mesh.generate_mesh(point_list, "/home/nrs/catkin_ws/src/nrs_vision_rviz/mesh/white_part.stl", relative_alpha, relative_offset); // 100. 1000.
+  mesh.generate_mesh(point_list, "/home/nrs_vision/catkin_ws/src/reconstruction/mesh/fenda_wrap.stl", relative_alpha, relative_offset); // 100. 1000.
 
   std::cout << "Remeshing done." << std::endl;
 

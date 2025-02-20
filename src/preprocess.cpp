@@ -224,3 +224,14 @@ pcl::PointCloud<pcl::PointXYZ>::Ptr pointcloudpreprocess::pre::addPoint(const st
     }
     return result_cloud;
 }
+
+// 문자열 대체 함수
+std::string pointcloudpreprocess::pre::resolve_template(const std::string &param_value, const std::string &file_name)
+{
+    size_t pos = param_value.find("$(file_name)");
+    if (pos != std::string::npos)
+    {
+        return param_value.substr(0, pos) + file_name + param_value.substr(pos + 12);
+    }
+    return param_value;
+}

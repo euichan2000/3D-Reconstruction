@@ -1,19 +1,21 @@
 <launch>
+ <!-- YAML 파일 로드 -->
+    <rosparam file="$(find reconstruction)/config/params.yaml" command="load" />
 
-    <node name="pointcloud_capture" pkg="reconstruction" type="pointcloud_capture"
+    <node name="pointcloud_capture_node" pkg="reconstruction" type="pointcloud_capture"
         output="screen" />
 
   
-    <node name="pointcloud_save" pkg="reconstruction" type="pointcloud_save"
+    <node name="pointcloud_save_node" pkg="reconstruction" type="pointcloud_save"
         output="screen" />
 
-    <node name="reconstruction" pkg="reconstruction" type="reconstruction" output="screen" />
+    <node name="reconstruction_node" pkg="reconstruction" type="reconstruction" output="screen" />
 
  
     <node name="rviz" pkg="rviz" type="rviz" args="-d $(find reconstruction)/rviz/rviz_config.rviz"
         output="screen" />
 
-    <node name="keyboard_listener2" pkg="reconstruction" type="keyboard_listener2" output="screen" />
+    <node name="keyboard_listener2_node" pkg="reconstruction" type="keyboard_listener2" output="screen" />
 
 
 </launch>
